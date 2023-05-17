@@ -1,12 +1,12 @@
 import '../App.css';
 import { Link } from 'react-router-dom';
+import Bar from './Bar';
 
 function Home() {
   return (
     <div>
           <p>Home component</p>
-          <p><Link to="/Recommend">Recommend</Link></p>
-          <p><Link to="/Congestion">Congestion</Link></p>
+          <Bar/>
     </div>
   );
 }

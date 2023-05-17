@@ -1,13 +1,12 @@
 import '../App.css';
 import { Link } from 'react-router-dom';
+import Bar from './Bar';
 
 function Recommend() {
   return (
     <div>
           <p>Recommend component</p>
-          <p><Link to="/">Home</Link></p>
-          <p><Link to="/Congestion">Congestion</Link></p>
-          <p><Link to="/Detail">Detail</Link></p>
+          <Bar/>
     </div>
   );
 }
