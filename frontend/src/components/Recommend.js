@@ -5,7 +5,7 @@ import Bar from './Bar';
 function Recommend() {
   return (
     <div>
-          <p>Recommend component</p>
+          <p>Recommend component2</p>
           <Bar/>
     </div>
   );
