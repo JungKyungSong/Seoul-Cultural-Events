@@ -30,8 +30,16 @@ const provinces = [
 
 
 const SelectWhere = (props) => {
+    const [selectedWhere, setSelectedWhere] = useState('');
+
+    const handleChange = (event) => {
+        const value = event.target.value;
+        setSelectedWhere(value);
+        console.log('Selected where:', value);
+    };
+
     return (
-        <select>
+        <select onChange={handleChange} value={selectedWhere}>
             {props.options.map((option) => (
                 <option
                     key={option.id}

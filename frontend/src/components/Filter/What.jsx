@@ -21,8 +21,16 @@ const themes = [
 ]
 
 const SelectWhat = (props) => {
+    const [selectedWhat, setSelectedWhat] = useState('');
+
+    const handleChange = (event) => {
+        const value = event.target.value;
+        setSelectedWhat(value);
+        console.log('Selected where:', value);
+    };
+    
     return (
-        <select>
+        <select onChange={handleChange} value={selectedWhat}>
             {props.options.map((option) => (
                 <option
                     key={option.id}
@@ -43,4 +51,3 @@ const What = () => {
   };
   
   export default What;
-  
