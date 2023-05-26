@@ -18,9 +18,12 @@ function Congestion() {
   const [data, setData] = useState('');
 
   useEffect(() => {
-    fetch('/api/test')
-      //.then(response => response.json())
-      .then(data => setData(data.data))
+    console.log(data)
+    fetch('/api/data')
+      .then(response => response.json())
+      .then(response => setData(JSON.stringify(response)))
+      .then(console.log(data))
+      .then(console.log('success'))
       .catch(error => console.log(error));
   }, []);
 
