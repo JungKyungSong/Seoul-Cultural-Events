@@ -19,7 +19,7 @@ function Congestion() {
 
   useEffect(() => {
     console.log(data)
-    fetch('/api/data')
+    fetch('/api/test')
       .then(response => response.json())
       .then(response => setData(JSON.stringify(response)))
       .then(console.log(data))
@@ -29,7 +29,7 @@ function Congestion() {
 
   return (
     <div>
-      <h1>받은 데이터: {data}</h1>
+      <h5>받은 데이터: {data}</h5>
       <div id='map' style={{width:'500px', height:'350px'}}></div>
     </div>
   );

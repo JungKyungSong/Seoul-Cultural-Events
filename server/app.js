@@ -13,24 +13,30 @@ let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_
   console.log('Connected to the database')
 })
 
+let list = {}
+
+let counter = 0
+
 app.get('/api/data', (req, res) => {
   db.serialize(() => {
-    db.each(`SELECT * FROM Events WHERE region = '광진구' AND category = '콘서트'`, (err, row) => {
-      if (err) {
-        console.error('불러오기 실패')
-      }
-      let data = row.region
-      console.log(data)
-      res.json({data});
+    db.each(`SELECT * FROM Events WHERE region = '강남구' AND category = '교육/체험'`, (err, row) => {
+      console.log('하나 성공')
+      let str = counter.toString();
+      list[str] = row
+      console.log('넣기도 성공')
+      console.log(list)
+      counter += 1
+      //console.log(row)
     })
-    db.close((err) => {
-      if (err) {
-        console.error('닫기 실패')
-      }
+    let data = JSON.stringify(list)
+    res.send(data);
+    console.log(data)
+    console.log('success')
+    db.close(() => {
       console.log('Close the database connection.')
     })
+    console.log('success')
   })
-  //const data = 'Hello!'; // 전송할 문자열
 });
 
 const area = {area1 : "강남 MICE 관광특구",
