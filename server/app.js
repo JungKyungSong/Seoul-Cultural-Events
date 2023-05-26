@@ -1,62 +1,36 @@
-/* var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
-var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-module.exports = app; */
-
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const port = 3001;
 const axios = require('axios');
 const converter = require('xml-js');
+const sqlite3 = require('sqlite3').verbose();
 
-//const request = require('request');
-//const cors = require('cors');
-//const bodyParser = require('body-parser');
-
-//app.use(bodyParser.urlencoded({ extended: false }));
-//app.use(cors());
-//app.use(bodyParser.json());
+let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  if (err) {
+    console.log("fail")
+  }
+  console.log('Connected to the database')
+})
 
 app.get('/api/data', (req, res) => {
-  const data = 'Hello!'; // 전송할 문자열
-  res.json({data});
+  db.serialize(() => {
+    db.each(`SELECT * FROM Events WHERE region = '광진구' AND category = '콘서트'`, (err, row) => {
+      if (err) {
+        console.error('불러오기 실패')
+      }
+      let data = row.region
+      console.log(data)
+      res.json({data});
+    })
+    db.close((err) => {
+      if (err) {
+        console.error('닫기 실패')
+      }
+      console.log('Close the database connection.')
+    })
+  })
+  //const data = 'Hello!'; // 전송할 문자열
 });
 
 const area = {area1 : "강남 MICE 관광특구",
@@ -113,10 +87,11 @@ const area = {area1 : "강남 MICE 관광특구",
 
 let conjestion = {}
 
-const key = process.env.API_KEY
+const key = process.env.SEOUL_API_KEY
 
 app.get('/api/test', async (req, res) => {
   try {
+    console.log(key)
     for (let i = 1; i < 51; i++) {
       let variableName = `area${i}`;
       let response = await axios.get(`http://openapi.seoul.go.kr:8088/${key}/xml/citydata/1/5/${area[variableName]}`)
@@ -126,9 +101,9 @@ app.get('/api/test', async (req, res) => {
       let areaCongestLvl = parsedData.elements[0].elements[2].elements[1].elements[0].elements[0].elements[0].text;
       conjestion[`${area[variableName]}`] = areaCongestLvl
     }
-    let result = JSON.stringify(conjestion)
-    res.send(result)
-    console.log(result)
+    let data = JSON.stringify(conjestion)
+    res.send(data);
+    console.log(data)
     console.log('success')
   }
   catch (error) {
