@@ -113,11 +113,13 @@ const area = {area1 : "강남 MICE 관광특구",
 
 let conjestion = {}
 
+const key = process.env.API_KEY
+
 app.get('/api/test', async (req, res) => {
   try {
     for (let i = 1; i < 51; i++) {
       let variableName = `area${i}`;
-      let response = await axios.get(`http://openapi.seoul.go.kr:8088/41584c7558736f6e39327979784472/xml/citydata/1/5/${area[variableName]}`)
+      let response = await axios.get(`http://openapi.seoul.go.kr:8088/${key}/xml/citydata/1/5/${area[variableName]}`)
       let xmlData = response.data
       let jsonData = converter.xml2json(xmlData)
       let parsedData = JSON.parse(jsonData);
