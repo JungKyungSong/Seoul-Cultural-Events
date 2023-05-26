@@ -5,30 +5,35 @@ const port = 3001;
 const axios = require('axios');
 const converter = require('xml-js');
 const sqlite3 = require('sqlite3').verbose();
-
+/* 
 let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
     console.log("fail")
   }
   console.log('Connected to the database')
-})
+}) */
 
-let list = {}
+let filter_list = {}
 
-let counter = 0
+let filter_counter = 0
 
 app.get('/api/data', (req, res) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.log("fail")
+    }
+    console.log('Connected to the database')
+  })
   db.serialize(() => {
     db.each(`SELECT * FROM Events WHERE region = '강남구' AND category = '교육/체험'`, (err, row) => {
       console.log('하나 성공')
-      let str = counter.toString();
-      list[str] = row
+      let str = filter_counter.toString();
+      filter_list[str] = row
       console.log('넣기도 성공')
-      console.log(list)
-      counter += 1
-      //console.log(row)
+      console.log(filter_list)
+      filter_counter += 1
     })
-    let data = JSON.stringify(list)
+    let data = JSON.stringify(filter_list)
     res.send(data);
     console.log(data)
     console.log('success')
@@ -116,6 +121,34 @@ app.get('/api/test', async (req, res) => {
     console.log('error')
   }
 })
+
+let congestion_list = {}
+
+let congestion_counter = 0
+
+app.get('/api/events', (req, res) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.log("fail")
+    }
+    console.log('Connected to the database')
+  })
+  db.serialize(() => {
+    db.each(`SELECT * FROM Area`, (err, row) => {
+      let str = congestion_counter.toString();
+      congestion_list[str] = row
+      congestion_counter += 1
+    })
+    let data = JSON.stringify(congestion_list)
+    res.send(data);
+    console.log(data)
+    console.log('success')
+    db.close(() => {
+      console.log('Close the database connection.')
+    })
+    console.log('success')
+  })
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

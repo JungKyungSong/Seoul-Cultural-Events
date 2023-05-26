@@ -27,9 +27,21 @@ function Congestion() {
       .catch(error => console.log(error));
   }, []);
 
+  const [events, setEvents] = useState('');
+
+  useEffect(() => {
+    fetch('/api/events')
+      .then(response => response.json())
+      .then(response => setEvents(JSON.stringify(response)))
+      .then(console.log(events))
+      .then(console.log('success'))
+      .catch(error => console.log(error));
+  }, []);
+
   return (
     <div>
-      <h5>받은 데이터: {data}</h5>
+      <h5>받은 데이터: {events} </h5>
+      <h5>받은 데이터: {data} </h5>
       <div id='map' style={{width:'500px', height:'350px'}}></div>
     </div>
   );
