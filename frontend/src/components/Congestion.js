@@ -881,7 +881,7 @@ function Congestion() {
     polygonPath50.push(obj)
   }
 
-  // const [data, setData] = useState('');
+  const [data, setData] = useState('');
 
   const red = {
     fillColor: '#FF0000'
@@ -904,10 +904,14 @@ function Congestion() {
     fetch('/api/test')
       .then(response => response.json())
       .then(response => setData(JSON.stringify(response)))
-      .then(console.log(data))
       .then(console.log('success'))
       .catch(error => console.log(error));
   }, []);
+
+  useEffect(() => {
+    console.log(data)
+    console.log(data['area1'])
+  }, [data]);
 
   /* const [events, setEvents] = useState(''); */
 
