@@ -23,7 +23,8 @@ function Recommend() {
           <p>Recommend component</p>
           <What/>
           <Where/>
-          {<p>{first}</p>}
+          { <p>{first}</p> }
+          
     </div>
   );
 }

@@ -28,6 +28,7 @@ app.get('/api/data', (req, res) => {
     db.each(`SELECT * FROM Events WHERE region = '강남구' AND category = '교육/체험'`, (err, row) => {
       console.log('하나 성공')
       let str = filter_counter.toString();
+      console.log(str)
       filter_list[str] = row
       console.log('넣기도 성공')
       console.log(filter_list)
