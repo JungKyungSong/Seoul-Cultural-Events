@@ -1,0 +1,50 @@
+.title{
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    width: 290px;
+    height: 142px;
+    top: 180px;
+  
+    text-align: center;
+  
+    color: #002366;
+  
+    text-shadow: -2px 0px #BECDFA, 0px 2px #BECDFA, 2px 0px #BECDFA, 0px -2px #BECDFA;
+}
+  
+/* 홈 버튼 */
+.recommend_button{
+  
+  box-sizing: border-box;
+  
+  position: absolute;
+  width: 330px;
+  height: 100px;
+  left: 30px;
+  top: 560px;
+  
+  background: #BECDFA;
+  
+  border: 1px solid #002366;
+  border-radius: 10px;
+}
+  
+.congestion_button{
+  
+  box-sizing: border-box;
+  
+  position: absolute;
+  width: 330px;
+  height: 100px;
+  left: 30px;
+  top: 690px;
+  
+  background: #848EAD;
+  
+  border: 1px solid #002366;
+  border-radius: 10px;
+}
+  
+  

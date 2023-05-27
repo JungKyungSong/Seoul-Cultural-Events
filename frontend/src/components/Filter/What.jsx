@@ -26,7 +26,7 @@ const SelectWhat = (props) => {
     const handleChange = (event) => {
         const value = event.target.value;
         setSelectedWhat(value);
-        console.log('Selected where:', value);
+        console.log('Selected what:', value);
     };
     
     return (
@@ -43,11 +43,10 @@ const SelectWhat = (props) => {
     );
 }
 
-
 const What = () => {
-    return (
-    <SelectWhat options={themes}/>
-    )
-  };
-  
-  export default What;
+  return (
+  <SelectWhat options={themes}/>
+  )
+};
+
+export default What;

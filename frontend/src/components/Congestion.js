@@ -881,7 +881,7 @@ function Congestion() {
     polygonPath50.push(obj)
   }
 
-  const [data, setData] = useState('');
+  // const [data, setData] = useState('');
 
   const red = {
     fillColor: '#FF0000'

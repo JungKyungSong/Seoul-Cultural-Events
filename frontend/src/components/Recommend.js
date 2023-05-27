@@ -1,12 +1,12 @@
 import '../App.css';
 import { Link } from 'react-router-dom';
-import Bar from './Bar';
 import What from './Filter/What'
 import Where from './Filter/Where'
 import { useState, useEffect } from 'react';
+import Header from './Header';
 
 function Recommend() {
-  const [first, setFirst] = useState('');
+   const [first, setFirst] = useState('');
 
   useEffect(() => {
     fetch('/api/data')
@@ -15,15 +15,15 @@ function Recommend() {
       .then(console.log(first))
       .then(console.log('success'))
       .catch(error => console.log(error));
-  }, []);
+  }, []); 
 
   return (
     <div>
+      <Header/>
           <p>Recommend component</p>
-          <Bar/>
           <What/>
           <Where/>
-          <p>{first}</p>
+          { <p>{first}</p> }
     </div>
   );
 }

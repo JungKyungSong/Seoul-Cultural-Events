@@ -1,5 +1,6 @@
 import '../App.css';
-import { Link } from 'react-router-dom';
+import Header from './Header';
+import '../css/Home.css'
 
 function Home() {
   const toRecommend = (e) => {
@@ -10,9 +11,15 @@ function Home() {
   }
   return (
     <div>
-          <div>Service Name</div>
-          <div><button onClick={toRecommend}>Recommend</button></div>
-          <div><button onClick={toCongestion}>Congestion</button></div>
+      <Header/>
+          <div>
+            <h1 className='title'>ArtVenture Seoul</h1>
+            <img className='seoul_map' src='seoul.png' alt='seoul map'></img>
+          </div>
+          <div>
+            <button className='recommend_button' onClick={toRecommend}>Recommend</button>
+            <button className='congestion_button' onClick={toCongestion}>Congestion</button>
+          </div>
     </div>
   );
 }

@@ -5,9 +5,184 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: hsl(210, 36%, 96%);
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* h태그 지정 */
+h1{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 52px;
+  line-height: 71px;
+}
+
+h2{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 57px;
+}
+
+h3{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 44px;
+}
+
+h4{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 35px;
+}
+
+h5{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 30px;
+}
+
+h6{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+}
+
+button{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+/* 사이드바 */
+.sidebar-toggle{
+  position: relative;
+  right: -45%;
+  background: transparent;
+  background-color: transparent;
+  color: hsl(205, 78%, 60%);
+  cursor: pointer;
+}
+
+.nav{
+  width: 310px;
+  position: fixed;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  background-color: #f1f1f1;
+  height: 100%;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-open{
+  left: 0;
+}
+.nav-closed{
+  left: -320px;
+}
+.nav-button{
+  z-index: 2;
+}
+.sidebar-toggle span{
+  font-size: 2.5rem;
+}
+.sidebar-toggle:hover{
+  color: hsl(205, 90%, 76%);
+}
+.links{
+  display: block;
+  font-size: 1.5rem;
+  text-transform: capitalize;
+  padding: 1rem 1.5rem;
+  color: hs1(210, 22%m 49%);
+  transition: all 0.3s linear;
+  cursor: pointer;
+}
+.links:hover{
+  background: hsl(205,86%,81%);
+  color: hsl(205, 78%, 60%);
+  padding-left: 1.75rem;
+}
+.logo{
+  width: 250px;
+  height: 60px;
+  background-color: #fdb813;
+  border-left: 10px solid #f58841;
+  display: flex;
+  align-items: center;
+  font-size: 25px;
+  color: #fff;
+  font-weight: bold;
+  margin-bottom: 70px;
+  margin-top: -30px;
+  margin-left: 10px;
+  padding: 5px;
+  z-index: 2;
+}
+
+/* 헤더 */
+.header1{
+  position: relative;
+  height: 96px;
+  left: 0px;
+  top: 0px;
+  background-color: #002366;
+  z-index: 1;
+  text-align: center;
+}
+
+.header1 h5{
+  color: #FFFEEF;
+  text-shadow: -2px 0px #848EAD, 0px 2px #848EAD, 2px 0px #848EAD, 0px -2px #848EAD;
+  position: relative;
+  top: 30px;
+  text-align: center;
+}
+
+.header2{
+  position: relative;
+  height: 23px;
+  left: 0px;
+
+
+  background-color: #BECDFA;
+}
+
+.header3{
+  position: relative;
+  height: 12px;
+  left: 0px;
+
+  background: #FFFEEF;
+}
+
+/* 지도 위치 */
+.seoul_map{
+  position: absolute;
+  width: 110px;
+  height: 99px;
+  left: 507px;
+  top: 253px;
+  opacity: 0.5;
 }
