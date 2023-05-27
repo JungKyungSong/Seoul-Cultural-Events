@@ -12,12 +12,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 
+/* 사이드바 */
 .sidebar-toggle{
   position: relative;
   right: -45%;
@@ -88,8 +84,26 @@ code {
   z-index: 2;
 }
 
+/* 헤더 */
 .header{
   position: relative;
-  background-color: #9985da;
+  background-color: #3b5ca3;
   z-index: 1;
+  text-align: center;
+}
+
+.header h2{
+  color: white;
+  position: relative;
+  text-align: center;
+}
+
+/* 홈 버튼 */
+.home_button{
+  width: 300px;
+  height: 100px;
+}
+
+.home_buttons{
+  margin: 10px;
 }

@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import Header from './Header';
 
 function Recommend() {
-  /* const [first, setFirst] = useState('');
+   const [first, setFirst] = useState('');
 
   useEffect(() => {
     fetch('/api/data')
@@ -15,7 +15,7 @@ function Recommend() {
       .then(console.log(first))
       .then(console.log('success'))
       .catch(error => console.log(error));
-  }, []); */
+  }, []); 
 
   return (
     <div>
@@ -23,7 +23,7 @@ function Recommend() {
           <p>Recommend component</p>
           <What/>
           <Where/>
-          {/* <p>{first}</p> */}
+          { <p>{first}</p> }
     </div>
   );
 }
