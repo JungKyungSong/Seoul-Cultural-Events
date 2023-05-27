@@ -25,11 +25,11 @@ export const Main = () => {
             </button>
             <nav className={`nav ${isNavOpen ? "nav-open": "nav-closed"}`}>
                 <div className="logo">Art Venture Seoul</div>
-                <ul>
-                    <li><Link to="/">Home</Link></li>
-                    <li><Link to="/Recommend">Recommend</Link></li>
-                    <li><Link to="/Congestion">Conjestion</Link></li>
-                </ul>
+                <p>
+                    <p><Link className="toggle_link" to="/">Home</Link></p>
+                    <p><Link className="toggle_link" to="/Recommend">Recommend</Link></p>
+                    <p><Link className="toggle_link" to="/Congestion">Conjestion</Link></p>
+                </p>
             </nav>
         </>
     );
