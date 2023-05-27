@@ -1,18 +1,17 @@
 .title{
- /* ArtVenture Seoul */
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    width: 290px;
+    height: 142px;
+    top: 180px;
   
+    text-align: center;
   
-  position: absolute;
-  width: 290px;
-  height: 142px;
-  left: 49px;
-  top: 274px;
+    color: #002366;
   
-  text-align: center;
-  
-  color: #002366;
-  
-  text-shadow: -2px 0px #BECDFA, 0px 2px #BECDFA, 2px 0px #BECDFA, 0px -2px #BECDFA;
+    text-shadow: -2px 0px #BECDFA, 0px 2px #BECDFA, 2px 0px #BECDFA, 0px -2px #BECDFA;
 }
   
 /* 홈 버튼 */

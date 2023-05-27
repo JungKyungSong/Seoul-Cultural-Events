@@ -142,18 +142,39 @@ button{
 }
 
 /* 헤더 */
-.header{
+.header1{
   position: relative;
-  background-color: #3b5ca3;
+  height: 96px;
+  left: 0px;
+  top: 0px;
+  background-color: #002366;
   z-index: 1;
   text-align: center;
 }
 
-.header h5{
+.header1 h5{
   color: #FFFEEF;
   text-shadow: -2px 0px #848EAD, 0px 2px #848EAD, 2px 0px #848EAD, 0px -2px #848EAD;
   position: relative;
+  top: 30px;
   text-align: center;
+}
+
+.header2{
+  position: relative;
+  height: 23px;
+  left: 0px;
+
+
+  background-color: #BECDFA;
+}
+
+.header3{
+  position: relative;
+  height: 12px;
+  left: 0px;
+
+  background: #FFFEEF;
 }
 
 /* 지도 위치 */
@@ -161,7 +182,7 @@ button{
   position: absolute;
   width: 110px;
   height: 99px;
-  left: 20px;
-  top: 220px;
+  left: 507px;
+  top: 253px;
   opacity: 0.5;
 }
