@@ -908,10 +908,11 @@ function Congestion() {
       .catch(error => console.log(error));
   }, []);
 
-  useEffect(() => {
-    console.log(data)
-    console.log(data['area1'])
-  }, [data]);
+  // useEffect(() => {
+  //   console.log(data)
+  //   let obj = JSON.parse(data)
+  //   console.log(obj[])
+  // }, [data]);
 
   /* const [events, setEvents] = useState(''); */
 
