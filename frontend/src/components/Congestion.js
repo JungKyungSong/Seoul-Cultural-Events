@@ -911,7 +911,8 @@ function Congestion() {
   // useEffect(() => {
   //   console.log(data)
   //   let obj = JSON.parse(data)
-  //   console.log(obj[])
+  //   let test = obj['area1']
+  //   console.log(test)
   // }, [data]);
 
   /* const [events, setEvents] = useState(''); */
