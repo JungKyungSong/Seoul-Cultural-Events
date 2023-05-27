@@ -14,6 +14,7 @@ function Home() {
       <Header/>
           <div>
             <h1 className='title'>ArtVenture Seoul</h1>
+            <img className='seoul_map' src='seoul.png' alt='seoul map'></img>
           </div>
           <div>
             <button className='recommend_button' onClick={toRecommend}>Recommend</button>

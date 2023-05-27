@@ -1,5 +1,5 @@
 .title{
-    /* ArtVenture Seoul */
+ /* ArtVenture Seoul */
   
   
   position: absolute;
@@ -12,11 +12,11 @@
   
   color: #002366;
   
-  border: 2px solid #BECDFA;
-  }
+  text-shadow: -2px 0px #BECDFA, 0px 2px #BECDFA, 2px 0px #BECDFA, 0px -2px #BECDFA;
+}
   
-  /* 홈 버튼 */
-  .recommend_button{
+/* 홈 버튼 */
+.recommend_button{
   
   box-sizing: border-box;
   
@@ -30,9 +30,9 @@
   
   border: 1px solid #002366;
   border-radius: 10px;
-  }
+}
   
-  .congestion_button{
+.congestion_button{
   
   box-sizing: border-box;
   
@@ -46,6 +46,6 @@
   
   border: 1px solid #002366;
   border-radius: 10px;
-  }
+}
   
   
