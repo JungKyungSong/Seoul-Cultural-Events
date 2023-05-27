@@ -4,6 +4,7 @@ import What from './Filter/What'
 import Where from './Filter/Where'
 import { useState, useEffect } from 'react';
 import Header from './Header';
+import '../css/Recommend.css'
 
 function Recommend() {
    const [first, setFirst] = useState('');
@@ -20,9 +21,7 @@ function Recommend() {
   return (
     <div>
       <Header/>
-          <p>Recommend component</p>
-          <What/>
-          <Where/>
+          <p className='recommend_toggle'>종류: <What/>   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  지역: <Where/></p>
           { <p>{first}</p> }
           
     </div>
