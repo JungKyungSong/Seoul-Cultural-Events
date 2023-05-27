@@ -1,0 +1,51 @@
+.title{
+    /* ArtVenture Seoul */
+  
+  
+  position: absolute;
+  width: 290px;
+  height: 142px;
+  left: 49px;
+  top: 274px;
+  
+  text-align: center;
+  
+  color: #002366;
+  
+  border: 2px solid #BECDFA;
+  }
+  
+  /* 홈 버튼 */
+  .recommend_button{
+  
+  box-sizing: border-box;
+  
+  position: absolute;
+  width: 330px;
+  height: 100px;
+  left: 30px;
+  top: 560px;
+  
+  background: #BECDFA;
+  
+  border: 1px solid #002366;
+  border-radius: 10px;
+  }
+  
+  .congestion_button{
+  
+  box-sizing: border-box;
+  
+  position: absolute;
+  width: 330px;
+  height: 100px;
+  left: 30px;
+  top: 690px;
+  
+  background: #848EAD;
+  
+  border: 1px solid #002366;
+  border-radius: 10px;
+  }
+  
+  

@@ -13,6 +13,63 @@ code {
     monospace;
 }
 
+/* h태그 지정 */
+h1{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 52px;
+  line-height: 71px;
+}
+
+h2{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 42px;
+  line-height: 57px;
+}
+
+h3{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 32px;
+  line-height: 44px;
+}
+
+h4{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 35px;
+}
+
+h5{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 30px;
+}
+
+h6{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 25px;
+}
+
+button{
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 24px;
+}
+
 /* 사이드바 */
 .sidebar-toggle{
   position: relative;
@@ -98,12 +155,3 @@ code {
   text-align: center;
 }
 
-/* 홈 버튼 */
-.home_button{
-  width: 300px;
-  height: 100px;
-}
-
-.home_buttons{
-  margin: 10px;
-}

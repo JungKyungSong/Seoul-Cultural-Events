@@ -1,5 +1,6 @@
 import '../App.css';
 import Header from './Header';
+import '../css/Home.css'
 
 function Home() {
   const toRecommend = (e) => {
@@ -12,12 +13,11 @@ function Home() {
     <div>
       <Header/>
           <div>
-            <h1>ArtVenture</h1>
-            <h1>Seoul</h1>
+            <h1 className='title'>ArtVenture Seoul</h1>
           </div>
-          <div className='home_buttons'>
-            <button className='home_button' onClick={toRecommend}>Recommend</button>
-            <button className='home_button' onClick={toCongestion}>Congestion</button>
+          <div>
+            <button className='recommend_button' onClick={toRecommend}>Recommend</button>
+            <button className='congestion_button' onClick={toCongestion}>Congestion</button>
           </div>
     </div>
   );
