@@ -34,8 +34,7 @@
   
     box-sizing: border-box;
     
-    margin-left: auto;
-    margin-right: auto;
+    margin: 20px;
     position: relative;
     width: 330px;
     height: 100px;
@@ -51,8 +50,7 @@
   
   box-sizing: border-box;
   
-  margin-left: auto;
-  margin-right: auto;
+  margin: 20px;
   position: relative;
   width: 330px;
   height: 100px;
@@ -63,5 +61,3 @@
   border: 1px solid #002366;
   border-radius: 10px;
 }
-  
-  
