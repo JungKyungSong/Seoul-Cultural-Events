@@ -1,7 +1,28 @@
+/* 지역 및 종류 */
 .recommend_toggle{
     font-family: 'Noto Sans';
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 20px;
+}
+
+/* 이벤트 이미지 */
+.event_img{
+    float: left;
+}
+.event_image{
+    position: relative;
+    width: 200px;
+    height: 200px;
+    left: 400px;
+}
+
+/* 이벤트 내용 */
+.event_contents{
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+.event_content{
+    margin: 30px;
 }
