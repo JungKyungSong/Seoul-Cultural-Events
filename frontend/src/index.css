@@ -150,7 +150,7 @@ button{
   position: relative;
   height: 96px;
   left: 0px;
-  top: 0px;
+  top: -40px;
   background-color: #002366;
   z-index: 1;
   text-align: center;
@@ -180,14 +180,4 @@ button{
 
   z-index: 3;
   background: #FFFEEF;
-}
-
-/* 지도 위치 */
-.seoul_map{
-  position: absolute;
-  width: 110px;
-  height: 99px;
-  left: 650px;
-  top: 253px;
-  opacity: 0.5;
 }

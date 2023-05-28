@@ -21,9 +21,8 @@ function Recommend() {
   return (
     <div>
       <Header/>
-          <p className='recommend_toggle'>종류: <What/>   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  지역: <Where/></p>
+          <p>지역: <Where/> &nbsp; &nbsp; &nbsp; &nbsp; 종류: <What/></p>
           { <p>{first}</p> }
-          
     </div>
   );
 }
