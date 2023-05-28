@@ -1,19 +1,21 @@
 import '../App.css';
-import { Link } from 'react-router-dom';
 import What from './Filter/What'
 import Where from './Filter/Where'
+import EventList from './EventList';
 import { useState, useEffect } from 'react';
 import Header from './Header';
 import '../css/Recommend.css'
 
 function Recommend() {
-   const [first, setFirst] = useState('');
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     fetch('/api/data')
       .then(response => response.json())
-      .then(response => setFirst(JSON.stringify(response)))
-      .then(console.log(first))
+      .then(response => {
+        const events = Object.values(response);
+        setData(events);
+      })
       .then(console.log('success'))
       .catch(error => console.log(error));
   }, []); 
@@ -21,11 +23,14 @@ function Recommend() {
   return (
     <div>
       <Header/>
-          <p className='recommend_toggle'>종류: <What/>   &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  지역: <Where/></p>
-          { <p>{first}</p> }
-          
+      <p className='recommend_toggle'>
+        지역: <Where/>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 종류: <What/>
+      </p>
+      <hr />
+      <EventList events={data} />
     </div>
   );
 }
+
 
 export default Recommend;
