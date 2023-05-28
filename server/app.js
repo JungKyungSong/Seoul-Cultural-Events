@@ -18,7 +18,7 @@ let filter_list = {}
 let filter_counter = 0
 
 app.get('/api/data', (req, res) => {
-  let db = new sqlite3.Database('/Users/minsungwoo/Desktop/학교/3학년 2학기/인터넷프로그래밍/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }

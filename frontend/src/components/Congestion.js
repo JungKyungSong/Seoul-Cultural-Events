@@ -6,13 +6,49 @@ const { kakao } = window;
 
 function Congestion() {
 
+  const [data, setData] = useState('');
+
+  const red = {
+    fillColor: '#FF0000',
+    strokeColor: '#FF0000',
+  }
+
+  const orange = {
+    fillColor: '#FF8C00',
+    strokeColor: '#FF8C00',
+  }
+
+  const yellow = {
+    fillColor: '#FFFF00',
+    strokeColor: '#FFFF00',
+  }
+
+  const green = {
+    fillColor: '#00FF00',
+    strokeColor: '#00FF00',
+  }
+
   useEffect(() => {
-    const container = document.getElementById('map')
-    const option = {
-      center: new kakao.maps.LatLng(37.566826, 126.9786567),
-      level: 9
-    }
-    let map = new kakao.maps.Map(container, option);
+    console.log(data)
+    fetch('/api/test')
+      .then(response => response.json())
+      .then(response => {
+        // setData(JSON.stringify(response))
+        setData(response)
+      })
+      .catch(error => console.log(error));
+  }, []);
+
+  const [cong, setCong] = useState([]);
+
+  useEffect(() => {
+    let areas = Object.keys(data).map(area => data[area])
+    console.log(areas)
+    setCong(areas)
+    console.log(cong)
+    drawing()
+  }, [data]);
+
     let polygon1
     let polygon2
     let polygon3
@@ -64,516 +100,351 @@ function Congestion() {
     let polygon49
     let polygon50
 
+  function drawing() {
+    const container = document.getElementById('map')
+    const option = {
+      center: new kakao.maps.LatLng(37.566826, 126.9786567),
+      level: 9
+    }
+    let map = new kakao.maps.Map(container, option);
+
     polygon1 = new kakao.maps.Polygon({
         path:polygonPath1, // 그려질 다각형의 좌표 배열입니다
-        strokeWeight: 3, // 선의 두께입니다
-        strokeColor: '#39DE2A', // 선의 색깔입니다
         strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
         strokeStyle: 'longdash', // 선의 스타일입니다
-        fillColor: '#A2FF99', // 채우기 색깔입니다
         fillOpacity: 0.7 // 채우기 불투명도 입니다
       });
     polygon2 = new kakao.maps.Polygon({
         path:polygonPath2,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon3 = new kakao.maps.Polygon({
         path:polygonPath3,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon4 = new kakao.maps.Polygon({
         path:polygonPath4,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon5 = new kakao.maps.Polygon({
         path:polygonPath5,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon6 = new kakao.maps.Polygon({
         path:polygonPath6,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon7 = new kakao.maps.Polygon({
         path:polygonPath7,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon8 = new kakao.maps.Polygon({
         path:polygonPath8,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon9 = new kakao.maps.Polygon({
         path:polygonPath9,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon10 = new kakao.maps.Polygon({
         path:polygonPath10,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon11 = new kakao.maps.Polygon({
         path:polygonPath11,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon12 = new kakao.maps.Polygon({
         path:polygonPath12,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon13 = new kakao.maps.Polygon({
         path:polygonPath13,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon14 = new kakao.maps.Polygon({
         path:polygonPath14,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon15 = new kakao.maps.Polygon({
         path:polygonPath15,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon16 = new kakao.maps.Polygon({
         path:polygonPath16,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon17 = new kakao.maps.Polygon({
         path:polygonPath17,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon18 = new kakao.maps.Polygon({
         path:polygonPath18,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon19 = new kakao.maps.Polygon({
         path:polygonPath19,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon20 = new kakao.maps.Polygon({
         path:polygonPath20,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon21 = new kakao.maps.Polygon({
         path:polygonPath21,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon22 = new kakao.maps.Polygon({
         path:polygonPath22,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon23 = new kakao.maps.Polygon({
         path:polygonPath23,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon24 = new kakao.maps.Polygon({
         path:polygonPath24,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon25 = new kakao.maps.Polygon({
         path:polygonPath25,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon26 = new kakao.maps.Polygon({
         path:polygonPath26,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon27 = new kakao.maps.Polygon({
         path:polygonPath27,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon28 = new kakao.maps.Polygon({
         path:polygonPath28,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon29 = new kakao.maps.Polygon({
         path:polygonPath29,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon30 = new kakao.maps.Polygon({
         path:polygonPath30,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon31 = new kakao.maps.Polygon({
         path:polygonPath31,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon32 = new kakao.maps.Polygon({
         path:polygonPath32,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon33 = new kakao.maps.Polygon({
         path:polygonPath33,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon34 = new kakao.maps.Polygon({
         path:polygonPath34,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon35 = new kakao.maps.Polygon({
         path:polygonPath35,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon36 = new kakao.maps.Polygon({
         path:polygonPath36,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon37 = new kakao.maps.Polygon({
         path:polygonPath37,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon38 = new kakao.maps.Polygon({
         path:polygonPath38,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon39 = new kakao.maps.Polygon({
         path:polygonPath39,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon40 = new kakao.maps.Polygon({
         path:polygonPath40,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon41 = new kakao.maps.Polygon({
         path:polygonPath41,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon42 = new kakao.maps.Polygon({
         path:polygonPath42,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon43 = new kakao.maps.Polygon({
         path:polygonPath43,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon44 = new kakao.maps.Polygon({
         path:polygonPath44,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon45 = new kakao.maps.Polygon({
         path:polygonPath45,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon46 = new kakao.maps.Polygon({
         path:polygonPath46,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon47 = new kakao.maps.Polygon({
         path:polygonPath47,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon48 = new kakao.maps.Polygon({
         path:polygonPath48,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon49 = new kakao.maps.Polygon({
         path:polygonPath49,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
     polygon50 = new kakao.maps.Polygon({
         path:polygonPath50,
-        strokeWeight: 3, 
-        strokeColor: '#39DE2A',
         strokeOpacity: 0.8,
         strokeStyle: 'longdash', 
-        fillColor: '#A2FF99',
         fillOpacity: 0.7
     });
 
-    // 지도에 다각형을 표시합니다
-    polygon1.setMap(map);
-    polygon2.setMap(map);
-    polygon3.setMap(map);
-    polygon4.setMap(map);
-    polygon5.setMap(map);
-    polygon6.setMap(map);
-    polygon7.setMap(map);
-    polygon8.setMap(map);
-    polygon9.setMap(map);
-    polygon10.setMap(map);
-    polygon11.setMap(map);
-    polygon12.setMap(map);
-    polygon13.setMap(map);
-    polygon14.setMap(map);
-    polygon15.setMap(map);
-    polygon16.setMap(map);
-    polygon17.setMap(map);
-    polygon18.setMap(map);
-    polygon19.setMap(map);
-    polygon20.setMap(map);
-    polygon21.setMap(map);
-    polygon22.setMap(map);
-    polygon23.setMap(map);
-    polygon24.setMap(map);
-    polygon25.setMap(map);
-    polygon26.setMap(map);
-    polygon27.setMap(map);
-    polygon28.setMap(map);
-    polygon29.setMap(map);
-    polygon30.setMap(map);
-    polygon31.setMap(map);
-    polygon32.setMap(map);
-    polygon33.setMap(map);
-    polygon34.setMap(map);
-    polygon35.setMap(map);
-    polygon36.setMap(map);
-    polygon37.setMap(map);
-    polygon38.setMap(map);
-    polygon39.setMap(map);
-    polygon40.setMap(map);
-    polygon41.setMap(map);
-    polygon42.setMap(map);
-    polygon43.setMap(map);
-    polygon44.setMap(map);
-    polygon45.setMap(map);
-    polygon46.setMap(map);
-    polygon47.setMap(map);
-    polygon48.setMap(map);
-    polygon49.setMap(map);
-    polygon50.setMap(map);
-    }, [])
+  const polygons = [
+    polygon1,polygon2,polygon3,polygon4,polygon5,
+    polygon6,polygon7,polygon8,polygon9,polygon10,
+    polygon11,polygon12,polygon13,polygon14,polygon15,
+    polygon16,polygon17,polygon18,polygon19,polygon20,
+    polygon21,polygon22,polygon23,polygon24,polygon25,
+    polygon26,polygon27,polygon28,polygon29,polygon30,
+    polygon31,polygon32,polygon33,polygon34,polygon35,
+    polygon36,polygon37,polygon38,polygon39,polygon40,
+    polygon41,polygon42,polygon43,polygon44,polygon45,
+    polygon46,polygon47,polygon48,polygon49,polygon50,]
+
+    for (let i=1; i<51; i++) {
+      let targetPolygon = polygons[i-1];
+      if (cong[i-1] == "붐빔") {
+        targetPolygon.setOptions(red);
+      }
+      else if (cong[i-1] == "약간 붐빔") {
+        targetPolygon.setOptions(orange);
+      }
+      else if (cong[i-1] == "보통") {
+        targetPolygon.setOptions(yellow);
+      }
+      else {
+        targetPolygon.setOptions(green);
+      }
+      targetPolygon.setMap(map)
+    }
+  }
 
   const {area1, area2, area3, area4, area5, area6, area7, area8, area9, area10,
          area11, area12, area13, area14, area15, area16, area17, area18, area19, area20,
          area21, area22, area23, area24, area25, area26, area27, area28, area29, area30,
          area31, area32, area33, area34, area35, area36, area37, area38, area39, area40,
          area41, area42, area43, area44, area45, area46, area47, area48, area49, area50,
-        } = area
+  } = area
 
   let polygonPath1 = []
   let polygonPath2 = []
@@ -881,55 +752,21 @@ function Congestion() {
     polygonPath50.push(obj)
   }
 
-  const [data, setData] = useState('');
-
-  const red = {
-    fillColor: '#FF0000'
-  }
-
-  const orange = {
-    fillColor: '#FF8C00'
-  }
-
-  const yellow = {
-    fillColor: '#FFFF00'
-  }
-
-  const green = {
-    fillColor: '#00FF00'
-  }
+  const [events, setEvents] = useState('');
 
   useEffect(() => {
-    console.log(data)
-    fetch('/api/test')
-      .then(response => response.json())
-      .then(response => setData(JSON.stringify(response)))
-      .then(console.log('success'))
-      .catch(error => console.log(error));
-  }, []);
-
-  // useEffect(() => {
-  //   console.log(data)
-  //   let obj = JSON.parse(data)
-  //   let test = obj['area1']
-  //   console.log(test)
-  // }, [data]);
-
-  /* const [events, setEvents] = useState(''); */
-
- /*  useEffect(() => {
     fetch('/api/events')
       .then(response => response.json())
       .then(response => setEvents(JSON.stringify(response)))
       .then(console.log(events))
       .then(console.log('success'))
       .catch(error => console.log(error));
-  }, []); */
+  }, []);
 
   return (
     <div>
-      {/* <h5>받은 데이터: {events} </h5> */}
-      <h5>받은 데이터: {data} </h5>
+      <h5>받은 데이터: {events} </h5>
+      {/* <h5>받은 데이터: {data} </h5> */}
       <div id='map' style={{width:'500px', height:'350px'}}></div>
     </div>
   );
