@@ -13,8 +13,8 @@ function EventList({ events }) {
               <p className="event_content">Name: {event.name}</p>
               <p className="event_content">Date: {event.date}</p>
               <p className="event_content">Place: {event.place}</p>
-              <hr />
             </div>
+            <hr />
             {/* <p>Target: {event.target}</p>
             <p>Fee: {event.fee}</p>
             <p>Homepage: <a href={event.homepage}>{event.homepage}</a></p>

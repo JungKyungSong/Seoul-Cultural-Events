@@ -13,16 +13,21 @@
 }
 .event_image{
     position: relative;
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
+    top: -20px;
     left: 400px;
 }
 
 /* 이벤트 내용 */
 .event_contents{
-    margin-top: 100px;
-    margin-bottom: 100px;
+    margin: 50px;
 }
 .event_content{
     margin: 30px;
+    align-items: center;
+
+    position: relative;
+    left: 500px;
+    text-align: left;
 }
