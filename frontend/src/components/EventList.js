@@ -1,4 +1,11 @@
+import { useNavigate } from 'react-router-dom';
+
 function EventList({ events }) {
+    const navigate = useNavigate();
+    const handleClick = (id) => {
+      navigate(`/Detail/${id}`)
+    }
+
     return (
       <div>
         {events.map(event => (
@@ -6,7 +13,7 @@ function EventList({ events }) {
             {/* <h2>Event {event.id}</h2>
             <p>Category: {event.category}</p>
             <p>Region: {event.region}</p> */}
-            <div className="event_img">
+            <div className="event_img" onClick={() => handleClick(event.id)}>
               <img className="event_image" src='square.png' alt='arbitrary image'/>
             </div>
             <div className="event_contents">

@@ -49,6 +49,20 @@ function Congestion() {
     drawing()
   }, [data]);
 
+  const [events, setEvents] = useState('');
+
+  useEffect(() => {
+    fetch('/api/events')
+      .then(response => response.json())
+      .then(response => {
+        const events = Object.values(response);
+        setEvents(events)
+      })
+      .then(console.log('success'))
+      .then(drawing(events))
+      .catch(error => console.log(error));
+  }, [data]);
+
     let polygon1
     let polygon2
     let polygon3
@@ -100,7 +114,9 @@ function Congestion() {
     let polygon49
     let polygon50
 
-  function drawing() {
+  function drawing(events) {
+    console.log("drawing start")
+    console.log(events)
     const container = document.getElementById('map')
     const option = {
       center: new kakao.maps.LatLng(37.566826, 126.9786567),
@@ -437,6 +453,35 @@ function Congestion() {
       }
       targetPolygon.setMap(map)
     }
+
+    let positions=[]
+
+    for (let i=0; i<1148; i++) {
+      let obj ={
+        title: events[i].name,
+        latlng: new kakao.maps.LatLng(events[0].Y, events[0].X)
+      }
+      positions.push(obj);
+    }
+  
+    const imageSrc =imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+  
+    for (let i = 0; i < positions.length; i ++) {
+      
+      // 마커 이미지의 이미지 크기 입니다
+      let imageSize = new kakao.maps.Size(24, 35); 
+      
+      // 마커 이미지를 생성합니다    
+      let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+      
+      // 마커를 생성합니다
+      let marker = new kakao.maps.Marker({
+          map: map, // 마커를 표시할 지도
+          position: positions[i].latlng, // 마커를 표시할 위치
+          title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+          image : markerImage // 마커 이미지 
+      });
+    }
   }
 
   const {area1, area2, area3, area4, area5, area6, area7, area8, area9, area10,
@@ -752,20 +797,9 @@ function Congestion() {
     polygonPath50.push(obj)
   }
 
-  const [events, setEvents] = useState('');
-
-  useEffect(() => {
-    fetch('/api/events')
-      .then(response => response.json())
-      .then(response => setEvents(JSON.stringify(response)))
-      .then(console.log(events))
-      .then(console.log('success'))
-      .catch(error => console.log(error));
-  }, []);
-
   return (
     <div>
-      <h5>받은 데이터: {events} </h5>
+      {/* <h5>받은 데이터: {events[0].X} {events[0].Y} </h5> */}
       {/* <h5>받은 데이터: {data} </h5> */}
       <div id='map' style={{width:'500px', height:'350px'}}></div>
     </div>

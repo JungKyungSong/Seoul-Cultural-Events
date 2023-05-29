@@ -5,6 +5,7 @@ const port = 3001;
 const axios = require('axios');
 const converter = require('xml-js');
 const sqlite3 = require('sqlite3').verbose();
+app.use(express.json()); // JSON 데이터를 파싱하기 위한 미들웨어
 /* 
 let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
@@ -18,11 +19,7 @@ let filter_list = {}
 let filter_counter = 0
 
 app.get('/api/data', (req, res) => {
-<<<<<<< HEAD
   let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
-=======
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
->>>>>>> bd39d7290e1083c5c820c7322377eb9c171e48a9
     if (err) {
       console.log("fail")
     }
@@ -39,6 +36,33 @@ app.get('/api/data', (req, res) => {
       filter_counter += 1
     })
     let data = JSON.stringify(filter_list)
+    res.send(data);
+    console.log(data)
+    console.log('success')
+    db.close(() => {
+      console.log('Close the database connection.')
+    })
+    console.log('success')
+  })
+});
+
+let data
+
+app.post('/api/detail', (req, res) => {
+  let variable = req.body.id;
+  console.log("variable?")
+  console.log(variable)
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.log("fail")
+    }
+    console.log('Connected to the database')
+  })
+  db.serialize(() => {
+    db.each(`SELECT * FROM Events WHERE id = ${variable}`, (err, row) => {
+      console.log('하나 성공')
+      data = JSON.stringify(row)
+    })
     res.send(data);
     console.log(data)
     console.log('success')
