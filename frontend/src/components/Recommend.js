@@ -106,29 +106,6 @@ function Recommend() {
     );
 }
 
-// useEffect(() => {
-//   const data = {
-//     where: selectedWhere,
-//     what: selectedWhat
-//   };
-//   fetch('/api/data', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json; charset=utf-8',
-//       'Cache-Control': 'no-cache'
-//     },
-//     body: JSON.stringify(data)
-//     })
-//     .then(response => response.json())
-//     .then(response => {
-//       const events = Object.values(response);
-//       setData([])
-//       setData(events);
-//     })
-//     .then(console.log('한번 디폴트 호출'))
-//     .catch(error => console.log(error));
-// }, []); 
-
   useEffect(()=> {
     setData([])
     console.log("시작")

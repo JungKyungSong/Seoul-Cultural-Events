@@ -9,11 +9,9 @@ function EventList({ events }) {
 
     return (
       <div>
-        {events.map(event => (
+      {events.length > 0 ? (
+        events.map(event => (
           <div key={event.id}>
-            {/* <h2>Event {event.id}</h2>
-            <p>Category: {event.category}</p>
-            <p>Region: {event.region}</p> */}
             <div className="event_img" onClick={() => handleClick(event.id)}>
               <img className="event_image" src='square.png' alt='arbitrary image'/>
             </div>
@@ -23,15 +21,8 @@ function EventList({ events }) {
               <p className="event_content">Place: {event.place}</p>
             </div>
             <hr />
-            {/* <p>Target: {event.target}</p>
-            <p>Fee: {event.fee}</p>
-            <p>Homepage: <a href={event.homepage}>{event.homepage}</a></p>
-            <p>신청일: {event.신청일}</p>
-            <p>Address: {event.address}</p>
-            <p>Coordinates (X, Y): {event.X}, {event.Y}</p>
-            <p>Area: {event.area}</p> */}
           </div>
-        ))}
+        ))) : (<div>해당하는 문화행사가 없습니다.</div>)}
       </div>
     );
   }
