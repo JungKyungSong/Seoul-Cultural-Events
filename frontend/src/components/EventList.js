@@ -4,6 +4,7 @@ function EventList({ events }) {
     const navigate = useNavigate();
     const handleClick = (id) => {
       navigate(`/Detail/${id}`)
+      window.location.reload()
     }
 
     return (

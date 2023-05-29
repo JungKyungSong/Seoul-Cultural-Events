@@ -9,7 +9,12 @@ function Recommend() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('/api/data')
+    fetch('/api/data', {
+      method: 'GET',
+      headers: {
+                'Cache-Control': 'no-cache'
+      }
+    })
       .then(response => response.json())
       .then(response => {
         const events = Object.values(response);

@@ -19,6 +19,7 @@ let filter_list = {}
 let filter_counter = 0
 
 app.get('/api/data', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
   let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
@@ -49,6 +50,7 @@ app.get('/api/data', (req, res) => {
 let data
 
 app.post('/api/detail', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
   let variable = req.body.id;
   console.log("variable?")
   console.log(variable)
