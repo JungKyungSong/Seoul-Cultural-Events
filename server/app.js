@@ -1,11 +1,29 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const port = 3001;
+const port = 3000;
 const axios = require('axios');
 const converter = require('xml-js');
 const sqlite3 = require('sqlite3').verbose();
 app.use(express.json()); // JSON 데이터를 파싱하기 위한 미들웨어
+
+// CORS 해결
+app.use((req, res, next) => {
+  res.setHeader(
+    "Access-Control-Allow-Origin",
+    "https://joyful-kitsune-dbde1d.netlify.app/"
+  );
+
+  // ... //
+});
+
+// CORS 해결
+// app.use((req, res, next) => {
+//   res.setHeader(
+//     "Access-Control-Allow-Origin",
+//     "seoul-cultural-events.fly.dev"
+//   );
+// });
 
 
 // recommend.js로 필터에 해당하는 행사 정보 전송
@@ -17,7 +35,7 @@ app.post('/api/data', (req, res) => {
   let where = req.body.where;
   console.log(what)
   console.log(where)
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -52,7 +70,7 @@ app.post('/api/detail', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   let variable = req.body.id;
   console.log(variable)
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -80,7 +98,7 @@ app.post('/api/area', (req, res) => {
   let data_area
   let variable = req.body.id;
   console.log(variable)
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -190,7 +208,7 @@ let congestion_list = {}
 let congestion_counter = 0
 
 app.get('/api/events', (req, res) => {
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
