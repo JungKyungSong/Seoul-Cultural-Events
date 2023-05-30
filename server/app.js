@@ -7,7 +7,7 @@ const converter = require('xml-js');
 const sqlite3 = require('sqlite3').verbose();
 app.use(express.json()); // JSON 데이터를 파싱하기 위한 미들웨어
 /* 
-let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+let db = new sqlite3.Database('/Users/minsungwoo/Desktop/학교/3학년 2학기/인터넷프로그래밍/Events.db', sqlite3.OPEN_READWRITE, (err) => {
   if (err) {
     console.log("fail")
   }
@@ -20,7 +20,7 @@ let filter_counter = 0
 
 app.get('/api/data', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
-  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/minsungwoo/Desktop/학교/3학년 2학기/인터넷프로그래밍/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -54,7 +54,7 @@ app.post('/api/detail', (req, res) => {
   let variable = req.body.id;
   console.log("variable?")
   console.log(variable)
-  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/minsungwoo/Desktop/학교/3학년 2학기/인터넷프로그래밍/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -159,7 +159,7 @@ let congestion_list = {}
 let congestion_counter = 0
 
 app.get('/api/events', (req, res) => {
-  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/minsungwoo/Desktop/학교/3학년 2학기/인터넷프로그래밍/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
