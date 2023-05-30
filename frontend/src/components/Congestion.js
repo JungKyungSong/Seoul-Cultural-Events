@@ -1,10 +1,19 @@
 import '../App.css';
 import { useEffect, useState } from 'react';
 import area from '../congestion.json'
+import Header from './Header';
+import useDidMountEffect from './useDidMountEffect';
+import { useNavigate } from 'react-router-dom';
 
 const { kakao } = window;
 
 function Congestion() {
+
+  const navigate = useNavigate();
+    const handleClick = (id) => {
+      navigate(`/Area/${id}`)
+      window.location.reload()
+  }
 
   const [data, setData] = useState('');
 
@@ -28,12 +37,12 @@ function Congestion() {
     strokeColor: '#00FF00',
   }
 
+  // 혼잡도 불러오기
   useEffect(() => {
-    console.log(data)
-    fetch('/api/test') // 혼잡도 불러오기
+    console.log('디폴트 api로 혼잡도 불러오기')
+    fetch('/api/test')
       .then(response => response.json())
       .then(response => {
-        // setData(JSON.stringify(response))
         setData(response)
       })
       .catch(error => console.log(error));
@@ -41,7 +50,9 @@ function Congestion() {
 
   const [cong, setCong] = useState([]);
 
-  useEffect(() => {
+  // 혼잡도를 지역과 매핑해서 cong에 저장
+  useDidMountEffect(() => {
+    console.log('혼잡도 정보가 도착해서 지역과 매핑')
     let areas = Object.keys(data).map(area => data[area])
     console.log(areas)
     setCong(areas)
@@ -50,14 +61,16 @@ function Congestion() {
 
   const [events, setEvents] = useState('');
 
-  useEffect(() => {
+  useDidMountEffect(() => {
+    console.log('cong가 변경되어 문화행사 정보 불러오기, drawing 함수 호출')
     fetch('/api/events') // 행사 정보 불러오기
       .then(response => response.json())
       .then(response => {
         const events = Object.values(response);
         setEvents(events)
+        return events
       })
-      .then(() => drawing(events))
+      .then((events) => drawing(events))
       .then(console.log('success'))
       .catch(error => console.log(error));
   }, [cong]);
@@ -113,8 +126,10 @@ function Congestion() {
     let polygon49
     let polygon50
 
-  function drawing({events}) {
+  function drawing(events) {
     console.log("drawing start")
+    console.log("event는 다음과 같습니다.")
+    console.log(events)
     const container = document.getElementById('map')
     const option = {
       center: new kakao.maps.LatLng(37.566826, 126.9786567),
@@ -123,10 +138,10 @@ function Congestion() {
     let map = new kakao.maps.Map(container, option);
 
     polygon1 = new kakao.maps.Polygon({
-        path:polygonPath1, // 그려질 다각형의 좌표 배열입니다
-        strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-        strokeStyle: 'longdash', // 선의 스타일입니다
-        fillOpacity: 0.7 // 채우기 불투명도 입니다
+        path:polygonPath1,
+        strokeOpacity: 0.8, 
+        strokeStyle: 'longdash', 
+        fillOpacity: 0.7 
       });
     polygon2 = new kakao.maps.Polygon({
         path:polygonPath2,
@@ -457,22 +472,60 @@ function Congestion() {
       latlng: new kakao.maps.LatLng(event.Y, event.X),
     }));
   
-    const imageSrc =imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
+    const imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_spot.png ";
   
+    let iwContent_array = []
+    let infowindow_array = []
+    let marker = []
+    
     for (let i = 0; i < positions.length; i ++) {
       
       // 마커 이미지의 이미지 크기 입니다
-      let imageSize = new kakao.maps.Size(24, 35); 
+      let imageSize = new kakao.maps.Size(14, 20); 
       
       // 마커 이미지를 생성합니다    
       let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
       
       // 마커를 생성합니다
-      let marker = new kakao.maps.Marker({
+      let marker_one = new kakao.maps.Marker({
           map: map, // 마커를 표시할 지도
           position: positions[i].latlng, // 마커를 표시할 위치
           title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
           image : markerImage // 마커 이미지 
+      });
+
+      marker.push(marker_one)
+
+      let iwContent = `<div style="width:250px; height:150px; backgroundcolor: white; border-color: blue; border-style: solid;">행사명 : ${positions[i].title}</div>`;
+
+      iwContent_array.push(iwContent)
+
+      let infowindow = new kakao.maps.InfoWindow({
+        content : iwContent
+      });
+
+      infowindow_array.push(infowindow)
+
+          // 각 마커에 대해서 이벤트 등록을 반복적으로 수행합니다
+      marker.forEach((one,index) => {
+
+        let infowindow = infowindow_array[index];
+
+        // 마커에 마우스 오버 이벤트 등록
+        kakao.maps.event.addListener(one, 'mouseover', function() {
+          // 해당 마커에 대한 인포윈도우를 표시합니다
+          infowindow.open(map, one);
+        });
+
+        // 마커에 마우스 아웃 이벤트 등록
+        kakao.maps.event.addListener(one, 'mouseout', function() {
+          // 해당 마커에 대한 인포윈도우를 제거합니다
+          infowindow.close();
+        });
+
+        kakao.maps.event.addListener(one, 'click', function() {
+          handleClick(index)
+        });
       });
     }
   }
@@ -792,9 +845,10 @@ function Congestion() {
 
   return (
     <div>
+      <Header/>
       {/* <h5>받은 데이터: {events[0].X} {events[0].Y} </h5> */}
       {/* <h5>받은 데이터: {data} </h5> */}
-      <div id='map' style={{width:'500px', height:'350px'}}></div>
+      <div id='map' style={{width:'800px', height:'650px'}}></div>
     </div>
   );
   

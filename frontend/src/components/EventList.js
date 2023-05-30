@@ -12,13 +12,17 @@ function EventList({ events }) {
       {events.length > 0 ? (
         events.map(event => (
           <div key={event.id}>
-            <div className="event_img" onClick={() => handleClick(event.id)}>
+            {/* <h2>Event {event.id}</h2>
+            <p>Category: {event.category}</p>
+            <p>Region: {event.region}</p> */}
+            <div className="event_img">
               <img className="event_image" src='square.png' alt='arbitrary image'/>
             </div>
             <div className="event_contents">
-              <p className="event_content">Name: {event.name}</p>
-              <p className="event_content">Date: {event.date}</p>
-              <p className="event_content">Place: {event.place}</p>
+              <p className="event_content">행사명: {event.name}</p>
+              <p className="event_content">행사 날짜: {event.date}</p>
+              <p className="event_content">행사 장소: {event.place}</p>
+              <button  onClick={() => handleClick(event.id)}>자세히</button>
             </div>
             <hr />
           </div>

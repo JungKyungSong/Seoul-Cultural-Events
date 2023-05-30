@@ -3,8 +3,38 @@
     font-family: 'Noto Sans';
     font-style: normal;
     font-weight: 500;
-    font-size: 16px;
+    font-size: 20px;
     line-height: 20px;
+}
+
+.recommend_select_box{
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+        
+    color: #000000;
+    background-color: #fff;
+        
+    padding: .6em 1.4em .5em .8em;
+    margin: 0;
+        
+    border: 1px solid #000000;
+    border-radius: .5em;
+    box-shadow: 0 1px 0 1px rgba(0,0,0,.04);
+}
+
+/* 확인 버튼 */
+.check_button{
+    box-sizing: border-box;
+
+    margin: 20px;
+    position: relative;
+    width: 60px;
+    height: 30px;
+    background-color: #BECDFA;
+
+    border: 1px solid #002366;
+    border-radius: 5px;
 }
 
 /* 이벤트 이미지 */
@@ -22,6 +52,12 @@
 /* 이벤트 내용 */
 .event_contents{
     margin: 50px;
+
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
 }
 .event_content{
     margin: 30px;

@@ -6,14 +6,9 @@ const axios = require('axios');
 const converter = require('xml-js');
 const sqlite3 = require('sqlite3').verbose();
 app.use(express.json()); // JSON 데이터를 파싱하기 위한 미들웨어
-/* 
-let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
-  if (err) {
-    console.log("fail")
-  }
-  console.log('Connected to the database')
-}) */
 
+
+// recommend.js로 필터에 해당하는 행사 정보 전송
 app.post('/api/data', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   let filter_list = {}
@@ -50,8 +45,9 @@ app.post('/api/data', (req, res) => {
   })
 });
 
-let data
 
+// detail.js로 해당하는 행사 정보 전송
+let data
 app.post('/api/detail', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   let variable = req.body.id;
@@ -67,13 +63,42 @@ app.post('/api/detail', (req, res) => {
       console.log('하나 성공')
       data = JSON.stringify(row)
     })
-    res.send(data);
-    console.log(data)
-    console.log('success')
-    db.close(() => {
-      console.log('Close the database connection.')
+      res.send(data);
+      console.log(data)
+      console.log('success')
+      db.close(() => {
+        console.log('Close the database connection.')
+      })
+      console.log('success')
+  })
+});
+
+// Area.js로 해당하는 행사 정보 전송
+
+app.post('/api/area', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  let data_area
+  let variable = req.body.id;
+  console.log(variable)
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.log("fail")
+    }
+    console.log('Connected to the database')
+  })
+  db.serialize(() => {
+    db.each(`SELECT * FROM Area WHERE id = ${variable}`, (err, row) => {
+      console.log('하나 성공')
+      data_area = JSON.stringify(row)
+    }, () => {
+      res.send(data_area);
+      console.log(data_area)
+      console.log('success')
+      db.close(() => {
+        console.log('Close the database connection.')
+      })
+      console.log('success')
     })
-    console.log('success')
   })
 });
 
@@ -130,6 +155,8 @@ const area = {
               area50 : "성수카페거리"
             }
 
+
+// 서울시 api로부터 혼잡도 정보 불러오기
 let conjestion = {}
 
 const key = process.env.SEOUL_API_KEY
@@ -156,6 +183,8 @@ app.get('/api/test', async (req, res) => {
   }
 })
 
+
+// 혼잡도 정보를 가진 데이터들을 불러옴
 let congestion_list = {}
 
 let congestion_counter = 0
@@ -172,19 +201,19 @@ app.get('/api/events', (req, res) => {
       let str = congestion_counter.toString();
       congestion_list[str] = row
       congestion_counter += 1
+    }, (err, count) => {
+      let data = JSON.stringify(congestion_list)
+      res.send(data);
+      console.log(data)
+      console.log('success')
+      db.close(() => {
+        console.log('Close the database connection.')
+      })
+      console.log('success')
     })
-    let data = JSON.stringify(congestion_list)
-    res.send(data);
-    console.log(data)
-    console.log('success')
-    db.close(() => {
-      console.log('Close the database connection.')
-    })
-    console.log('success')
   })
 });
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
-

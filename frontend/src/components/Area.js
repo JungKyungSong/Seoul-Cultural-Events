@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Header from './Header';
 import { useParams } from 'react-router-dom';
 
-function Detail() {
+function Area() {
   const { id } = useParams();
   const [data, setData] = useState([]);
 
@@ -11,7 +11,7 @@ function Detail() {
     const test = {
         id: id
     };
-    fetch('/api/detail', {
+    fetch('/api/area', {
         method: 'POST',
         headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -47,4 +47,4 @@ function Detail() {
     )
 }
 
-export default Detail;
+export default Area;
