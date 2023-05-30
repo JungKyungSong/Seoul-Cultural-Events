@@ -8,30 +8,3 @@
   for = "/*"
     [headers.values]
     Access-Control-Allow-Origin = "*"
-
-  [[edge_functions]]
-  path = "/admin"
-  function = "auth"
-
-[[edge_functions]]
-  path = "/admin"
-  function = "injector"
-  cache = "manual"
-
-[[edge_functions]]
-  path = "/blog/*"
-  function = "auth"
-
-[[edge_functions]]
-  path = "/blog/*"
-  function = "rewriter"
-
-[[edge_functions]]
-  pattern = "/products/(.*)"
-  excludedPattern = "/products/things/(.*)"
-  function = "highlight"
-
-[[edge_functions]]
-  path = "/*"
-  excludedPath = "/img/*"
-  function = "common"
