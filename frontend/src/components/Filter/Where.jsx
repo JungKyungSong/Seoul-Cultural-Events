@@ -39,7 +39,7 @@ const SelectWhere = (props) => {
     };
 
     return (
-        <select className='recommend_select_box' onChange={handleChange} value={selectedWhere}>
+        <select className='select_box' onChange={handleChange} value={selectedWhere}>
             {props.options.map((option) => (
                 <option
                     key={option.id}

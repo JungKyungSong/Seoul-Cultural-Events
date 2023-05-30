@@ -1,3 +1,12 @@
+p {
+    display: block;
+}
+.hr{
+    height: 0.3px;
+    margin: 30px;
+    background-color: rgba(0,0,0,.3);
+}
+
 /* 지역 및 종류 */
 .recommend_toggle{
     font-family: 'Noto Sans';
@@ -7,7 +16,9 @@
     line-height: 20px;
 }
 
-.recommend_select_box{
+.select_box{
+    width: 150px;
+    height: 35px;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -37,22 +48,30 @@
     border-radius: 5px;
 }
 
-/* 이벤트 이미지 */
-.event_img{
-    float: left;
+.event{
+    margin: auto;
+    width: 80%;
+    height: 250px;
+    background-color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
 }
+
+/* 이벤트 이미지 */
 .event_image{
-    position: relative;
-    width: 150px;
-    height: 150px;
-    top: -20px;
-    left: 400px;
+    display: inline-block;
+    margin-left: auto;
+    margin-right: 50px;
+    width: 200px;
+    float: left;
 }
 
 /* 이벤트 내용 */
 .event_contents{
-    margin: 50px;
-
+    position: relative;
+    top: 20px;
     font-family: 'Noto Sans';
     font-style: normal;
     font-weight: 500;
@@ -61,9 +80,57 @@
 }
 .event_content{
     margin: 30px;
-    align-items: center;
+    vertical-align: left;
+    align-items: left;
 
-    position: relative;
-    left: 500px;
     text-align: left;
 }
+.event_content_main{
+    font-weight: bold;
+    font-size: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.event_content_place{
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.event_content_date{
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 자세히 버튼 */
+.event_content_button{
+    background-color: #BECDFA;
+
+    position: relative;
+    top: 30px;
+    left: 30%;
+
+    width: 100px;
+    border: 1px solid;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+@media (max-width: 1199px) {
+    .event_content_button{
+        position: relative;
+        left: 10px;
+    }
+}
+
+/* @media (max-width: 859px) {
+    .event_content_button{
+        position: absolute;
+        left: 300px;
+        top: 180px;
+    }
+} */

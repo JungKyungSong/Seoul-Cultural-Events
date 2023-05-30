@@ -1,0 +1,83 @@
+/* 전체 디테일 화면 */
+.detail{
+    display: flex;
+    justify-content: center;
+
+    position: relative;
+    top: 100px;
+}
+
+/* 디테일 정보 */
+.detail_content_container{
+    display: flex;
+    width: 40%;
+    flex-direction: column;
+    justify-content: center;
+}
+.detail_img_container{
+    margin: 40px;
+}
+.detail_img{
+    width: 450px;
+}
+.detail_content{
+    font-family: 'Noto Sans';
+    font-style: normal;
+    margin: 20px;
+    display: flex;
+    justify-content: center;
+}
+.detail_name{
+    margin: 20px;
+    text-align: left;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 32px;
+    line-height: 40px;
+}
+
+/* 디테일 내용 */
+.classification_container{
+    width: 200px;
+    margin: 5px;
+    text-align: left;
+    font-weight: 400;
+    font-size: 16px;
+}
+.content_container{
+    margin: 5px;
+    text-align: left;
+    font-weight: 400;
+    font-size: 16px;
+}
+.detail_homepage{
+    word-break:break-all;
+}
+
+.detail_button{
+    margin: 30px;
+
+    background-color: #BECDFA;
+
+    width: 100px;
+    border: 1px solid;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+@media (max-width: 1023px) {
+    .detail{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    } 
+    .detail_name{
+        text-align: center;
+    }
+    .detail_content_container{
+        width: 70%;
+    }
+}

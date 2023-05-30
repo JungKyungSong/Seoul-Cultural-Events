@@ -68,7 +68,7 @@ function Recommend() {
     };
     
     return (
-        <select onChange={handleChange} value={selectedWhat}>
+        <select className='select_box' onChange={handleChange} value={selectedWhat}>
             {props.options.map((option) => (
                 <option
                     key={option.id}
@@ -93,7 +93,7 @@ function Recommend() {
     };
 
     return (
-        <select onChange={handleChange} value={selectedWhere}>
+        <select className='select_box' onChange={handleChange} value={selectedWhere}>
             {props.options.map((option) => (
                 <option
                     key={option.id}
@@ -133,14 +133,12 @@ function Recommend() {
   }, [selectedWhat, selectedWhere])
 
   return (
-    <div>
+    <div className='recommend_toggle'>
       <Header/>
-      <p className='recommend_toggle'>
-        지역: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 종류:
-      </p>
-      <hr />
-      <SelectWhat options={themes}/>
-      <SelectWhere options={provinces}/>
+      <br /><br/>
+      종류: <SelectWhat options={themes}/> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      지역: <SelectWhere options={provinces}/>
+      <hr className='hr' />
       <EventList events={data} />
     </div>
   );
