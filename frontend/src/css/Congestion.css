@@ -1,0 +1,34 @@
+#map{
+    width: 800px;
+    height: 650px;
+    margin: auto;
+    z-index: 0;
+}
+.map_congestion{
+    background-color: rgb(255, 255, 255);
+    width: 80px ;
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 10px;
+
+    position: relative;
+    left: 40px;
+}
+
+.pin_red{
+    width: 15px;
+    height: 15px;
+}
+.pin_orange{
+    width: 15px;
+    height: 15px;
+}
+.pin_yellow{
+    width: 15px;
+    height: 15px;
+}
+.pin_green{
+    width: 15px;
+    height: 15px;
+}
