@@ -1,8 +1,11 @@
 import '../App.css';
 import Header from './Header';
 import '../css/Home.css'
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
 function Home() {
+
   const toRecommend = (e) => {
     window.location.href = '/Recommend' // href 대신 replace를 사용하면 뒤로 가기 불가능
   }

@@ -9,16 +9,16 @@ import Area from './components/Area';
 function App() {
   return (
     <div className="App">
-       <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<Home/>}/>
-            <Route path='/Recommend' element={<Recommend/>}/>
-            <Route path='/Congestion' element={<Congestion/>}/>
-            <Route path='/Detail/:id' element={<Detail/>}/>
-            <Route path='/Area/:id' element={<Area/>}/>
-            <Route path='*' element={"Not found"}/>
-          </Routes>
-        </BrowserRouter>
+        <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<Home/>}/>
+              <Route path='/Recommend' element={<Recommend/>}/>
+              <Route path='/Congestion' element={<Congestion/>}/>
+              <Route path='/Detail/:id' element={<Detail/>}/>
+              <Route path='/Area/:id' element={<Area/>}/>
+              <Route path='*' element={"Not found"}/>
+            </Routes>
+          </BrowserRouter>
     </div>
   );
 }

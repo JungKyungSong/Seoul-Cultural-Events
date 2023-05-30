@@ -11,11 +11,12 @@ function Area() {
     const test = {
         id: id
     };
-    fetch('/api/area', {
+    fetch('/events-server.fly.dev/api/area', {
         method: 'POST',
         headers: {
                 'Content-Type': 'application/json; charset=utf-8',
-                'Cache-Control': 'no-cache'
+                'Cache-Control': 'no-cache',
+                 'credentials': 'include'
               },
         body: JSON.stringify(test)
       })
