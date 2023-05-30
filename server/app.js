@@ -6,6 +6,7 @@ const axios = require('axios');
 const converter = require('xml-js');
 const sqlite3 = require('sqlite3').verbose();
 app.use(express.json()); // JSON 데이터를 파싱하기 위한 미들웨어
+const cors = require('cors');
 
 // CORS 해결
 app.use((req, res, next) => {
@@ -17,14 +18,10 @@ app.use((req, res, next) => {
   // ... //
 });
 
-// CORS 해결
-// app.use((req, res, next) => {
-//   res.setHeader(
-//     "Access-Control-Allow-Origin",
-//     "seoul-cultural-events.fly.dev"
-//   );
-// });
-
+app.use(cors({
+  origin: 'https://joyful-kitsune-dbde1d.netlify.app',
+  credentials: true,
+}));
 
 // recommend.js로 필터에 해당하는 행사 정보 전송
 app.post('/api/data', (req, res) => {
