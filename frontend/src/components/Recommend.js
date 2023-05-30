@@ -56,25 +56,10 @@ function Recommend() {
 
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    fetch('/api/data', {
-      method: 'GET',
-      headers: {
-                'Cache-Control': 'no-cache'
-      }
-    })
-      .then(response => response.json())
-      .then(response => {
-        const events = Object.values(response);
-        setData(events);
-      })
-      .then(console.log('success'))
-      .catch(error => console.log(error));
-  }, []); 
+  const [selectedWhat, setSelectedWhat] = useState('교육/체험');
+  const [prevSelectedWhat, setPrevSelectedWhat] = useState('');
 
-const [selectedWhat, setSelectedWhat] = useState('');
-
-const SelectWhat = (props) => {
+  const SelectWhat = (props) => {
 
     const handleChange = (event) => {
         const value = event.target.value;
@@ -96,9 +81,10 @@ const SelectWhat = (props) => {
     );
 }
 
-const [selectedWhere, setSelectedWhere] = useState('');
+  const [selectedWhere, setSelectedWhere] = useState('강남구');
+  const [prevSelectedWhere, setPrevSelectedWhere] = useState('');
 
-const SelectWhere = (props) => {
+  const SelectWhere = (props) => {
 
     const handleChange = (event) => {
         const value = event.target.value;
@@ -120,10 +106,31 @@ const SelectWhere = (props) => {
     );
 }
 
-useEffect(()=> {
-  console.log(selectedWhat)
-  console.log(selectedWhere)
-}, [selectedWhat, selectedWhere])
+  useEffect(()=> {
+    setData([])
+    console.log("시작")
+    console.log(selectedWhat)
+    console.log(selectedWhere)
+    const send = {
+      what: selectedWhat,
+      where: selectedWhere
+    };
+    fetch('/api/data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'no-cache'
+      },
+      body: JSON.stringify(send)
+      })
+      .then(response => response.json())
+      .then(response => {
+        const events = Object.values(response);
+        setData(events);
+        console.log(JSON.stringify(response))
+      })
+      .catch(error => console.log(error));
+  }, [selectedWhat, selectedWhere])
 
   return (
     <div>

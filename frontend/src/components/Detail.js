@@ -28,10 +28,13 @@ function Detail() {
 
   }, [id]); 
 
+  const goBack = () => {
+    window.history.back();
+  };
+
     return (
       <div>
         <Header />
-        <h5>받은 데이터:</h5>
           <p>Category: {data.category}</p>
           <p>Name: {data.name}</p>
           <p>Date: {data.date}</p>
@@ -39,6 +42,7 @@ function Detail() {
           <p>Fee: {data.fee}</p>
           <p>Homepage: <a href={data.homepage}>{data.homepage}</a></p>
           <p>Address: {data.address}</p>
+          <button onClick={goBack}>이전</button>
       </div>
     )
 }

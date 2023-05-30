@@ -14,36 +14,39 @@ let db = new sqlite3.Database('/Users/minsungwoo/Desktop/학교/3하
   console.log('Connected to the database')
 }) */
 
-let filter_list = {}
-
-let filter_counter = 0
-
-app.get('/api/data', (req, res) => {
+app.post('/api/data', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
+  let filter_list = {}
+  let filter_counter = 0
+  let what = req.body.what;
+  let where = req.body.where;
+  console.log(what)
+  console.log(where)
   let db = new sqlite3.Database('/Users/minsungwoo/Desktop/학교/3학년 2학기/인터넷프로그래밍/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
     console.log('Connected to the database')
   })
+
   db.serialize(() => {
-    db.each(`SELECT * FROM Events WHERE region = '강남구' AND category = '교육/체험'`, (err, row) => {
-      console.log('하나 성공')
+    db.each(`SELECT * FROM Events WHERE region = '${where}' AND category = '${what}'`, (err, row) => {
       let str = filter_counter.toString();
-      console.log(str)
       filter_list[str] = row
-      console.log('넣기도 성공')
-      console.log(filter_list)
       filter_counter += 1
+    }, (err, count) => {
+      console.log('최종 리스트')
+      console.log(filter_list)
+      let data = JSON.stringify(filter_list)
+      res.send(data);
+      console.log('api 한번 호출')
+      console.log(data)
+      console.log('success')
+      db.close(() => {
+        console.log('Close the database connection.')
+      })
+      console.log('success')
     })
-    let data = JSON.stringify(filter_list)
-    res.send(data);
-    console.log(data)
-    console.log('success')
-    db.close(() => {
-      console.log('Close the database connection.')
-    })
-    console.log('success')
   })
 });
 
@@ -52,7 +55,6 @@ let data
 app.post('/api/detail', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   let variable = req.body.id;
-  console.log("variable?")
   console.log(variable)
   let db = new sqlite3.Database('/Users/minsungwoo/Desktop/학교/3학년 2학기/인터넷프로그래밍/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
@@ -185,4 +187,3 @@ app.get('/api/events', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
-
