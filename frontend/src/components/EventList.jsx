@@ -16,12 +16,7 @@ function EventList({ events }) {
               <div className="imageContainer">
                 <img
                   className="eventImage"
-                  src={`/image/${event.name}.jpg`}
-                  alt="No image"
-                />
-                <img
-                  className="defaultImage"
-                  src="square.png"
+                  src={`/image/${event.id}.jpg`}
                   alt="No image"
                 />
               </div>

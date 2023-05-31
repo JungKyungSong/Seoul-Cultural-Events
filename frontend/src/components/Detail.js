@@ -38,7 +38,7 @@ function Detail() {
         <Header />
         <div className='detail'>
             <div className='detail_img_container'>
-                    <img className='detail_img' src='/square.png' alt='arbitrary image'/>
+                    <img className='detail_img' src = {`/image/${data.id}.jpg`} alt='arbitrary image'/>
                 </div>
             <div className='detail_content_container'>
                 <div>
