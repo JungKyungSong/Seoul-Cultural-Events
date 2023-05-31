@@ -2,7 +2,6 @@ import '../App.css';
 import Header from './Header';
 import '../css/Home.css'
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
 
 function Home() {
 
