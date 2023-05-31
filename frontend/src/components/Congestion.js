@@ -849,21 +849,23 @@ function Congestion() {
       <Header/>
       {/* <h5>받은 데이터: {events[0].X} {events[0].Y} </h5> */}
       {/* <h5>받은 데이터: {data} </h5> */}
-      <div className='map_congestion'>
-          <p className='map_red'>
-            <img className='pin_red' src='/pin_red.png' alt='붐빔' /> 붐빔
-          </p>
-          <p className='map_orange'>
-            <img className='pin_orange' src='/pin_orange.png' alt='약간 붐빔' /> 약간 붐빔
-          </p>
-          <p className='map_yellow'>
-            <img className='pin_yellow' src='/pin_yellow.png' alt='보통' /> 보통
-          </p>
-          <p className='map_green'>
-            <img className='pin_green' src='/pin_green.png' alt='여유' /> 여유
-          </p>
+      <div className='maps'>
+        <div className='map_congestion'>
+            <p className='map_red'>
+              <img className='pin_red' src='/pin_red.png' alt='붐빔' /> 붐빔
+            </p>
+            <p className='map_orange'>
+              <img className='pin_orange' src='/pin_orange.png' alt='약간 붐빔' /> 약간 붐빔
+            </p>
+            <p className='map_yellow'>
+              <img className='pin_yellow' src='/pin_yellow.png' alt='보통' /> 보통
+            </p>
+            <p className='map_green'>
+              <img className='pin_green' src='/pin_green.png' alt='여유' /> 여유
+            </p>
+          </div>
+        <div id='map'>
         </div>
-      <div id='map'>
       </div>
     </div>
   );

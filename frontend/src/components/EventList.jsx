@@ -13,9 +13,10 @@ function EventList({ events }) {
           <div key={event.id}>
             <div className='event'>
               <a>
-              <div className="imageContainer">
+              <div className="image_container">
                 <img
-                  className="eventImage"
+                  className="event_image"
+                  width= '200px'
                   src={`/image/${event.id}.jpg`}
                   alt="No image"
                 />

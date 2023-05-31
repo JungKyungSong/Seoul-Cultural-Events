@@ -1,3 +1,7 @@
+.maps{
+    display: flex;
+    justify-content: center;
+}
 #map{
     width: 800px;
     height: 650px;
@@ -7,6 +11,7 @@
 .map_congestion{
     background-color: rgb(255, 255, 255);
     width: 80px ;
+    height: max-content;
     font-family: 'Noto Sans';
     font-style: normal;
     font-weight: 700;
