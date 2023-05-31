@@ -115,7 +115,7 @@ function Recommend() {
       what: selectedWhat,
       where: selectedWhere
     };
-    fetch('/events-server.fly.dev/api/data', {
+    fetch('/api/data', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',

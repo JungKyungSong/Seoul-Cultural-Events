@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const port = 8000;
+const port = 3001;
 const axios = require('axios');
 const converter = require('xml-js');
 const sqlite3 = require('sqlite3').verbose();
@@ -10,20 +10,20 @@ const cors = require('cors');
 
 
 
-// CORS 해결
-app.use((req, res, next) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://joyful-kitsune-dbde1d.netlify.app/"
-  );
+// // CORS 해결
+// app.use((req, res, next) => {
+//   res.setHeader(
+//     "Access-Control-Allow-Origin",
+//     // "https://joyful-kitsune-dbde1d.netlify.app/"
+//   );
 
-  // ... //
-});
+//   // ... //
+// });
 
-app.use(cors({
-  origin: 'https://joyful-kitsune-dbde1d.netlify.app',
-  credentials: true,
-}));
+// app.use(cors({
+//   // origin: 'https://joyful-kitsune-dbde1d.netlify.app',
+//   credentials: true,
+// }));
 
 // recommend.js로 필터에 해당하는 행사 정보 전송
 app.post('/api/data', (req, res) => {

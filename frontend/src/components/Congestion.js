@@ -41,7 +41,7 @@ function Congestion() {
   // 혼잡도 불러오기
   useEffect(() => {
     console.log('디폴트 api로 혼잡도 불러오기')
-    fetch('/events-server.fly.dev/api/test', {credentials: 'include'})
+    fetch('/api/test', {credentials: 'include'})
       .then(response => response.json())
       .then(response => {
         setData(response)
@@ -64,7 +64,7 @@ function Congestion() {
 
   useDidMountEffect(() => {
     console.log('cong가 변경되어 문화행사 정보 불러오기, drawing 함수 호출')
-    fetch('/events-server.fly.dev/api/events', {credentials: 'include'}) // 행사 정보 불러오기
+    fetch('/api/events', {credentials: 'include'}) // 행사 정보 불러오기
       .then(response => response.json())
       .then(response => {
         const events = Object.values(response);

@@ -12,7 +12,7 @@ function Detail() {
     const test = {
         id: id
     };
-    fetch('/events-server.fly.dev/api/detail', {
+    fetch('/api/detail', {
         method: 'POST',
         headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -39,7 +39,7 @@ function Detail() {
         <Header />
         <div className='detail'>
             <div className='detail_img_container'>
-                    <img className='detail_img' src='/square.png' alt='arbitrary image'/>
+                    <img className='detail_img' src = {`/image/${data.id}.jpg`} alt='arbitrary image'/>
                 </div>
             <div className='detail_content_container'>
                 <div>

@@ -11,7 +11,7 @@ function Area() {
     const test = {
         id: id
     };
-    fetch('/events-server.fly.dev/api/area', {
+    fetch('/api/area', {
         method: 'POST',
         headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -38,7 +38,7 @@ function Area() {
         <Header />
         <div className='detail'>
             <div className='detail_img_container'>
-                    <img className='detail_img' src='/square.png' alt='arbitrary image'/>
+                    <img className='detail_img' src = {`/image2/image_${data.id}.jpg`} alt='arbitrary image'/>
                 </div>
             <div className='detail_content_container'>
                 <div>
