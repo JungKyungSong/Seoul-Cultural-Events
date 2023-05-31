@@ -1,12 +1,14 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const port = 3000;
+const port = 8000;
 const axios = require('axios');
 const converter = require('xml-js');
 const sqlite3 = require('sqlite3').verbose();
 app.use(express.json()); // JSON 데이터를 파싱하기 위한 미들웨어
 const cors = require('cors');
+
+
 
 // CORS 해결
 app.use((req, res, next) => {
