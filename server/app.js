@@ -34,7 +34,7 @@ app.post('/api/data', (req, res) => {
   let where = req.body.where;
   console.log(what)
   console.log(where)
-  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -69,7 +69,7 @@ app.post('/api/detail', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   let variable = req.body.id;
   console.log(variable)
-  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -97,7 +97,7 @@ app.post('/api/area', (req, res) => {
   let data_area
   let variable = req.body.id;
   console.log(variable)
-  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -207,7 +207,7 @@ let congestion_list = {}
 let congestion_counter = 0
 
 app.get('/api/events', (req, res) => {
-  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }

@@ -29,9 +29,9 @@ export const Main = () => {
                     <hr/>
                     <p className="toggle_links"><Link className="toggle_link" to="/">Home</Link></p>
                     <hr/>
-                    <p className="toggle_links"><Link className="toggle_link" to="/Recommend">Recommend</Link></p>
+                    <p className="toggle_links"><Link className="toggle_link" to="/Recommend">행사 정보</Link></p>
                     <hr/>
-                    <p className="toggle_links"><Link className="toggle_link" to="/Congestion">Conjestion</Link></p>
+                    <p className="toggle_links"><Link className="toggle_link" to="/Congestion">실시간 혼잡도</Link></p>
                     <hr/>
                 </p>
             </nav>

@@ -19,8 +19,8 @@ function Home() {
             <img className='seoul_map' src='seoul.png' alt='seoul map'></img>
           </div>
           <div>
-            <button className='recommend_button' onClick={toRecommend}>Recommend</button>
-            <button className='congestion_button' onClick={toCongestion}>Congestion</button>
+            <button className='recommend_button' onClick={toRecommend}>행사 정보</button>
+            <button className='congestion_button' onClick={toCongestion}>실시간 혼잡도</button>
           </div>
     </div>
   );
