@@ -4,120 +4,270 @@ const app = express();
 const port = 3001;
 const axios = require('axios');
 const converter = require('xml-js');
-const sqlite3 = require('sqlite3').verbose();
 app.use(express.json()); // JSON 데이터를 파싱하기 위한 미들웨어
-const cors = require('cors');
+const mysql = require('mysql2');
 
+const conn = {  // mysql 접속 설정
+    host: 'localhost',
+    user: 'root',
+    password: 'Song5974!',
+    database: 'events'
+};
 
+// MySQL 연결 설정
+const connection = mysql.createConnection(conn);
 
-// // CORS 해결
-// app.use((req, res, next) => {
-//   res.setHeader(
-//     "Access-Control-Allow-Origin",
-//     // "https://joyful-kitsune-dbde1d.netlify.app/"
-//   );
-
-//   // ... //
+// Define 모델 생성
+// const Event = sequelize.define('Event', {
+//   index: {
+//     type: DataTypes.INTEGER,
+//     primaryKey: true,
+//     autoIncrement: true
+//   },
+//   event: {
+//     type: DataTypes.JSON
+//   }
+//   // id: {
+//   //   type: DataTypes.INTEGER,
+//   //   primaryKey: true,
+//   //   autoIncrement: true
+//   // },
+//   // category: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // region: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // name: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // date: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // place: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // target: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // fee: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // homepage: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // 신청일: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // address: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // X: {
+//   //   type: DataTypes.FLOAT
+//   // },
+//   // Y: {
+//   //   type: DataTypes.FLOAT
+//   // },
+//   // area: {
+//   //   type: DataTypes.STRING
+//   // }
+// }, {
+//   tableName: 'Events', // 테이블 이름
+//   timestamps: false // 타임스탬프 필드 사용하지 않음
 // });
 
-// app.use(cors({
-//   // origin: 'https://joyful-kitsune-dbde1d.netlify.app',
-//   credentials: true,
-// }));
+// // Define 모델 생성
+// const Area = sequelize.define('Area', {
+//   index: {
+//     type: DataTypes.INTEGER,
+//     primaryKey: true,
+//     autoIncrement: true
+//   },
+//   event: {
+//     type: DataTypes.JSON
+//   }
+//   // id: {
+//   //   type: DataTypes.INTEGER,
+//   //   primaryKey: true,
+//   //   autoIncrement: true
+//   // },
+//   // category: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // region: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // name: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // date: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // place: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // target: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // fee: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // homepage: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // 신청일: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // address: {
+//   //   type: DataTypes.STRING
+//   // },
+//   // X: {
+//   //   type: DataTypes.FLOAT
+//   // },
+//   // Y: {
+//   //   type: DataTypes.FLOAT
+//   // },
+//   // area: {
+//   //   type: DataTypes.STRING
+//   // }
+// }, {
+//   tableName: 'Area', // 테이블 이름
+//   timestamps: false // 타임스탬프 필드 사용하지 않음
+// });
 
 // recommend.js로 필터에 해당하는 행사 정보 전송
-app.post('/api/data', (req, res) => {
-  res.setHeader('Cache-Control', 'no-store');
+app.post('/api/data', async (req, res) => {
+  //res.setHeader('Cache-Control', 'no-store');
   let filter_list = {}
   let filter_counter = 0
   let what = req.body.what;
   let where = req.body.where;
   console.log(what)
   console.log(where)
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
-    if (err) {
-      console.log("fail")
-    }
-    console.log('Connected to the database')
-  })
 
-  db.serialize(() => {
-    db.each(`SELECT * FROM Events WHERE region = '${where}' AND category = '${what}'`, (err, row) => {
-      let str = filter_counter.toString();
-      filter_list[str] = row
-      filter_counter += 1
-    }, (err, count) => {
-      console.log('최종 리스트')
-      console.log(filter_list)
-      let data = JSON.stringify(filter_list)
-      res.send(data);
-      console.log('api 한번 호출')
-      console.log(data)
-      console.log('success')
-      db.close(() => {
-        console.log('Close the database connection.')
-      })
-      console.log('success')
-    })
+  try {
+     // MySQL 연결
+  connection.connect((err) => {
+    if (err) {
+      console.error('Error connecting to MySQL:', err);
+      return;
+    }
+    console.log('Connected to MySQL');
+    // 쿼리 실행
+  const query = `SELECT * FROM Events WHERE JSON_VALUE (event, '$.region') = '${where}' and JSON_VALUE (event, '$.category') = '${what}'`;
+  connection.query(query, (err, results, fields) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      return;
+    }
+    console.log('Query executed successfully');
+    console.log(results);
+    //let data = JSON.stringify(results);
+    res.send(results);
+    console.log('api 한번 호출');
+    console.log('success');
+  });
   })
+    
+  } catch (error) {
+    console.error('Error connecting to the database:', error);
+  } finally {
+    // connection.end((err) => {
+    //   if (err) {
+    //     console.error('Error closing connection:', err);
+    //     return;
+    //   }
+    //   console.log('MySQL connection closed');
+  }
 });
 
 
 // detail.js로 해당하는 행사 정보 전송
-let data
-app.post('/api/detail', (req, res) => {
-  res.setHeader('Cache-Control', 'no-store');
+app.post('/api/detail', async (req, res) => {
+  //res.setHeader('Cache-Control', 'no-store');
   let variable = req.body.id;
-  console.log(variable)
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  console.log(variable);
+
+  try {
+    // MySQL 연결
+  connection.connect((err) => {
     if (err) {
-      console.log("fail")
+      console.error('Error connecting to MySQL:', err);
+      return;
     }
-    console.log('Connected to the database')
-  })
-  db.serialize(() => {
-    db.each(`SELECT * FROM Events WHERE id = ${variable}`, (err, row) => {
-      console.log('하나 성공')
-      data = JSON.stringify(row)
-    })
-      res.send(data);
-      console.log(data)
-      console.log('success')
-      db.close(() => {
-        console.log('Close the database connection.')
-      })
-      console.log('success')
-  })
-});
+  console.log('Connected to MySQL');
+  // 쿼리 실행
+  const query = `SELECT * FROM Events WHERE JSON_VALUE (event, '$.id') = '${variable}'`;
+  connection.query(query, (err, results, fields) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      return;
+    }
+    console.log('Query executed successfully');
+    console.log(results);
+    res.send(results);
+    console.log('api 한번 호출');
+    console.log('success');
+  });
+})
+  } catch (error) {
+    console.error('Error connecting to the database:', error);
+  } finally {
+    // connection.end((err) => {
+    //   if (err) {
+    //     console.error('Error closing connection:', err);
+    //     return;
+    //   }
+    //   console.log('MySQL connection closed');
+    // });
+  }
+})
 
 // Area.js로 해당하는 행사 정보 전송
-
-app.post('/api/area', (req, res) => {
-  res.setHeader('Cache-Control', 'no-store');
-  let data_area
+app.post('/api/area', async (req, res) => {
+  //res.setHeader('Cache-Control', 'no-store');
   let variable = req.body.id;
-  console.log(variable)
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  console.log(variable);
+
+  try {
+    // MySQL 연결
+  connection.connect((err) => {
     if (err) {
-      console.log("fail")
+      console.error('Error connecting to MySQL:', err);
+      return;
     }
-    console.log('Connected to the database')
-  })
-  db.serialize(() => {
-    db.each(`SELECT * FROM Area WHERE id = ${variable}`, (err, row) => {
-      console.log('하나 성공')
-      data_area = JSON.stringify(row)
-    }, () => {
-      res.send(data_area);
-      console.log(data_area)
-      console.log('success')
-      db.close(() => {
-        console.log('Close the database connection.')
-      })
-      console.log('success')
-    })
-  })
+  console.log('Connected to MySQL');
+
+  // 쿼리 실행
+  const query = `SELECT * FROM Area WHERE JSON_VALUE (event, '$.id') = '${variable}'`;
+  connection.query(query, (err, results, fields) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      return;
+    }
+    console.log('Query executed successfully');
+    console.log(results);
+    let data = JSON.stringify(results);
+    res.send(data);
+    console.log('api 한번 호출');
+    console.log(data);
+    console.log('success');
 });
+})
+
+  } catch (error) {
+    console.error('Error connecting to the database:', error);
+  } finally {
+    connection.end((err) => {
+      if (err) {
+        console.error('Error closing connection:', err);
+        return;
+      }
+      console.log('MySQL connection closed');
+    });
+  }
+})
+
 
 const area = {
               area1 : "홍대 관광특구",
@@ -200,36 +350,49 @@ app.get('/api/test', async (req, res) => {
   }
 })
 
-
 // 혼잡도 정보를 가진 데이터들을 불러옴
-let congestion_list = {}
+let congestion_list = {};
+let congestion_counter = 0;
 
-let congestion_counter = 0
+app.get('/api/events', async (req, res) => {
 
-app.get('/api/events', (req, res) => {
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  try {
+    // MySQL 연결
+  connection.connect((err) => {
     if (err) {
-      console.log("fail")
+      console.error('Error connecting to MySQL:', err);
+      return;
     }
-    console.log('Connected to the database')
-  })
-  db.serialize(() => {
-    db.each(`SELECT * FROM Area`, (err, row) => {
-      let str = congestion_counter.toString();
-      congestion_list[str] = row
-      congestion_counter += 1
-    }, (err, count) => {
-      let data = JSON.stringify(congestion_list)
-      res.send(data);
-      console.log(data)
-      console.log('success')
-      db.close(() => {
-        console.log('Close the database connection.')
-      })
-      console.log('success')
-    })
-  })
+  console.log('Connected to MySQL');
+
+  // 쿼리 실행
+  const query = `SELECT * FROM Area WHERE JSON_VALUE (event, '$.id') = '${variable}'`;
+  connection.query(query, (err, results, fields) => {
+    if (err) {
+      console.error('Error executing query:', err);
+      return;
+    }
+    console.log('Query executed successfully');
+    console.log(results);
+    let data = JSON.stringify(results);
+    res.send(data);
+    console.log('api 한번 호출');
+    console.log(data);
+    console.log('success');
 });
+})
+  } catch (error) {
+    console.error('Error connecting to the database:', error);
+  } finally {
+    connection.end((err) => {
+      if (err) {
+        console.error('Error closing connection:', err);
+        return;
+      }
+      console.log('MySQL connection closed');
+    });
+  }
+})
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

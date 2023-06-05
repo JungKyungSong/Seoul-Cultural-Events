@@ -64,12 +64,12 @@ function Congestion() {
 
   useDidMountEffect(() => {
     console.log('cong가 변경되어 문화행사 정보 불러오기, drawing 함수 호출')
-    fetch('/api/events', {credentials: 'include'}) // 행사 정보 불러오기
+    fetch('/api/events') // 행사 정보 불러오기
       .then(response => response.json())
       .then(response => {
-        const events = Object.values(response);
-        setEvents(events)
-        return events
+        //const events = Object.values(response.event);
+        setEvents(response)
+        return response
       })
       .then((events) => drawing(events))
       .then(console.log('success'))
@@ -469,8 +469,8 @@ function Congestion() {
     }
 
     const positions = events.map((event) => ({
-      title: event.name,
-      latlng: new kakao.maps.LatLng(event.Y, event.X),
+      title: event.event.name,
+      latlng: new kakao.maps.LatLng(event.event.Y, event.event.X),
     }));
   
     const imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_spot.png ";

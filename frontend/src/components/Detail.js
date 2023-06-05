@@ -5,14 +5,17 @@ import { useParams } from 'react-router-dom';
 import '../css/Detail.css'
 
 function Detail() {
+  console.log("detail 컴포넌트 시작")
   const { id } = useParams();
   const [data, setData] = useState([]);
 
-  useEffect(() => {
+  const getDetail = async () => {
+    console.log("getDetail 시작")
+    setData([]);
     const test = {
         id: id
     };
-    fetch('/api/detail', {
+    await fetch('/api/detail', {
         method: 'POST',
         headers: {
                 'Content-Type': 'application/json; charset=utf-8',
@@ -24,11 +27,17 @@ function Detail() {
       .then(response => response.json())
       .then(response => {
         setData(response);
+        console.log(JSON.stringify(response))
       })
-      .then(console.log('success'))
+      .then(console.log('front success'))
       .catch(error => console.log(error));
+  }
 
-  }, [id]); 
+  useEffect(() => {
+    console.log("useEffect 시작")
+    getDetail();
+    console.log("useEffect 끝")
+  }, []); 
 
   const goBack = () => {
     window.history.back();
@@ -39,11 +48,11 @@ function Detail() {
         <Header />
         <div className='detail'>
             <div className='detail_img_container'>
-                    <img className='detail_img' src = {`/image/${data.id}.jpg`} alt='arbitrary image'/>
+                    <img className='detail_img' src = {`/image/${data[0].event.id}.jpg`} alt='arbitrary image'/>
                 </div>
             <div className='detail_content_container'>
                 <div>
-                    <p className='detail_name'>{data.name}</p>
+                    <p className='detail_name'>{data[0].event.name}</p>
                 </div>
                 <div className='detail_content'>
                     <div className='classification_container'>
@@ -54,11 +63,11 @@ function Detail() {
                         <p>홈페이지: </p>
                     </div>
                     <div className='content_container'>
-                        <p>{data.category}</p>
-                        <p>{data.date}</p>
-                        <p>{data.place}</p>
-                        <p>{data.fee}</p>
-                        <p className='detail_homepage'><a href={data.homepage}>{data.homepage}</a></p>
+                        <p>{data[0].event.category}</p>
+                        <p>{data[0].event.date}</p>
+                        <p>{data[0].event.place}</p>
+                        <p>{data[0].event.fee}</p>
+                        <p className='detail_homepage'><a href={data[0].event.homepage}>{data[0].event.homepage}</a></p>
                     </div>
                 </div>
                 <div className='detail_button_container'>

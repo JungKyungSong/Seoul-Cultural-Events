@@ -126,8 +126,8 @@ function Recommend() {
       })
       .then(response => response.json())
       .then(response => {
-        const events = Object.values(response);
-        setData(events);
+        //const events = Object.values(response);
+        setData(response);
         console.log(JSON.stringify(response))
       })
       .catch(error => console.log(error));

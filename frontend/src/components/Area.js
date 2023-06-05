@@ -38,11 +38,11 @@ function Area() {
         <Header />
         <div className='detail'>
             <div className='detail_img_container'>
-                    <img className='detail_img' src = {`/image2/image_${data.id}.jpg`} alt='arbitrary image'/>
+                    <img className='detail_img' src = {`/image2/image_${data[0].event.id}.jpg`} alt='arbitrary image'/>
                 </div>
             <div className='detail_content_container'>
                 <div>
-                    <p className='detail_name'>{data.name}</p>
+                    <p className='detail_name'>{data[0].event.name}</p>
                 </div>
                 <div className='detail_content'>
                     <div className='classification_container'>
@@ -53,11 +53,11 @@ function Area() {
                         <p>홈페이지: </p>
                     </div>
                     <div className='content_container'>
-                        <p>{data.category}</p>
-                        <p>{data.date}</p>
-                        <p>{data.place}</p>
-                        <p>{data.fee}</p>
-                        <p className='detail_homepage'><a href={data.homepage}>{data.homepage}</a></p>
+                        <p>{data[0].event.category}</p>
+                        <p>{data[0].event.date}</p>
+                        <p>{data[0].event.place}</p>
+                        <p>{data[0].event.fee}</p>
+                        <p className='detail_homepage'><a href={data[0].event.homepage}>{data[0].event.homepage}</a></p>
                     </div>
                 </div>
                 <div className='detail_button_container'>
