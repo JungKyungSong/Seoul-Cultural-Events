@@ -45,19 +45,12 @@ function Area() {
                     <p className='detail_name'>{data.name}</p>
                 </div>
                 <div className='detail_content'>
-                    <div className='classification_container'>
-                        <p>행사 종류: </p>
-                        <p>행사 일시: </p>
-                        <p>행사 장소: </p>
-                        <p>행사 비용: </p>
-                        <p>홈페이지: </p>
-                    </div>
-                    <div className='content_container'>
-                        <p>{data.category}</p>
-                        <p>{data.date}</p>
-                        <p>{data.place}</p>
-                        <p>{data.fee}</p>
-                        <p className='detail_homepage'><a href={data.homepage}>{data.homepage}</a></p>
+                <div className='content_container'>
+                        <p>행사종류: {data.category}</p>
+                        <p>행사일시: {data.date}</p>
+                        <p>행사장소: {data.place}</p>
+                        <p>행사비용:{data.fee}</p>
+                        <p className='detail_homepage'>홈페이지: <a href={data.homepage}>{data.homepage}</a></p>
                     </div>
                 </div>
                 <div className='detail_button_container'>

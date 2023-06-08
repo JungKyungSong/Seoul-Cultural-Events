@@ -137,7 +137,7 @@ function Recommend() {
     <div className='recommend_toggle'>
       <Header/>
       <br /><br/>
-      종류: <SelectWhat options={themes}/> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      종류: <SelectWhat options={themes}/> &nbsp; 
       지역: <SelectWhere options={provinces}/>
       <hr className='hr' />
       <EventList events={data} />
