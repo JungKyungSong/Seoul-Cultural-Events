@@ -11,23 +11,6 @@ const { Console } = require('console');
 const { tmpdir } = require('os');
 const qs = require('qs');
 
-
-
-// // CORS 해결
-// app.use((req, res, next) => {
-//   res.setHeader(
-//     "Access-Control-Allow-Origin",
-//     // "https://joyful-kitsune-dbde1d.netlify.app/"
-//   );
-
-//   // ... //
-// });
-
-// app.use(cors({
-//   // origin: 'https://joyful-kitsune-dbde1d.netlify.app',
-//   credentials: true,
-// }));
-
 // recommend.js로 필터에 해당하는 행사 정보 전송
 app.post('/api/data', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
@@ -45,23 +28,50 @@ app.post('/api/data', (req, res) => {
   })
 
   db.serialize(() => {
-    db.each(`SELECT * FROM Events WHERE region = '${where}' AND category = '${what}'`, (err, row) => {
-      let str = filter_counter.toString();
-      filter_list[str] = row
-      filter_counter += 1
-    }, (err, count) => {
-      console.log('최종 리스트')
-      console.log(filter_list)
-      let data = JSON.stringify(filter_list)
-      res.send(data);
-      console.log('api 한번 호출')
-      console.log(data)
-      console.log('success')
-      db.close(() => {
-        console.log('Close the database connection.')
-      })
-      console.log('success')
+    db.each(`SELECT * FROM Events WHERE region = '${where}' AND category = '${what}'`, async (err, row) => {
+      let options = {
+        method: 'POST',
+        headers: {
+          accept: 'application/json',
+          'content-type': 'application/json',
+          appKey: 'eDg2mzIU9g90cvOuayhoadAo0iwXVxr8czeghD95'
+        },
+        body: JSON.stringify({
+          endX: row.X,
+          endY: row.Y,
+          startX: long,
+          startY: lat,
+        })
+      };
+      try {
+        const response = await fetch('https://apis.openapi.sk.com/tmap/routes?version=1&callback=function', options);
+        const data = await response.json();
+        const distance = data.features[0].properties.totalDistance;
+        console.log("distance")
+        console.log(distance)
+        row.distance = distance; // Add distance to the row object
+        let str = filter_counter.toString();
+        filter_list[str] = row;
+        filter_counter += 1;
+        console.log(filter_list);
+      } catch (err) {
+        row.distance = null; // Handle error case
+      }
     })
+    setTimeout(() => {
+        console.log('최종 리스트')
+        console.log(filter_list)
+        const sortedArray = Object.entries(filter_list).sort(([, a], [, b]) => a.distance - b.distance);
+        console.log(sortedArray)
+        let data = JSON.stringify(sortedArray)
+        res.send(data);
+        console.log('api 한번 호출')
+        console.log('success')
+        db.close(() => {
+          console.log('Close the database connection.')
+        })
+        console.log('success')
+    }, 4000); 
   })
 });
 
@@ -291,57 +301,26 @@ app.get('/api/savedData', (req, res) => {
 });
 
 const tmap_key = process.env.TMAP_API_KEY;
-const tmap_url = `https://apis.openapi.sk.com/tmap/routes?version=1&callback=result`
 
-// 사용자 위치 정보 불러오기
+let lat;
+let long;
+
+// 사용자 위치 정보 저장해두기
 app.post('/api/geo', async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
-  let lat = req.body.latitude;
-  let long = req.body.longitude;
+  lat = req.body.latitude;
+  long = req.body.longitude;
   console.log(lat)
   console.log(long)
-  try {
-        // let response = await axios.post(`https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result&appKey=${tmap_key}`, {
-        //   headers: {   
-        //       //'appKey': process.env.TMAP_API_KEY,
-        //       'Accept': 'application/json',
-        //       'Content-Type': 'application/json',
-        //   },
-        //   data: JSON.stringify({
-        //     appKey: process.env.TMAP_API_KEY,
-        //     endX: 127.10331814639885,
-        //     endY: 37.403049076341794,
-        //     startX: long,
-        //     startY: lat,
-        //   }),
-        // }
-        // )
-        //console.log(response.features)
-        // .then(response => response.json())
-        // .then(response => {
-        //   setData(response);
-        // })
+  });
 
-        // const tmapConfig = {
-        //   method: 'post',
-        //   url: 'https://apis.openapi.sk.com/tmap/routes?version=1',
-        //   url: 'https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result&appKey=${tmap_key}'
-        //   headers: {
-        //     'Accept-Language': 'ko',
-        //     'Content-Type': 'application/json',
-        //   },
-        //   data: tmapBody,
-        //   };
-    
-        //   const tmap = await axios(tmapConfig);
-    
-        //   console.log(tmap.data.features[0].properties.totalDistance / 1000 + 'km');
-
-        // console.log('success')
-        // .catch(error => console.log(error));
-    } catch (error) {
-      console.log("에러");
+  // 사용자 위치 정보 전달
+  app.get('/api/savedGeo', (req, res) => {
+    let data = {
+      lat: lat,
+      long: long
     }
+    res.send(data);
   });
 
 app.listen(port, () => {

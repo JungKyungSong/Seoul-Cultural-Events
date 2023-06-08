@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function EventList({ events }) {
@@ -6,10 +7,11 @@ function EventList({ events }) {
       navigate(`/Detail/${id}`)
       window.location.reload()
     }
+
     return (
       <div>
       {events.length > 0 ? (
-        events.map(event => (
+        events.map(([key, event]) => (
           <div key={event.id}>
             <div className='event'>
               <a>
@@ -33,7 +35,7 @@ function EventList({ events }) {
             </div>
             <hr className='hr' />
           </div>
-        ))) : (<div>해당하는 문화행사가 없습니다.</div>)}
+        ))) : (<div>잠시만 기다려주세요.</div>)}
       </div>
     );
   }
