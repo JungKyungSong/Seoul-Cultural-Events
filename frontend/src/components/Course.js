@@ -1,7 +1,7 @@
 import Header from "./Header";
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import '../css/Detail.css'
+import '../css/Course.css'
 import '../App.css';
 
 export default function Course(){
@@ -34,23 +34,26 @@ export default function Course(){
         <div>
             <Header/>
             <h1>경로 추천</h1>
-            <div className='detail'>
-            <div className='detail_img_container'>
-                    <img className='detail_img' src = {`/image/${data.id}.jpg`} alt='arbitrary image'/>
-                </div>
-            <div className='detail_content_container'>
+            <div className="vl"></div>
+            <div className='course'>
+            <div className='course_event_container'>
+                <img className='course_img' src = {`/image/${data.id}.jpg`} alt='arbitrary image'/>
+                <div className='course_content_container'>
                 <div>
-                    <p className='detail_name'>{data.name}</p>
+                    <p className='course_event_name'>{data.name}</p>
                 </div>
-                <div className='detail_content'>
-                    <div className='content_container'>
+                <div className='course_content'>
+                    <div className='course_event_content_container'>
                         <p>행사장소: {data.place}</p>
                     </div>
                 </div>
             </div>
+            </div>
+            <div className="vl"></div>
             <div>
                 <h1>음식점</h1>
             </div>
+            <div className="vl"></div>
             <div>
                 <h1>관광명소</h1>
             </div>
