@@ -17,7 +17,7 @@ p {
 }
 
 .select_box{
-    width: 150px;
+    width: 130px;
     height: 35px;
     font-size: 1rem;
     font-weight: 400;
@@ -84,7 +84,8 @@ p {
     line-height: 20px;
 }
 .event_content{
-    margin: 30px;
+    margin-top: 30px;
+    margin-bottom: 60px;
     vertical-align: left;
     align-items: left;
 
@@ -115,7 +116,6 @@ p {
     background-color: #BECDFA;
 
     position: relative;
-    top: 30px;
     left: 30%;
 
     width: 100px;
@@ -132,10 +132,26 @@ p {
     }
 }
 
-/* @media (max-width: 859px) {
-    .event_content_button{
-        position: absolute;
-        left: 300px;
-        top: 180px;
+@media (max-width: 575px) {
+    .event_content{
+        align-items: center;
+        text-align: center;
     }
-} */
+    .image_container{
+        text-align: center;
+        width: auto;
+    }
+    .event_image{
+        float: none;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .event{
+        overflow: visible;
+        height: max-content;
+    }
+    .event_content_button{
+        top: -30px;
+        left: auto;
+    }
+}
