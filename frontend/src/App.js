@@ -5,6 +5,7 @@ import Recommend from './components/Recommend';
 import Congestion from './components/Congestion';
 import Detail from './components/Detail';
 import Area from './components/Area';
+import Course from './components/Course';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
               <Route path='/Detail/:id' element={<Detail/>}/>
               <Route path='/Area/:id' element={<Area/>}/>
               <Route path='*' element={"Not found"}/>
+              <Route path='/Detail/:id/Course' element={<Course/>}/>
             </Routes>
           </BrowserRouter>
     </div>

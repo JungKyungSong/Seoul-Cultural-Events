@@ -8,6 +8,8 @@ const sqlite3 = require('sqlite3').verbose();
 app.use(express.json()); // JSON 데이터를 파싱하기 위한 미들웨어
 const cors = require('cors');
 const { Console } = require('console');
+const { tmpdir } = require('os');
+const qs = require('qs');
 
 
 
@@ -288,14 +290,59 @@ app.get('/api/savedData', (req, res) => {
   })
 });
 
+const tmap_key = process.env.TMAP_API_KEY;
+const tmap_url = `https://apis.openapi.sk.com/tmap/routes?version=1&callback=result`
+
 // 사용자 위치 정보 불러오기
-app.post('/api/geo', (req, res) => {
+app.post('/api/geo', async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   let lat = req.body.latitude;
   let long = req.body.longitude;
   console.log(lat)
   console.log(long)
-});
+  try {
+        // let response = await axios.post(`https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result&appKey=${tmap_key}`, {
+        //   headers: {   
+        //       //'appKey': process.env.TMAP_API_KEY,
+        //       'Accept': 'application/json',
+        //       'Content-Type': 'application/json',
+        //   },
+        //   data: JSON.stringify({
+        //     appKey: process.env.TMAP_API_KEY,
+        //     endX: 127.10331814639885,
+        //     endY: 37.403049076341794,
+        //     startX: long,
+        //     startY: lat,
+        //   }),
+        // }
+        // )
+        //console.log(response.features)
+        // .then(response => response.json())
+        // .then(response => {
+        //   setData(response);
+        // })
+
+        // const tmapConfig = {
+        //   method: 'post',
+        //   url: 'https://apis.openapi.sk.com/tmap/routes?version=1',
+        //   url: 'https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result&appKey=${tmap_key}'
+        //   headers: {
+        //     'Accept-Language': 'ko',
+        //     'Content-Type': 'application/json',
+        //   },
+        //   data: tmapBody,
+        //   };
+    
+        //   const tmap = await axios(tmapConfig);
+    
+        //   console.log(tmap.data.features[0].properties.totalDistance / 1000 + 'km');
+
+        // console.log('success')
+        // .catch(error => console.log(error));
+    } catch (error) {
+      console.log("에러");
+    }
+  });
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

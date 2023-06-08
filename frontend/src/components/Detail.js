@@ -1,12 +1,13 @@
 import '../App.css';
 import { useState, useEffect } from 'react';
 import Header from './Header';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../css/Detail.css'
 
 function Detail() {
   const { id } = useParams();
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const test = {
@@ -34,6 +35,10 @@ function Detail() {
     window.history.back();
   };
 
+  const toCourse = (id) => {
+    navigate(`/Detail/${data.id}/Course`)
+  }
+
     return (
         <div>
         <Header />
@@ -46,23 +51,17 @@ function Detail() {
                     <p className='detail_name'>{data.name}</p>
                 </div>
                 <div className='detail_content'>
-                    <div className='classification_container'>
-                        <p>행사 종류: </p>
-                        <p>행사 일시: </p>
-                        <p>행사 장소: </p>
-                        <p>행사 비용: </p>
-                        <p>홈페이지: </p>
-                    </div>
                     <div className='content_container'>
-                        <p>{data.category}</p>
-                        <p>{data.date}</p>
-                        <p>{data.place}</p>
-                        <p>{data.fee}</p>
-                        <p className='detail_homepage'><a href={data.homepage}>{data.homepage}</a></p>
+                        <p>행사종류: {data.category}</p>
+                        <p>행사일시: {data.date}</p>
+                        <p>행사장소: {data.place}</p>
+                        <p>행사비용:{data.fee}</p>
+                        <p className='detail_homepage'>홈페이지: <a href={data.homepage}>{data.homepage}</a></p>
                     </div>
                 </div>
                 <div className='detail_button_container'>
                     <button className='detail_button' onClick={goBack}>이전</button>
+                    <button className='detail_button' onClick={toCourse}>코스 추천</button>
                 </div>
             </div>
         </div>
