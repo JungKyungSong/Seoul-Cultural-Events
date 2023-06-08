@@ -896,7 +896,7 @@ function Congestion() {
               <img className='pin_green' src='/pin_green.png' alt='여유' /> 여유
             </p>
         </div>
-        {loading ? (<div id='map'></div>) : (<div>최대 대기 시간은 2분입니다. 조금만 기다려주세요.</div>)}
+        <div id='map'></div>
       </div>
     </div>
   );

@@ -7,6 +7,7 @@ const converter = require('xml-js');
 const sqlite3 = require('sqlite3').verbose();
 app.use(express.json()); // JSON 데이터를 파싱하기 위한 미들웨어
 const cors = require('cors');
+const { Console } = require('console');
 
 
 
@@ -287,6 +288,14 @@ app.get('/api/savedData', (req, res) => {
   })
 });
 
+// 사용자 위치 정보 불러오기
+app.post('/api/geo', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  let lat = req.body.latitude;
+  let long = req.body.longitude;
+  console.log(lat)
+  console.log(long)
+});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
