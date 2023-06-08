@@ -1,12 +1,13 @@
 import '../App.css';
 import { useState, useEffect } from 'react';
 import Header from './Header';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../css/Detail.css'
 
 function Detail() {
   const { id } = useParams();
   const [data, setData] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const test = {
@@ -34,6 +35,10 @@ function Detail() {
     window.history.back();
   };
 
+  const toCourse = (id) => {
+    navigate(`/Detail/${data.id}/Course`)
+  }
+
     return (
         <div>
         <Header />
@@ -56,6 +61,7 @@ function Detail() {
                 </div>
                 <div className='detail_button_container'>
                     <button className='detail_button' onClick={goBack}>이전</button>
+                    <button className='detail_button' onClick={toCourse}>코스 추천</button>
                 </div>
             </div>
         </div>
