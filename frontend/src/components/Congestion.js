@@ -39,12 +39,44 @@ function Congestion() {
   }
 
   // 혼잡도 불러오기
+  // useEffect(() => {
+  //   console.log('디폴트 api로 혼잡도 불러오기')
+  //   fetch('/api/test', {credentials: 'include'})
+  //     .then(response => response.json())
+  //     .then(response => {
+  //       setData(response)
+  //     })
+  //     .catch(error => console.log(error));
+  // }, []);
+
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    console.log('디폴트 api로 혼잡도 불러오기')
-    fetch('/api/test', {credentials: 'include'})
-      .then(response => response.json())
+    console.log('저장해둔 혼잡도 불러오기')
+    fetch('/api/savedData', {credentials: 'include'})
+      .then(response =>response.json())
+      // .then(response => {
+      //   if (response.ok) {
+      //     return response.json();
+      //   } else {
+      //     throw new Error('응답이 비어있습니다.');
+      //   }
+      // })
       .then(response => {
-        setData(response)
+        // if (response===undefined || response === 'undefinded') {
+        //   console.log("시간 시작")
+        //   setTimeout(() => {
+        //     window.location.reload(); // 페이지 리로드
+        //   }, 30000); // 30초 후 리로드
+        // }
+        // else {
+          console.log("데이터 도착")
+          //setLoading(true)
+          let parsedData = JSON.parse(response.json)
+          setData(parsedData)
+        // }
+        console.log("프론트에서 확인")
+        console.log(parsedData)
       })
       .catch(error => console.log(error));
   }, []);
@@ -863,9 +895,8 @@ function Congestion() {
             <p className='map_green'>
               <img className='pin_green' src='/pin_green.png' alt='여유' /> 여유
             </p>
-          </div>
-        <div id='map'>
         </div>
+        {loading ? (<div id='map'></div>) : (<div>최대 대기 시간은 2분입니다. 조금만 기다려주세요.</div>)}
       </div>
     </div>
   );

@@ -34,7 +34,7 @@ app.post('/api/data', (req, res) => {
   let where = req.body.where;
   console.log(what)
   console.log(where)
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -69,7 +69,7 @@ app.post('/api/detail', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   let variable = req.body.id;
   console.log(variable)
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -97,7 +97,7 @@ app.post('/api/area', (req, res) => {
   let data_area
   let variable = req.body.id;
   console.log(variable)
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -181,6 +181,21 @@ const key = process.env.SEOUL_API_KEY
 app.get('/api/test', async (req, res) => {
   try {
     console.log(key)
+    let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+      if (err) {
+        console.log("fail")
+      }
+      console.log('Connected to the database')
+    })
+    db.serialize(()=>{
+      db.run('DELETE FROM Congestion', (err) => {
+        if (err) {
+          console.log('Deletion error:', err);
+          return;
+        }
+        })
+        console.log('Deleted all rows');
+    })
     for (let i = 1; i < 51; i++) {
       let variableName = `area${i}`;
       let response = await axios.get(`http://openapi.seoul.go.kr:8088/${key}/xml/citydata/1/5/${area[variableName]}`)
@@ -191,9 +206,25 @@ app.get('/api/test', async (req, res) => {
       conjestion[`${variableName}`] = areaCongestLvl
     }
     let data = JSON.stringify(conjestion)
-    res.send(data);
+    res.send(data)
+    console.log("데이터확인")
     console.log(data)
-    console.log('success')
+
+    db.serialize(()=> {      
+      const ready = db.prepare(`INSERT INTO Congestion (json) VALUES (?);`);
+      ready.run(data, function (err) {
+        if (err) {
+          console.log("Insertion error:", err);
+        } else {
+          console.log("Data inserted successfully");
+        }
+      })
+      ready.finalize(() => {
+        db.close(() => {
+          console.log('Close the database connection.');
+        });
+      });
+    })
   }
   catch (error) {
     console.log('error')
@@ -207,7 +238,7 @@ let congestion_list = {}
 let congestion_counter = 0
 
 app.get('/api/events', (req, res) => {
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -230,6 +261,32 @@ app.get('/api/events', (req, res) => {
     })
   })
 });
+
+// 미리 저장해뒀던 혼잡도 정보 불러오기
+app.get('/api/savedData', (req, res) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.log("fail")
+    }
+    console.log('Connected to the database')
+  })
+  let data;
+  db.serialize(() => {
+    db.each(`SELECT * FROM Congestion`, (err, row) => {
+      data = JSON.stringify(row)
+    }, (err, count) => {
+      res.send(data);
+      console.log("저장해둔 데이터 불러오기")
+      console.log(data)
+      console.log('success')
+      db.close(() => {
+        console.log('Close the database connection.')
+      })
+      console.log('success')
+    })
+  })
+});
+
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
