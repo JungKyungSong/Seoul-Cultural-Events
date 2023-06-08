@@ -1,0 +1,62 @@
+.title{
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    width: 290px;
+    height: 142px;
+    top: 90px;
+  
+    text-align: center;
+    z-index: 0;
+  
+    color: #002366;
+  
+    text-shadow: -2px 0px #BECDFA, 0px 2px #BECDFA, 2px 0px #BECDFA, 0px -2px #BECDFA;
+}
+
+/* 지도 위치 */
+.seoul_map{
+  position: relative;
+  width: 110px;
+  height: 99px;
+  left: -150px;
+  top: -150px;
+
+  opacity: 0.5;
+  z-index: 0;
+}
+  
+/* 홈 버튼 */
+.recommend_button{
+  
+    box-sizing: border-box;
+    
+    margin: 20px;
+    position: relative;
+    width: 330px;
+    height: 100px;
+    top: 150px;
+    
+    background: #BECDFA;
+    
+    border: 1px solid #002366;
+    border-radius: 10px;
+}
+  
+.congestion_button{
+  
+  box-sizing: border-box;
+  
+  margin: 20px;
+  position: relative;
+  width: 330px;
+  height: 100px;
+  top: 150px;
+  
+  background: #848EAD;
+  
+  border: 1px solid #002366;
+  border-radius: 10px;
+}
+  

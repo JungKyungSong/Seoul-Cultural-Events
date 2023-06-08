@@ -5,86 +5,178 @@ const port = 3001;
 const axios = require('axios');
 const converter = require('xml-js');
 const sqlite3 = require('sqlite3').verbose();
+app.use(express.json()); // JSON 데이터를 파싱하기 위한 미들웨어
+const cors = require('cors');
+const { Console } = require('console');
+const { tmpdir } = require('os');
+const qs = require('qs');
 
-let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
-  if (err) {
-    console.log("fail")
-  }
-  console.log('Connected to the database')
-})
 
-app.get('/api/data', (req, res) => {
+
+// // CORS 해결
+// app.use((req, res, next) => {
+//   res.setHeader(
+//     "Access-Control-Allow-Origin",
+//     // "https://joyful-kitsune-dbde1d.netlify.app/"
+//   );
+
+//   // ... //
+// });
+
+// app.use(cors({
+//   // origin: 'https://joyful-kitsune-dbde1d.netlify.app',
+//   credentials: true,
+// }));
+
+// recommend.js로 필터에 해당하는 행사 정보 전송
+app.post('/api/data', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  let filter_list = {}
+  let filter_counter = 0
+  let what = req.body.what;
+  let where = req.body.where;
+  console.log(what)
+  console.log(where)
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.log("fail")
+    }
+    console.log('Connected to the database')
+  })
+
   db.serialize(() => {
-    db.each(`SELECT * FROM Events WHERE region = '광진구' AND category = '콘서트'`, (err, row) => {
-      if (err) {
-        console.error('불러오기 실패')
-      }
-      let data = row.region
+    db.each(`SELECT * FROM Events WHERE region = '${where}' AND category = '${what}'`, (err, row) => {
+      let str = filter_counter.toString();
+      filter_list[str] = row
+      filter_counter += 1
+    }, (err, count) => {
+      console.log('최종 리스트')
+      console.log(filter_list)
+      let data = JSON.stringify(filter_list)
+      res.send(data);
+      console.log('api 한번 호출')
       console.log(data)
-      res.json({data});
-    })
-    db.close((err) => {
-      if (err) {
-        console.error('닫기 실패')
-      }
-      console.log('Close the database connection.')
+      console.log('success')
+      db.close(() => {
+        console.log('Close the database connection.')
+      })
+      console.log('success')
     })
   })
-  //const data = 'Hello!'; // 전송할 문자열
 });
 
-const area = {area1 : "강남 MICE 관광특구",
-              area2 : "동대문 관광특구",
-              area3 : "명동 관광특구",
-              area4 : "이태원 관광특구",
-              area5 : "잠실 관광특구",
-              area6 : "종로·청계 관광특구",
-              area7 : "홍대 관광특구",
-              area8 : "경복궁·서촌마을",
-              area9 : "광화문·덕수궁",
-              area10 : "창덕궁·종묘",
-              area11 : "가산디지털단지역",
-              area12 : "강남역",
-              area13 : "건대입구역",
-              area14 : "고속터미널역",
-              area15 : "교대역",
-              area16 : "구로디지털단지역",
-              area17 : "서울역",
-              area18 : "선릉역",
-              area19 : "신도림역",
-              area20 : "신림역",
-              area21 : "신촌·이대역",
-              area22 : "역삼역",
-              area23 : "연신내역",
-              area24 : "용산역",
-              area25 : "왕십리역",
-              area26 : "DMC(디지털미디어시티)",
-              area27 : "창동 신경제 중심지",
-              area28 : "노량진",
-              area29 : "낙산공원·이화마을",
-              area30 : "북촌한옥마을",
-              area31 : "가로수길",
-              area32 : "성수카페거리",
-              area33 : "수유리 먹자골목",
-              area34 : "쌍문동 맛집거리",
-              area35 : "압구정로데오거리",
-              area36 : "여의도",
-              area37 : "영등포 타임스퀘어",
-              area38 : "인사동·익선동",
-              area39 : "국립중앙박물관·용산가족공원",
-              area40 : "남산공원",
-              area41 : "뚝섬한강공원",
-              area42 : "망원한강공원",
-              area43 : "반포한강공원",
-              area44 : "북서울꿈의숲",
-              area45 : "서울대공원",
-              area46 : "서울숲공원",
-              area47 : "월드컵공원",
-              area48 : "이촌한강공원",
-              area49 : "잠실종합운동장",
-              area50 : "잠실한강공원"
+
+// detail.js로 해당하는 행사 정보 전송
+let data
+app.post('/api/detail', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  let variable = req.body.id;
+  console.log(variable)
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.log("fail")
+    }
+    console.log('Connected to the database')
+  })
+  db.serialize(() => {
+    db.each(`SELECT * FROM Events WHERE id = ${variable}`, (err, row) => {
+      console.log('하나 성공')
+      data = JSON.stringify(row)
+    })
+      res.send(data);
+      console.log(data)
+      console.log('success')
+      db.close(() => {
+        console.log('Close the database connection.')
+      })
+      console.log('success')
+  })
+});
+
+// Area.js로 해당하는 행사 정보 전송
+
+app.post('/api/area', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  let data_area
+  let variable = req.body.id;
+  console.log(variable)
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.log("fail")
+    }
+    console.log('Connected to the database')
+  })
+  db.serialize(() => {
+    db.each(`SELECT * FROM Area WHERE id = ${variable}`, (err, row) => {
+      console.log('하나 성공')
+      data_area = JSON.stringify(row)
+    }, () => {
+      res.send(data_area);
+      console.log(data_area)
+      console.log('success')
+      db.close(() => {
+        console.log('Close the database connection.')
+      })
+      console.log('success')
+    })
+  })
+});
+
+const area = {
+              area1 : "홍대 관광특구",
+              area2 : "창덕궁·종묘",
+              area3 : "서울역",
+              area4 : "가산디지털단지역",
+              area5 : "건대입구역",
+              area6 : "신촌·이대역",
+              area7 : "남산공원",
+              area8 : "북서울꿈의숲",
+              area9 : "창동 신경제 중심지",
+              area10 : "압구정로데오거리",
+              area11 : "가로수길",
+              area12 : "수유리 먹자골목",
+              area13 : "잠실 관광특구",
+              area14 : "명동 관광특구",
+              area15 : "동대문 관광특구",
+              area16 : "종로·청계 관광특구",
+              area17 : "강남 MICE 관광특구",
+              area18 : "이태원 관광특구",
+              area19 : "광화문·덕수궁",
+              area20 : "경복궁·서촌마을",
+              area21 : "신도림역",
+              area22 : "고속터미널역",
+              area23 : "구로디지털단지역",
+              area24 : "강남역",
+              area25 : "역삼역",
+              area26 : "교대역",
+              area27 : "신림역",
+              area28 : "선릉역",
+              area29 : "연신내역",
+              area30 : "용산역",
+              area31 : "왕십리역",
+              area32 : "서울숲공원",
+              area33 : "망원한강공원",
+              area34 : "이촌한강공원",
+              area35 : "반포한강공원",
+              area36 : "뚝섬한강공원",
+              area37 : "잠실한강공원",
+              area38 : "월드컵공원",
+              area39 : "서울대공원",
+              area40 : "국립중앙박물관·용산가족공원",
+              area41 : "잠실종합운동장",
+              area42 : "영등포 타임스퀘어",
+              area43 : "여의도",
+              area44 : "DMC(디지털미디어시티)",
+              area45 : "북촌한옥마을",
+              area46 : "낙산공원·이화마을",
+              area47 : "노량진",
+              area48 : "쌍문동 맛집거리",
+              area49 : "인사동·익선동",
+              area50 : "성수카페거리"
             }
 
+
+// 서울시 api로부터 혼잡도 정보 불러오기
 let conjestion = {}
 
 const key = process.env.SEOUL_API_KEY
@@ -92,6 +184,21 @@ const key = process.env.SEOUL_API_KEY
 app.get('/api/test', async (req, res) => {
   try {
     console.log(key)
+    let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+      if (err) {
+        console.log("fail")
+      }
+      console.log('Connected to the database')
+    })
+    db.serialize(()=>{
+      db.run('DELETE FROM Congestion', (err) => {
+        if (err) {
+          console.log('Deletion error:', err);
+          return;
+        }
+        })
+        console.log('Deleted all rows');
+    })
     for (let i = 1; i < 51; i++) {
       let variableName = `area${i}`;
       let response = await axios.get(`http://openapi.seoul.go.kr:8088/${key}/xml/citydata/1/5/${area[variableName]}`)
@@ -99,19 +206,144 @@ app.get('/api/test', async (req, res) => {
       let jsonData = converter.xml2json(xmlData)
       let parsedData = JSON.parse(jsonData);
       let areaCongestLvl = parsedData.elements[0].elements[2].elements[1].elements[0].elements[0].elements[0].text;
-      conjestion[`${area[variableName]}`] = areaCongestLvl
+      conjestion[`${variableName}`] = areaCongestLvl
     }
     let data = JSON.stringify(conjestion)
-    res.send(data);
+    res.send(data)
+    console.log("데이터확인")
     console.log(data)
-    console.log('success')
+
+    db.serialize(()=> {      
+      const ready = db.prepare(`INSERT INTO Congestion (json) VALUES (?);`);
+      ready.run(data, function (err) {
+        if (err) {
+          console.log("Insertion error:", err);
+        } else {
+          console.log("Data inserted successfully");
+        }
+      })
+      ready.finalize(() => {
+        db.close(() => {
+          console.log('Close the database connection.');
+        });
+      });
+    })
   }
   catch (error) {
     console.log('error')
   }
 })
 
+
+// 혼잡도 정보를 가진 데이터들을 불러옴
+let congestion_list = {}
+
+let congestion_counter = 0
+
+app.get('/api/events', (req, res) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.log("fail")
+    }
+    console.log('Connected to the database')
+  })
+  db.serialize(() => {
+    db.each(`SELECT * FROM Area`, (err, row) => {
+      let str = congestion_counter.toString();
+      congestion_list[str] = row
+      congestion_counter += 1
+    }, (err, count) => {
+      let data = JSON.stringify(congestion_list)
+      res.send(data);
+      console.log(data)
+      console.log('success')
+      db.close(() => {
+        console.log('Close the database connection.')
+      })
+      console.log('success')
+    })
+  })
+});
+
+// 미리 저장해뒀던 혼잡도 정보 불러오기
+app.get('/api/savedData', (req, res) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) {
+      console.log("fail")
+    }
+    console.log('Connected to the database')
+  })
+  let data;
+  db.serialize(() => {
+    db.each(`SELECT * FROM Congestion`, (err, row) => {
+      data = JSON.stringify(row)
+    }, (err, count) => {
+      res.send(data);
+      console.log("저장해둔 데이터 불러오기")
+      console.log(data)
+      console.log('success')
+      db.close(() => {
+        console.log('Close the database connection.')
+      })
+      console.log('success')
+    })
+  })
+});
+
+const tmap_key = process.env.TMAP_API_KEY;
+const tmap_url = `https://apis.openapi.sk.com/tmap/routes?version=1&callback=result`
+
+// 사용자 위치 정보 불러오기
+app.post('/api/geo', async (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  let lat = req.body.latitude;
+  let long = req.body.longitude;
+  console.log(lat)
+  console.log(long)
+  try {
+        // let response = await axios.post(`https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result&appKey=${tmap_key}`, {
+        //   headers: {   
+        //       //'appKey': process.env.TMAP_API_KEY,
+        //       'Accept': 'application/json',
+        //       'Content-Type': 'application/json',
+        //   },
+        //   data: JSON.stringify({
+        //     appKey: process.env.TMAP_API_KEY,
+        //     endX: 127.10331814639885,
+        //     endY: 37.403049076341794,
+        //     startX: long,
+        //     startY: lat,
+        //   }),
+        // }
+        // )
+        //console.log(response.features)
+        // .then(response => response.json())
+        // .then(response => {
+        //   setData(response);
+        // })
+
+        // const tmapConfig = {
+        //   method: 'post',
+        //   url: 'https://apis.openapi.sk.com/tmap/routes?version=1',
+        //   url: 'https://apis.openapi.sk.com/tmap/routes?version=1&format=json&callback=result&appKey=${tmap_key}'
+        //   headers: {
+        //     'Accept-Language': 'ko',
+        //     'Content-Type': 'application/json',
+        //   },
+        //   data: tmapBody,
+        //   };
+    
+        //   const tmap = await axios(tmapConfig);
+    
+        //   console.log(tmap.data.features[0].properties.totalDistance / 1000 + 'km');
+
+        // console.log('success')
+        // .catch(error => console.log(error));
+    } catch (error) {
+      console.log("에러");
+    }
+  });
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
-
