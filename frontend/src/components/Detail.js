@@ -32,7 +32,7 @@ function Detail() {
   }, [id]); 
 
   const goBack = () => {
-    window.history.back();
+    window.history.back(-2);
   };
 
   const toCourse = (id) => {

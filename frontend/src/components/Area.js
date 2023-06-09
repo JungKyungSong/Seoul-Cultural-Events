@@ -54,7 +54,7 @@ function Area() {
                     </div>
                 </div>
                 <div className='detail_button_container'>
-                    <button className='detail_button' onClick={goBack}>이전</button>
+                    <button className='detail_button' onClick={() => goBack()}>이전</button>
                 </div>
             </div>
         </div>

@@ -468,6 +468,8 @@ function Congestion() {
 
     const positions = events.map((event) => ({
       title: event.name,
+      place: event.place,
+      date: event.date,
       latlng: new kakao.maps.LatLng(event.Y, event.X),
     }));
   
@@ -486,13 +488,15 @@ function Congestion() {
       let marker_one = new kakao.maps.Marker({
           map: map, 
           position: positions[i].latlng, 
-          title : positions[i].title, 
+          title : positions[i].title,
+          place : positions[i].place,
+          date : positions[i].date,
           image : markerImage 
       });
 
       marker.push(marker_one)
 
-      let iwContent = `<div style="width: 150px; height: 100px; font-family: 'Noto Sans', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; display: flex; justify-content: center;">행사명 : ${positions[i].title}</div>`;
+      let iwContent = `<div style="width: 150px; height: 100px; font-family: 'Noto Sans', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; display: flex; justify-content: center;">행사명 : ${positions[i].title} <br/>행사장소 : ${positions[i].place}<br/>행사일시 : ${positions[i].date}</div>`;
 
       iwContent_array.push(iwContent)
 
