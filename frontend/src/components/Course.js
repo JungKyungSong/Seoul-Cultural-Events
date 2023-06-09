@@ -260,12 +260,12 @@ function searching2() {
             <div>
                 {order_array.length > 0 ? (
                     <div>
-                    <h3>최적 경로</h3>
-                    {order_array[0]==data ? (<div className="course_name">{data.name}</div>): (<div><p>{order_array[0][0]}</p><p>{order_array[0][1]}</p><p>{order_array[0][2]}</p><p>{order_array[0][3]}</p></div>)}
-                    <div className="vl" />
-                    {order_array[1]==data ? (<div className="course_name">{data.name}</div>): (<div><p>{order_array[1][0]}</p><p>{order_array[1][1]}</p><p>{order_array[1][2]}</p><p>{order_array[1][3]}</p></div>)}
-                    <div className="vl" />
-                    {order_array[2]==data ? (<div className="course_name">{data.name}</div>): (<div><p>{order_array[2][0]}</p><p>{order_array[2][1]}</p><p>{order_array[2][2]}</p><p>{order_array[2][3]}</p></div>)}
+                        <h3>최적 경로</h3>
+                        {order_array[0]==data ? (<div>{data.name}</div>): (<div className="course_data"><p className="course_name">{order_array[0][0]}</p><p>{order_array[0][1]}</p><p>{order_array[0][3]}</p></div>)}
+                        <div className="vl" />
+                        {order_array[1]==data ? (<div>{data.name}</div>): (<div className="course_data"><p className="course_name">{order_array[1][0]}</p><p>{order_array[1][1]}</p><p>{order_array[1][3]}</p></div>)}
+                        <div className="vl" />
+                        {order_array[2]==data ? (<div>{data.name}</div>): (<div className="course_data"><p className="course_name">{order_array[2][0]}</p><p>{order_array[2][1]}</p><p>{order_array[2][3]}</p></div>)}
                     </div>
                     ):('')}
             </div>

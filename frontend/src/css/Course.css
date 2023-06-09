@@ -35,11 +35,37 @@
     left: 25px;
 }
 .cafe_map{
+    margin-bottom: 40px;
     display: inline-block;
 }
 
+/* 경로 추천 버튼 */
+.first_course_button{
+
+    background-color: #BECDFA;
+
+    width: 130px;
+    height: 30px;
+    border: 1px solid;
+    border-radius: 3px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
 /* 최적 경로 결과 */
+.course_data{
+    display: inline-block;
+    text-align: center;
+    width: 320px;
+    background-color: #fff;
+}
+.course_name{
+    font-size: 18px;
+    font-weight: 500;
+}
 .vl {
+    margin-top: 15px;
+    margin-bottom: 15px;
     border-left: 4px dotted #848EAD;
     height: 50px;
     position: relative;
