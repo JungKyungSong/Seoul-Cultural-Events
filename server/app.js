@@ -20,7 +20,7 @@ app.post('/api/data', (req, res) => {
   let where = req.body.where;
   console.log(what)
   console.log(where)
-  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -83,7 +83,7 @@ app.post('/api/detail', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   let variable = req.body.id;
   console.log(variable)
-  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -111,7 +111,7 @@ app.post('/api/area', (req, res) => {
   let data_area
   let variable = req.body.id;
   console.log(variable)
-  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -195,7 +195,7 @@ const key = process.env.SEOUL_API_KEY
 app.get('/api/test', async (req, res) => {
   try {
     console.log(key)
-    let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+    let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
       if (err) {
         console.log("fail")
       }
@@ -252,7 +252,7 @@ let congestion_list = {}
 let congestion_counter = 0
 
 app.get('/api/events', (req, res) => {
-  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -278,7 +278,7 @@ app.get('/api/events', (req, res) => {
 
 // 미리 저장해뒀던 혼잡도 정보 불러오기
 app.get('/api/savedData', (req, res) => {
-  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
