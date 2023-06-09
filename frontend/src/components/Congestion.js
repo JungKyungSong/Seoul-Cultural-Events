@@ -498,7 +498,7 @@ function Congestion() {
 
       marker.push(marker_one)
 
-      let iwContent = `<div style="width: 150px; height: 100px; font-family: 'Noto Sans', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; display: flex; justify-content: center;"><br/><br/>행사명 : ${positions[i].title} <br/>행사장소 : ${positions[i].place}<br/>행사일시 : ${positions[i].date}</div>`, iwRemoveable = true;;
+      let iwContent = `<div style="width: 150px; height: max-content; font-family: 'Noto Sans', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; display: flex; justify-content: center;"><br/><br/>행사명 : ${positions[i].title} <br/>행사장소 : ${positions[i].place}<br/>행사일시 : ${positions[i].date}</div>`, iwRemoveable = true;;
 
       iwContent_array.push(iwContent)
 
@@ -861,8 +861,8 @@ function Congestion() {
             </p>
         </div>
         <div id='map'></div>
-        <button className='detail_button' onClick={() => handleClick()}>자세히</button>
       </div>
+      <button className='detail_button' onClick={() => handleClick()}>자세히</button>
     </div>
   );
   
