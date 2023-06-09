@@ -239,20 +239,35 @@ function searching2() {
     return(
         <div>
             <Header/>
-            <div id="map1" style={{width:"600px",height:"350px"}}/>
-            <div id="map2" style={{width:"600px",height:"350px"}}/>
-            <div>
-                <button onClick={handleClick}>클릭</button>
+            <h2>최적 경로 추천</h2>
+            <div className="food_container">
+                <p className="food_text">
+                    <img className="check_img" src="/check.png" alt="check_icon" />
+                    음식점 선택
+                </p>
+                <div className="food_map" id="map1" style={{width:"360px",height:"350px"}}/>
             </div>
-            <h1>경로 추천</h1>
+            <div className="cafe_container">
+                <p className="cafe_text">
+                    <img className="check_img" src="/check.png" alt="check_icon" />
+                    카페 선택
+                </p>
+                <div className="cafe_map" id="map2" style={{width:"360px",height:"350px"}}/>
+            </div>
+            <div>
+                <button className="first_course_button" onClick={handleClick}>경로 추천 받기</button>
+            </div>
             <div>
                 {order_array.length > 0 ? (
                     <div>
-                    {order_array[0]==data ? (<div>{data.name}</div>): (<div><p>{order_array[0][0]}</p><p>{order_array[0][1]}</p><p>{order_array[0][2]}</p><p>{order_array[0][3]}</p></div>)}
-                    {order_array[1]==data ? (<div>{data.name}</div>): (<div><p>{order_array[1][0]}</p><p>{order_array[1][1]}</p><p>{order_array[1][2]}</p><p>{order_array[1][3]}</p></div>)}
-                    {order_array[2]==data ? (<div>{data.name}</div>): (<div><p>{order_array[2][0]}</p><p>{order_array[2][1]}</p><p>{order_array[2][2]}</p><p>{order_array[2][3]}</p></div>)}
+                        <h3>최적 경로</h3>
+                        {order_array[0]==data ? (<div>{data.name}</div>): (<div className="course_data"><p className="course_name">{order_array[0][0]}</p><p>{order_array[0][1]}</p><p>{order_array[0][3]}</p></div>)}
+                        <div className="vl" />
+                        {order_array[1]==data ? (<div>{data.name}</div>): (<div className="course_data"><p className="course_name">{order_array[1][0]}</p><p>{order_array[1][1]}</p><p>{order_array[1][3]}</p></div>)}
+                        <div className="vl" />
+                        {order_array[2]==data ? (<div>{data.name}</div>): (<div className="course_data"><p className="course_name">{order_array[2][0]}</p><p>{order_array[2][1]}</p><p>{order_array[2][3]}</p></div>)}
                     </div>
-                    ):(<div>잠시만 기다려주세요.</div>)}
+                    ):('')}
             </div>
             {/* <div className="vl"></div>
             <div className='course'>
