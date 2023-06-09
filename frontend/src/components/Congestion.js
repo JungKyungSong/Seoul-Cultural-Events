@@ -492,7 +492,7 @@ function Congestion() {
 
       marker.push(marker_one)
 
-      let iwContent = `<div style="width:250px; height:150px; backgroundcolor: white; border-color: blue; border-style: solid;">행사명 : ${positions[i].title}</div>`;
+      let iwContent = `<div style="width: 150px; height: 100px; font-family: 'Noto Sans', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; display: flex; justify-content: center;">행사명 : ${positions[i].title}</div>`;
 
       iwContent_array.push(iwContent)
 
