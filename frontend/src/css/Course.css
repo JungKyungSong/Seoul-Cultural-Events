@@ -1,9 +1,44 @@
-.course_header{
-    margin-top: 30px;
-    margin-bottom: auto;
+.check_img{
+    width: 20px;
+    height: 20px;
+    margin: 4px;
+
     position: relative;
-    top: 80px;
+    top: 8px;
 }
+/* 음식점 선택 */
+.food_text{
+    font-family: 'Noto Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+
+    text-align: left;
+    position: relative;
+    left: 25px;
+}
+.food_map{
+    display: inline-block;
+}
+
+/* 카페 선택 */
+.cafe_text{
+    font-family: 'Noto Sans', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+
+    text-align: left;
+    position: relative;
+    left: 25px;
+}
+.cafe_map{
+    display: inline-block;
+}
+
+/* 최적 경로 결과 */
 .vl {
     border-left: 4px dotted #848EAD;
     height: 50px;
@@ -11,40 +46,3 @@
     left: 50%;
   }
 
-.course{
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    position: relative;
-    text-align: center;
-}
-.course_img{
-    margin: 40px;
-    width: 300px;
-}
-.course_content_container{
-    margin: auto;
-    text-align: center;
-}
-.course_event_name{
-    margin: 20px;
-    text-align: center;
-    font-family: 'Noto Sans';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 32px;
-    line-height: 40px;
-}
-.course_event_content{
-    font-family: 'Noto Sans';
-    font-style: normal;
-    margin: 20px;
-    display: flex;
-    justify-content: center;
-}
-.course_event_content_container{
-    margin: 5px;
-    text-align: center;
-    font-weight: 400;
-    font-size: 16px;
-}
