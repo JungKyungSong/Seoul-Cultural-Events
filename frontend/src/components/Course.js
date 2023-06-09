@@ -34,9 +34,9 @@ export default function Course(){
         <div>
             <Header/>
             <h1>경로 추천</h1>
-            <div className="vl"></div>
             <div className='course'>
             <div className='course_event_container'>
+            <div className="vl"></div>
                 <img className='course_img' src = {`/image/${data.id}.jpg`} alt='arbitrary image'/>
                 <div className='course_content_container'>
                 <div>
