@@ -20,6 +20,8 @@
 }
 .food_map{
     display: inline-block;
+
+    z-index: 0;
 }
 
 /* 카페 선택 */
@@ -37,6 +39,8 @@
 .cafe_map{
     margin-bottom: 40px;
     display: inline-block;
+
+    z-index: 0;
 }
 
 /* 경로 추천 버튼 */

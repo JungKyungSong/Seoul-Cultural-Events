@@ -47,9 +47,10 @@ app.post('/api/data', (req, res) => {
         const response = await fetch('https://apis.openapi.sk.com/tmap/routes?version=1&callback=function', options);
         const data = await response.json();
         const distance = data.features[0].properties.totalDistance;
+        const km_distance = distance/1000;
         console.log("distance")
-        console.log(distance)
-        row.distance = distance; // Add distance to the row object
+        console.log(km_distance)
+        row.distance = km_distance; // Add distance to the row object
         let str = filter_counter.toString();
         filter_list[str] = row;
         filter_counter += 1;

@@ -10,9 +10,11 @@ const { kakao } = window;
 
 function Congestion() {
 
+  const [index, setIndex] = useState('');
+
   const navigate = useNavigate();
-    const handleClick = (id) => {
-      navigate(`/Area/${id}`)
+    const handleClick = () => {
+      navigate(`/Area/${index}`)
       window.location.reload()
   }
 
@@ -496,12 +498,13 @@ function Congestion() {
 
       marker.push(marker_one)
 
-      let iwContent = `<div style="width: 150px; height: 100px; font-family: 'Noto Sans', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; display: flex; justify-content: center;">행사명 : ${positions[i].title} <br/>행사장소 : ${positions[i].place}<br/>행사일시 : ${positions[i].date}</div>`;
+      let iwContent = `<div style="width: 150px; height: 100px; font-family: 'Noto Sans', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; display: flex; justify-content: center;"><br/><br/>행사명 : ${positions[i].title} <br/>행사장소 : ${positions[i].place}<br/>행사일시 : ${positions[i].date}</div>`, iwRemoveable = true;;
 
       iwContent_array.push(iwContent)
 
       let infowindow = new kakao.maps.InfoWindow({
-        content : iwContent
+        content : iwContent,
+        removable : iwRemoveable
       });
 
       infowindow_array.push(infowindow)
@@ -510,17 +513,18 @@ function Congestion() {
 
         let infowindow = infowindow_array[index];
 
-        kakao.maps.event.addListener(one, 'mouseover', function() {
-          infowindow.open(map, one);
-        });
-
-        kakao.maps.event.addListener(one, 'mouseout', function() {
-          infowindow.close();
-        });
-
         kakao.maps.event.addListener(one, 'click', function() {
-          handleClick(index)
+          infowindow.open(map, one);
+          setIndex(index);
         });
+
+        // kakao.maps.event.addListener(one, 'mouseout', function() {
+        //   infowindow.close();
+        // });
+
+        // kakao.maps.event.addListener(one, 'click', function() {
+        //   handleClick(index)
+        // });
       });
     }
   }
@@ -857,6 +861,7 @@ function Congestion() {
             </p>
         </div>
         <div id='map'></div>
+        <button className='detail_button' onClick={() => handleClick()}>자세히</button>
       </div>
     </div>
   );

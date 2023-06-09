@@ -78,18 +78,20 @@ export default function Course(){
                 map: map,
                 position: new kakao.maps.LatLng(place.y, place.x) 
             });
-            kakao.maps.event.addListener(marker, 'mouseover', function() {
-                infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-                infowindow.open(map, marker);
-            });
-            kakao.maps.event.addListener(marker, 'mouseout', function() {
-                infowindow.close();
-            });
             kakao.maps.event.addListener(marker, 'click', function() {
                 setFood([place.x, place.y])
                 setFoodInfo([place.place_name, place.road_address_name, place.address_name, place.phone])
-                infowindow.setContent('<div style="padding:5px;font-size:12px;">' + '음식점 선택!' + '</div>');
+                infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+                infowindow.open(map, marker);
             });
+            // kakao.maps.event.addListener(marker, 'mouseout', function() {
+            //     infowindow.close();
+            // });
+            // kakao.maps.event.addListener(marker, 'dblclick', function() {
+            //     setFood([place.x, place.y])
+            //     setFoodInfo([place.place_name, place.road_address_name, place.address_name, place.phone])
+            //     infowindow.setContent('<div style="padding:5px;font-size:12px;">' + '음식점 선택!' + '</div>');
+            // });
     }
 
     function searching() {
@@ -98,7 +100,7 @@ export default function Course(){
         let mapContainer = document.getElementById('map1');
         let mapOption = {
                     center: new kakao.maps.LatLng(data.Y, data.X),
-                    level: 3 
+                    level: 5
         };  
         map = new kakao.maps.Map(mapContainer, mapOption);
         // let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
@@ -108,13 +110,13 @@ export default function Course(){
             position: new kakao.maps.LatLng(data.Y, data.X),
             //image: markerImage
         });
-        kakao.maps.event.addListener(marker, 'mouseover', function() {
+        kakao.maps.event.addListener(marker, 'click', function() {
             infowindow.setContent('<div style="padding:5px;font-size:12px;">' + data.name + '</div>');
             infowindow.open(map, marker);
         });
-        kakao.maps.event.addListener(marker, 'mouseout', function() {
-            infowindow.close();
-        });
+        // kakao.maps.event.addListener(marker, 'mouseout', function() {
+        //     infowindow.close();
+        // });
         ps = new kakao.maps.services.Places(map); 
         ps.categorySearch('FD6', placesSearchCB, {useMapBounds:true}); 
     }
@@ -132,18 +134,20 @@ function displayMarker2(place) {
             map: map2,
             position: new kakao.maps.LatLng(place.y, place.x) 
         });
-        kakao.maps.event.addListener(marker, 'mouseover', function() {
-            infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-            infowindow2.open(map2, marker);
-        });
-        kakao.maps.event.addListener(marker, 'mouseout', function() {
-            infowindow2.close();
-        });
         kakao.maps.event.addListener(marker, 'click', function() {
             setCafe([place.x, place.y])
             setCafeInfo([place.place_name, place.road_address_name, place.address_name, place.phone])
-            infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + '카페 선택!' + '</div>');
-         });
+            infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+            infowindow2.open(map2, marker);
+        });
+        // kakao.maps.event.addListener(marker, 'mouseout', function() {
+        //     infowindow2.close();
+        // });
+        // kakao.maps.event.addListener(marker, 'dblclick', function() {
+        //     setCafe([place.x, place.y])
+        //     setCafeInfo([place.place_name, place.road_address_name, place.address_name, place.phone])
+        //     infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + '카페 선택!' + '</div>');
+        //  });
     }
 
 function searching2() {
@@ -152,7 +156,7 @@ function searching2() {
     let mapContainer = document.getElementById('map2');
     let mapOption = {
                 center: new kakao.maps.LatLng(data.Y, data.X),
-                level: 3
+                level: 5
     };  
     map2 = new kakao.maps.Map(mapContainer, mapOption);
     // let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
@@ -162,13 +166,13 @@ function searching2() {
         position: new kakao.maps.LatLng(data.Y, data.X),
         //image: markerImage
     });
-    kakao.maps.event.addListener(marker, 'mouseover', function() {
+    kakao.maps.event.addListener(marker, 'click', function() {
         infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + data.name + '</div>');
         infowindow2.open(map2, marker);
     });
-    kakao.maps.event.addListener(marker, 'mouseout', function() {
-        infowindow2.close();
-    });
+    // kakao.maps.event.addListener(marker, 'mouseout', function() {
+    //     infowindow2.close();
+    // });
     ps2 = new kakao.maps.services.Places(map2); 
     ps2.categorySearch('CE7', placesSearchCB2, {useMapBounds:true}); 
 }
@@ -239,20 +243,20 @@ function searching2() {
     return(
         <div>
             <Header/>
-            <h2>최적 경로 추천</h2>
+            <h2>최적 방문 순서 추천</h2>
             <div className="food_container">
                 <p className="food_text">
                     <img className="check_img" src="/check.png" alt="check_icon" />
                     음식점 선택
                 </p>
-                <div className="food_map" id="map1" style={{width:"360px",height:"350px"}}/>
+                <div className="food_map" id="map1" style={{width:"85%",height:"350px"}}/>
             </div>
             <div className="cafe_container">
                 <p className="cafe_text">
                     <img className="check_img" src="/check.png" alt="check_icon" />
                     카페 선택
                 </p>
-                <div className="cafe_map" id="map2" style={{width:"360px",height:"350px"}}/>
+                <div className="cafe_map" id="map2" style={{width:"85%",height:"350px"}}/>
             </div>
             <div>
                 <button className="first_course_button" onClick={handleClick}>경로 추천 받기</button>
@@ -260,7 +264,7 @@ function searching2() {
             <div>
                 {order_array.length > 0 ? (
                     <div>
-                        <h3>최적 경로</h3>
+                        <h3>최소 도보 경로</h3>
                         {order_array[0]==data ? (<div>{data.name}</div>): (<div className="course_data"><p className="course_name">{order_array[0][0]}</p><p>{order_array[0][1]}</p><p>{order_array[0][3]}</p></div>)}
                         <div className="vl" />
                         {order_array[1]==data ? (<div>{data.name}</div>): (<div className="course_data"><p className="course_name">{order_array[1][0]}</p><p>{order_array[1][1]}</p><p>{order_array[1][3]}</p></div>)}

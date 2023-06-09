@@ -114,8 +114,10 @@ p {
 /* 자세히 버튼 */
 .event_content_button{
     background-color: #BECDFA;
+    margin-bottom: 50px;
 
     position: relative;
+    top: -40px;
     left: 30%;
 
     width: 100px;
@@ -129,6 +131,7 @@ p {
     .event_content_button{
         position: relative;
         left: 10px;
+        top: -40px;
     }
 }
 
