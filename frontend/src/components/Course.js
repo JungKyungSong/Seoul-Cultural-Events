@@ -74,9 +74,13 @@ export default function Course(){
     }
 
     function displayMarker(place) {
+            let imageSrc = "/restaurant.png";
+            let imageSize = new kakao.maps.Size(40, 45); 
+            let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
             let marker = new kakao.maps.Marker({
                 map: map,
-                position: new kakao.maps.LatLng(place.y, place.x) 
+                position: new kakao.maps.LatLng(place.y, place.x), 
+                image: markerImage
             });
             kakao.maps.event.addListener(marker, 'click', function() {
                 setFood([place.x, place.y])
@@ -103,12 +107,13 @@ export default function Course(){
                     level: 5
         };  
         map = new kakao.maps.Map(mapContainer, mapOption);
-        // let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-        // let markerImage = new kakao.maps.MarkerImage(imageSrc)
+        let imageSrc = "/event.png";
+        let imageSize = new kakao.maps.Size(45, 50); 
+        let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
         let marker = new kakao.maps.Marker({
             map: map,
             position: new kakao.maps.LatLng(data.Y, data.X),
-            //image: markerImage
+            image: markerImage
         });
         kakao.maps.event.addListener(marker, 'click', function() {
             infowindow.setContent('<div style="padding:5px;font-size:12px;">' + data.name + '</div>');
@@ -130,9 +135,13 @@ export default function Course(){
     }
 
 function displayMarker2(place) {
+        let imageSrc = "/coffee.png";
+        let imageSize = new kakao.maps.Size(40, 45); 
+        let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
         let marker = new kakao.maps.Marker({
             map: map2,
-            position: new kakao.maps.LatLng(place.y, place.x) 
+            position: new kakao.maps.LatLng(place.y, place.x), 
+            image: markerImage
         });
         kakao.maps.event.addListener(marker, 'click', function() {
             setCafe([place.x, place.y])
@@ -159,12 +168,14 @@ function searching2() {
                 level: 5
     };  
     map2 = new kakao.maps.Map(mapContainer, mapOption);
-    // let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-    // let markerImage = new kakao.maps.MarkerImage(imageSrc)
+
+    let imageSrc = "/event.png";
+    let imageSize = new kakao.maps.Size(45, 50); 
+    let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
     let marker = new kakao.maps.Marker({
         map: map2,
         position: new kakao.maps.LatLng(data.Y, data.X),
-        //image: markerImage
+        image: markerImage
     });
     kakao.maps.event.addListener(marker, 'click', function() {
         infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + data.name + '</div>');
@@ -265,11 +276,11 @@ function searching2() {
                 {order_array.length > 0 ? (
                     <div>
                         <h3>최소 도보 경로</h3>
-                        {order_array[0]==data ? (<div>{data.name}</div>): (<div className="course_data"><p className="course_name">{order_array[0][0]}</p><p>{order_array[0][1]}</p><p>{order_array[0][3]}</p></div>)}
+                        {order_array[0]==data ? (<div className="course_data"><p className="course_name">{data.name}</p><p>{data.place}</p><p>{data.date}</p></div>): (<div className="course_data"><p className="course_name">{order_array[0][0]}</p><p>{order_array[0][1]}</p><p>{order_array[0][3]}</p></div>)}
                         <div className="vl" />
-                        {order_array[1]==data ? (<div>{data.name}</div>): (<div className="course_data"><p className="course_name">{order_array[1][0]}</p><p>{order_array[1][1]}</p><p>{order_array[1][3]}</p></div>)}
+                        {order_array[1]==data ? (<div className="course_data"><p className="course_name">{data.name}</p><p>{data.place}</p><p>{data.date}</p></div>): (<div className="course_data"><p className="course_name">{order_array[1][0]}</p><p>{order_array[1][1]}</p><p>{order_array[1][3]}</p></div>)}
                         <div className="vl" />
-                        {order_array[2]==data ? (<div>{data.name}</div>): (<div className="course_data"><p className="course_name">{order_array[2][0]}</p><p>{order_array[2][1]}</p><p>{order_array[2][3]}</p></div>)}
+                        {order_array[2]==data ? (<div className="course_data"><p className="course_name">{data.name}</p><p>{data.place}</p><p>{data.date}</p></div>): (<div className="course_data"><p className="course_name">{order_array[2][0]}</p><p>{order_array[2][1]}</p><p>{order_array[2][3]}</p></div>)}
                     </div>
                     ):('')}
             </div>
