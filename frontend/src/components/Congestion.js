@@ -13,7 +13,7 @@ function Congestion() {
   const [index, setIndex] = useState('');
 
   const navigate = useNavigate();
-    const handleClick = () => {
+  const handleClick = () => {
       navigate(`/Area/${index}`)
       window.location.reload()
   }
@@ -40,10 +40,8 @@ function Congestion() {
     strokeColor: '#00FF00',
   }
 
-  const [loading, setLoading] = useState(false);
-
+  // 저장해둔 혼잡도 정보 불러오기
   useEffect(() => {
-    console.log('저장해둔 혼잡도 불러오기')
     fetch('/api/savedData', {credentials: 'include'})
       .then(response =>response.json())
       .then(response => {
@@ -55,27 +53,21 @@ function Congestion() {
 
   const [cong, setCong] = useState([]);
 
-  // 혼잡도를 지역과 매핑해서 cong에 저장
+  // 혼잡도를 해당하는 영역과 매핑해서 cong에 저장
   useDidMountEffect(() => {
-    console.log('혼잡도 정보가 도착해서 지역과 매핑')
     let areas = Object.keys(data).map(area => data[area])
-    console.log(areas)
     setCong(areas)
-    console.log(cong)
   }, [data]);
 
-  const [events, setEvents] = useState('');
-
+  // 혼잡도 정보를 가진 행사 정보만 불러오기
   useDidMountEffect(() => {
-    fetch('/api/events', {credentials: 'include'}) 
+    fetch('/api/congestion', {credentials: 'include'}) 
       .then(response => response.json())
       .then(response => {
         const events = Object.values(response);
-        setEvents(events)
         return events
       })
       .then((events) => drawing(events))
-      .then(console.log('success'))
       .catch(error => console.log(error));
   }, [cong]);
 
@@ -453,13 +445,13 @@ function Congestion() {
 
     for (let i=0; i<50; i++) {
       let targetPolygon = polygons[i];
-      if (cong[i] == "붐빔") {
+      if (cong[i] === "붐빔") {
         targetPolygon.setOptions(red);
       }
-      else if (cong[i] == "약간 붐빔") {
+      else if (cong[i] === "약간 붐빔") {
         targetPolygon.setOptions(orange);
       }
-      else if (cong[i] == "보통") {
+      else if (cong[i] === "보통") {
         targetPolygon.setOptions(yellow);
       }
       else {
@@ -472,6 +464,7 @@ function Congestion() {
       title: event.name,
       place: event.place,
       date: event.date,
+      id: event.id,
       latlng: new kakao.maps.LatLng(event.Y, event.X),
     }));
   
@@ -480,6 +473,7 @@ function Congestion() {
     let iwContent_array = []
     let infowindow_array = []
     let marker = []
+    let event_id = []
     
     for (let i = 0; i < positions.length; i ++) {
       
@@ -493,12 +487,16 @@ function Congestion() {
           title : positions[i].title,
           place : positions[i].place,
           date : positions[i].date,
+          id : positions[i].id,
           image : markerImage 
       });
 
       marker.push(marker_one)
+      event_id.push(positions[i].id)
 
-      let iwContent = `<div style="width: 150px; height: max-content; font-family: 'Noto Sans', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; display: flex; justify-content: center;"><br/><br/>행사명 : ${positions[i].title} <br/>행사장소 : ${positions[i].place}<br/>행사일시 : ${positions[i].date}</div>`, iwRemoveable = true;;
+      let img_src = `/image2/image_${positions[i].id}.jpg`
+
+      let iwContent = `<div style="padding:5px; font-size: 12px;"><br/><br/><img src = ${img_src} alt='arbitrary' style="width:150px;height:150px"/><p style="font-size:15px;font-weight:500">${positions[i].title}</p><p>${positions[i].place}<p/><p>${positions[i].date}</p></div>`, iwRemoveable = true;
 
       iwContent_array.push(iwContent)
 
@@ -506,27 +504,25 @@ function Congestion() {
         content : iwContent,
         removable : iwRemoveable
       });
-
       infowindow_array.push(infowindow)
-
-      marker.forEach((one,index) => {
-
-        let infowindow = infowindow_array[index];
-
-        kakao.maps.event.addListener(one, 'click', function() {
-          infowindow.open(map, one);
-          setIndex(index);
-        });
-
-        // kakao.maps.event.addListener(one, 'mouseout', function() {
-        //   infowindow.close();
-        // });
-
-        // kakao.maps.event.addListener(one, 'click', function() {
-        //   handleClick(index)
-        // });
-      });
     }
+
+    marker.forEach((one,key) => {
+      let infowindow = infowindow_array[key];
+      let sendKey = event_id[key];
+      kakao.maps.event.addListener(one, 'click', function() {
+        infowindow.open(map, one);
+        setIndex(sendKey);
+    });
+
+      // kakao.maps.event.addListener(one, 'mouseout', function() {
+      //   infowindow.close();
+      // });
+
+      // kakao.maps.event.addListener(one, 'click', function() {
+      //   handleClick(index)
+      // });
+    });
   }
 
   const {area1, area2, area3, area4, area5, area6, area7, area8, area9, area10,

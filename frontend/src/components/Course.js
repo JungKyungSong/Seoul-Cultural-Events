@@ -10,18 +10,15 @@ const { kakao } = window;
 export default function Course(){
     const { id } = useParams();
     const [data, setData] = useState([]);
-    const [location, setLocation] = useState('');
     const [food, setFood] = useState('');
     const [cafe, setCafe] = useState('');
     const [foodInfo, setFoodInfo] = useState('');
     const [cafeInfo, setCafeInfo] = useState('');
     const [order, setOrder] = useState('');
     const [order_array, setOrderArray] = useState([]);
-
-    const navigate = useNavigate();
   
     useEffect(() => {
-      const test = {
+      const data = {
           id: id
       };
       fetch('/api/detail', {
@@ -31,13 +28,12 @@ export default function Course(){
                   'Cache-Control': 'no-cache',
                   'credentials': 'include'
                 },
-          body: JSON.stringify(test)
+          body: JSON.stringify(data)
         })
         .then(response => response.json())
         .then(response => {
           setData(response);
         })
-        .then(console.log('success'))
         .catch(error => console.log(error));
   
     }, [id]);   
@@ -53,17 +49,7 @@ export default function Course(){
     useEffect(()=>{
        searching();
        searching2();
-    },[location])
-
-    useEffect(() => {
-        console.log('저장해둔 사용자 위치 불러오기')
-        fetch('/api/savedGeo', {credentials: 'include'})
-          .then(response =>response.json())
-          .then(response => {
-              setLocation(response)
-          })
-          .catch(error => console.log(error));
-      }, []);
+    },[data])
         
     function placesSearchCB (data, status, pagination) {
             if (status === kakao.maps.services.Status.OK) {
@@ -85,7 +71,7 @@ export default function Course(){
             kakao.maps.event.addListener(marker, 'click', function() {
                 setFood([place.x, place.y])
                 setFoodInfo([place.place_name, place.road_address_name, place.address_name, place.phone])
-                infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+                infowindow.setContent('<div style="padding:5px;font-size:12px;"><p style="font-size:15px;font-weight:500">' + place.place_name + '</p><p>' + place.road_address_name + '</p><p>' + place.phone + '</p></div>');
                 infowindow.open(map, marker);
             });
             // kakao.maps.event.addListener(marker, 'mouseout', function() {
@@ -116,7 +102,7 @@ export default function Course(){
             image: markerImage
         });
         kakao.maps.event.addListener(marker, 'click', function() {
-            infowindow.setContent('<div style="padding:5px;font-size:12px;">' + data.name + '</div>');
+            infowindow.setContent('<div style="padding:5px;font-size:12px;">' + '<p style="font-size:15px;font-weight:500">'+data.name+'</p><p>'+data.place+'<p/><p>'+data.date+'</p>'+'</div>');
             infowindow.open(map, marker);
         });
         // kakao.maps.event.addListener(marker, 'mouseout', function() {
@@ -146,7 +132,7 @@ function displayMarker2(place) {
         kakao.maps.event.addListener(marker, 'click', function() {
             setCafe([place.x, place.y])
             setCafeInfo([place.place_name, place.road_address_name, place.address_name, place.phone])
-            infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+            infowindow2.setContent('<div style="padding:5px;font-size:12px;"><p style="font-size:15px;font-weight:500">' + place.place_name + '</p><p>' + place.road_address_name + '</p><p>' + place.phone + '</p></div>');
             infowindow2.open(map2, marker);
         });
         // kakao.maps.event.addListener(marker, 'mouseout', function() {
@@ -178,7 +164,7 @@ function searching2() {
         image: markerImage
     });
     kakao.maps.event.addListener(marker, 'click', function() {
-        infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + data.name + '</div>');
+        infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + '<p style="font-size:15px;font-weight:500">'+data.name+'</p><p>'+data.place+'<p/><p>'+data.date+'</p>'+'</div>');
         infowindow2.open(map2, marker);
     });
     // kakao.maps.event.addListener(marker, 'mouseout', function() {
@@ -189,21 +175,11 @@ function searching2() {
 }
 
     function handleClick(){
-        console.log('Cafe:', cafe);
-        console.log('Food:', food);
-        console.log(data.X);
-        console.log(data.Y);
         getOrder();
     };
 
     useDidMountEffect(()=>{
-        setOrderArray([]); // Initialize order_array to an empty array
-
-        console.log("순서 정렬 시작")
-        console.log(order[2])
-        console.log(cafeInfo)
-        console.log(data)
-        console.log(foodInfo)
+        setOrderArray([]);
 
         if (order[2] == 'event') {
         setOrderArray([
@@ -245,9 +221,7 @@ function searching2() {
           .then(response => response.json())
           .then(response => {
             setOrder(response);
-            console.log(JSON.stringify(response));
           })
-          .then(console.log('success'))
           .catch(error => console.log(error));
     }
 
@@ -283,32 +257,7 @@ function searching2() {
                         {order_array[2]==data ? (<div className="course_data"><p className="course_name">{data.name}</p><p>{data.place}</p><p>{data.date}</p></div>): (<div className="course_data"><p className="course_name">{order_array[2][0]}</p><p>{order_array[2][1]}</p><p>{order_array[2][3]}</p></div>)}
                     </div>
                     ):('')}
-            </div>
-            {/* <div className="vl"></div>
-            <div className='course'>
-            <div className='course_event_container'>
-            <div className="vl"></div>
-                <img className='course_img' src = {`/image/${data.id}.jpg`} alt='arbitrary image'/>
-                <div className='course_content_container'>
-                <div>
-                    <p className='course_event_name'>{data.name}</p>
-                </div>
-                <div className='course_content'>
-                    <div className='course_event_content_container'>
-                        <p>행사장소: {data.place}</p>
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div className="vl"></div>
-            <div>
-                <h1>음식점</h1>
-            </div>
-            <div className="vl"></div>
-            <div>
-                <h1>관광명소</h1>
-            </div> */}
-        {/* </div> */}
+            </div>        
         </div>
     )
 }

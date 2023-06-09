@@ -10,7 +10,7 @@ function Detail() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const test = {
+    const data = {
         id: id
     };
     fetch('/api/detail', {
@@ -20,19 +20,17 @@ function Detail() {
                 'Cache-Control': 'no-cache',
                 'credentials': 'include'
               },
-        body: JSON.stringify(test)
+        body: JSON.stringify(data)
       })
       .then(response => response.json())
       .then(response => {
         setData(response);
       })
-      .then(console.log('success'))
       .catch(error => console.log(error));
-
   }, [id]); 
 
   const goBack = () => {
-    window.history.back(-2);
+    window.history.back();
   };
 
   const toCourse = (id) => {
@@ -44,7 +42,7 @@ function Detail() {
         <Header />
         <div className='detail'>
             <div className='detail_img_container'>
-                    <img className='detail_img' src = {`/image/${data.id}.jpg`} alt='arbitrary image'/>
+                    <img className='detail_img' src = {`/image/${data.id}.jpg`} alt='arbitrary'/>
                 </div>
             <div className='detail_content_container'>
                 <div>

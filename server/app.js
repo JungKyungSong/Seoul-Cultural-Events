@@ -6,21 +6,19 @@ const axios = require('axios');
 const converter = require('xml-js');
 const sqlite3 = require('sqlite3').verbose();
 app.use(express.json()); // JSON 데이터를 파싱하기 위한 미들웨어
-const cors = require('cors');
-const { Console } = require('console');
-const { tmpdir } = require('os');
-const qs = require('qs');
 
-// recommend.js로 필터에 해당하는 행사 정보 전송
-app.post('/api/data', (req, res) => {
+
+// Recommend.js로 필터에 해당하는 행사 정보 전송
+
+const tmap_key = process.env.TMAP_API_KEY
+
+app.post('/api/filter', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   let filter_list = {}
   let filter_counter = 0
   let what = req.body.what;
   let where = req.body.where;
-  console.log(what)
-  console.log(where)
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -34,7 +32,7 @@ app.post('/api/data', (req, res) => {
         headers: {
           accept: 'application/json',
           'content-type': 'application/json',
-          appKey: 'eDg2mzIU9g90cvOuayhoadAo0iwXVxr8czeghD95'
+          appKey: tmap_key
         },
         body: JSON.stringify({
           endX: row.X,
@@ -48,42 +46,36 @@ app.post('/api/data', (req, res) => {
         const data = await response.json();
         const distance = data.features[0].properties.totalDistance;
         const km_distance = distance/1000;
-        console.log("distance")
-        console.log(km_distance)
-        row.distance = km_distance; // Add distance to the row object
+        row.distance = km_distance; 
         let str = filter_counter.toString();
         filter_list[str] = row;
         filter_counter += 1;
-        console.log(filter_list);
       } catch (err) {
-        row.distance = null; // Handle error case
+        row.distance = null; 
       }
     })
     setTimeout(() => {
         console.log('최종 리스트')
         console.log(filter_list)
         const sortedArray = Object.entries(filter_list).sort(([, a], [, b]) => a.distance - b.distance);
-        console.log(sortedArray)
         let data = JSON.stringify(sortedArray)
         res.send(data);
-        console.log('api 한번 호출')
         console.log('success')
         db.close(() => {
           console.log('Close the database connection.')
         })
         console.log('success')
-    }, 4000); 
+    }, 5000); 
   })
 });
 
 
-// detail.js로 해당하는 행사 정보 전송
-let data
+// Detail.js로 해당하는 행사 정보 전송
+let data;
 app.post('/api/detail', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   let variable = req.body.id;
-  console.log(variable)
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -91,27 +83,21 @@ app.post('/api/detail', (req, res) => {
   })
   db.serialize(() => {
     db.each(`SELECT * FROM Events WHERE id = ${variable}`, (err, row) => {
-      console.log('하나 성공')
       data = JSON.stringify(row)
     })
       res.send(data);
-      console.log(data)
-      console.log('success')
       db.close(() => {
         console.log('Close the database connection.')
       })
-      console.log('success')
   })
 });
 
 // Area.js로 해당하는 행사 정보 전송
-
 app.post('/api/area', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
-  let data_area
   let variable = req.body.id;
-  console.log(variable)
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let data_area;
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -119,16 +105,12 @@ app.post('/api/area', (req, res) => {
   })
   db.serialize(() => {
     db.each(`SELECT * FROM Area WHERE id = ${variable}`, (err, row) => {
-      console.log('하나 성공')
       data_area = JSON.stringify(row)
     }, () => {
-      res.send(data_area);
-      console.log(data_area)
-      console.log('success')
+      res.send(data_area)
       db.close(() => {
         console.log('Close the database connection.')
       })
-      console.log('success')
     })
   })
 });
@@ -186,16 +168,15 @@ const area = {
               area50 : "성수카페거리"
             }
 
-
-// 서울시 api로부터 혼잡도 정보 불러오기
+// 실시간 혼잡도 정보 불러오기
 let conjestion = {}
 
 const key = process.env.SEOUL_API_KEY
 
-app.get('/api/test', async (req, res) => {
+app.get('/api/seoul', async (req, res) => {
   try {
     console.log(key)
-    let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+    let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
       if (err) {
         console.log("fail")
       }
@@ -221,7 +202,7 @@ app.get('/api/test', async (req, res) => {
     }
     let data = JSON.stringify(conjestion)
     res.send(data)
-    console.log("데이터확인")
+    console.log("혼잡도 저장 확인")
     console.log(data)
 
     db.serialize(()=> {      
@@ -246,13 +227,13 @@ app.get('/api/test', async (req, res) => {
 })
 
 
-// 혼잡도 정보를 가진 데이터들을 불러옴
+// 혼잡도 정보를 가진 행사 정보만 전송
 let congestion_list = {}
 
 let congestion_counter = 0
 
-app.get('/api/events', (req, res) => {
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+app.get('/api/congestion', (req, res) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -266,19 +247,16 @@ app.get('/api/events', (req, res) => {
     }, (err, count) => {
       let data = JSON.stringify(congestion_list)
       res.send(data);
-      console.log(data)
-      console.log('success')
       db.close(() => {
         console.log('Close the database connection.')
       })
-      console.log('success')
     })
   })
 });
 
-// 미리 저장해뒀던 혼잡도 정보 불러오기
+// 미리 저장해뒀던 혼잡도 정보 전송
 app.get('/api/savedData', (req, res) => {
-  let db = new sqlite3.Database('/Users/jin-iseo/Desktop/Events.db', sqlite3.OPEN_READWRITE, (err) => {
+  let db = new sqlite3.Database('/Users/jeong-gyeongsong/Events.db', sqlite3.OPEN_READWRITE, (err) => {
     if (err) {
       console.log("fail")
     }
@@ -290,41 +268,24 @@ app.get('/api/savedData', (req, res) => {
       data = JSON.stringify(row)
     }, (err, count) => {
       res.send(data);
-      console.log("저장해둔 데이터 불러오기")
-      console.log(data)
-      console.log('success')
       db.close(() => {
         console.log('Close the database connection.')
       })
-      console.log('success')
     })
   })
 });
 
-const tmap_key = process.env.TMAP_API_KEY;
-
+// 사용자의 현재 위치 정보 저장
 let lat;
 let long;
 
-// 사용자 위치 정보 저장해두기
 app.post('/api/geo', async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   lat = req.body.latitude;
   long = req.body.longitude;
-  console.log(lat)
-  console.log(long)
-  });
+});
 
-  // 사용자 위치 정보 전달
-  app.get('/api/savedGeo', (req, res) => {
-    let data = {
-      lat: lat,
-      long: long
-    }
-    res.send(data);
-  });
-
-// 경로 순서 전송
+// 최적 경로 전송
 app.post('/api/order', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
   let cafe = req.body.cafe;
@@ -337,7 +298,7 @@ app.post('/api/order', (req, res) => {
     headers: {
       accept: 'application/json',
       'content-type': 'application/json',
-      appKey: 'eDg2mzIU9g90cvOuayhoadAo0iwXVxr8czeghD95'
+      appKey: tmap_key
     },
     body: JSON.stringify({
       endX: cafe[0],
@@ -354,7 +315,7 @@ app.post('/api/order', (req, res) => {
     headers: {
       accept: 'application/json',
       'content-type': 'application/json',
-      appKey: 'eDg2mzIU9g90cvOuayhoadAo0iwXVxr8czeghD95'
+      appKey: tmap_key
     },
     body: JSON.stringify({
       endX: food[0],
@@ -371,7 +332,7 @@ app.post('/api/order', (req, res) => {
     headers: {
       accept: 'application/json',
       'content-type': 'application/json',
-      appKey: 'eDg2mzIU9g90cvOuayhoadAo0iwXVxr8czeghD95'
+      appKey: tmap_key
     },
     body: JSON.stringify({
       endX: cafe[0],
@@ -417,8 +378,6 @@ app.post('/api/order', (req, res) => {
       food_to_cafe = {distance: distance}
     } catch (err) {
     }
-    console.log("최소")
-    //console.log(findSmallestCombination(event_to_cafe,event_to_food,food_to_cafe));
     result = findSmallestCombination(event_to_cafe,event_to_food,food_to_cafe)
     sendData = JSON.stringify(result);
     res.send(sendData);
@@ -437,12 +396,8 @@ app.post('/api/order', (req, res) => {
       return [a, c, "cafe"]; // cafe가 중간
     }
   }
-
   ordering();
-
 })
-
-  
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
