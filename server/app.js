@@ -323,6 +323,126 @@ app.post('/api/geo', async (req, res) => {
     res.send(data);
   });
 
+// 경로 순서 전송
+app.post('/api/order', (req, res) => {
+  res.setHeader('Cache-Control', 'no-store');
+  let cafe = req.body.cafe;
+  let food = req.body.food;
+  let eventX = req.body.eventX;
+  let eventY = req.body.eventY;
+
+  let option = {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json',
+      appKey: 'eDg2mzIU9g90cvOuayhoadAo0iwXVxr8czeghD95'
+    },
+    body: JSON.stringify({
+      endX: cafe[0],
+      endY: cafe[1],
+      startX: eventX,
+      startY: eventY,
+      startName: "출발",
+      endName: "도착",
+    })
+  };
+
+  let option2 = {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json',
+      appKey: 'eDg2mzIU9g90cvOuayhoadAo0iwXVxr8czeghD95'
+    },
+    body: JSON.stringify({
+      endX: food[0],
+      endY: food[1],
+      startX: eventX,
+      startY: eventY,
+      startName: "출발",
+      endName: "도착",
+    })
+  };
+
+  let option3 = {
+    method: 'POST',
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json',
+      appKey: 'eDg2mzIU9g90cvOuayhoadAo0iwXVxr8czeghD95'
+    },
+    body: JSON.stringify({
+      endX: cafe[0],
+      endY: cafe[1],
+      startX: food[0],
+      startY: food[1],
+      startName: "출발",
+      endName: "도착",
+    })
+  };
+
+  let event_to_cafe;
+  let event_to_food;
+  let food_to_cafe;
+  
+  async function ordering() {
+    let result;
+    let sendData;
+    try {
+      const response = await fetch('https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&callback=function', option);
+      const data = await response.json();
+      const distance = data.features[0].properties.totalDistance;
+      console.log("distance_evnent_to_cafe")
+      console.log(distance)
+      event_to_cafe = {distance: distance}
+    } catch (err) {
+    }
+    try {
+      const response = await fetch('https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&callback=function', option2);
+      const data = await response.json();
+      const distance = data.features[0].properties.totalDistance;
+      console.log("distance_evnent_to_food")
+      console.log(distance)
+      event_to_food = {distance: distance}
+    } catch (err) {
+    }
+    try {
+      const response = await fetch('https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&callback=function', option3);
+      const data = await response.json();
+      const distance = data.features[0].properties.totalDistance;
+      console.log("distance_food_to_cafe")
+      console.log(distance)
+      food_to_cafe = {distance: distance}
+    } catch (err) {
+    }
+    console.log("최소")
+    //console.log(findSmallestCombination(event_to_cafe,event_to_food,food_to_cafe));
+    result = findSmallestCombination(event_to_cafe,event_to_food,food_to_cafe)
+    sendData = JSON.stringify(result);
+    res.send(sendData);
+  }
+
+  function findSmallestCombination(a, b, c) {
+    const sum1 = a.distance + b.distance;
+    const sum2 = b.distance + c.distance;
+    const sum3 = a.distance + c.distance;
+  
+    if (sum1 <= sum2 && sum1 <= sum3) {
+      return [a, b, "event"]; // event가 중간
+    } else if (sum2 <= sum1 && sum2 <= sum3) {
+      return [b, c, "food"]; // food가 중간
+    } else {
+      return [a, c, "cafe"]; // cafe가 중간
+    }
+  }
+
+  ordering();
+
+})
+
+  
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

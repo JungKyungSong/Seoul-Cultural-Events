@@ -38,45 +38,15 @@ function Congestion() {
     strokeColor: '#00FF00',
   }
 
-  // 혼잡도 불러오기
-  // useEffect(() => {
-  //   console.log('디폴트 api로 혼잡도 불러오기')
-  //   fetch('/api/test', {credentials: 'include'})
-  //     .then(response => response.json())
-  //     .then(response => {
-  //       setData(response)
-  //     })
-  //     .catch(error => console.log(error));
-  // }, []);
-
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     console.log('저장해둔 혼잡도 불러오기')
     fetch('/api/savedData', {credentials: 'include'})
       .then(response =>response.json())
-      // .then(response => {
-      //   if (response.ok) {
-      //     return response.json();
-      //   } else {
-      //     throw new Error('응답이 비어있습니다.');
-      //   }
-      // })
       .then(response => {
-        // if (response===undefined || response === 'undefinded') {
-        //   console.log("시간 시작")
-        //   setTimeout(() => {
-        //     window.location.reload(); // 페이지 리로드
-        //   }, 30000); // 30초 후 리로드
-        // }
-        // else {
-          console.log("데이터 도착")
-          //setLoading(true)
           let parsedData = JSON.parse(response.json)
           setData(parsedData)
-        // }
-        console.log("프론트에서 확인")
-        console.log(parsedData)
       })
       .catch(error => console.log(error));
   }, []);
@@ -95,8 +65,7 @@ function Congestion() {
   const [events, setEvents] = useState('');
 
   useDidMountEffect(() => {
-    console.log('cong가 변경되어 문화행사 정보 불러오기, drawing 함수 호출')
-    fetch('/api/events', {credentials: 'include'}) // 행사 정보 불러오기
+    fetch('/api/events', {credentials: 'include'}) 
       .then(response => response.json())
       .then(response => {
         const events = Object.values(response);
@@ -160,9 +129,6 @@ function Congestion() {
     let polygon50
 
   function drawing(events) {
-    console.log("drawing start")
-    console.log("event는 다음과 같습니다.")
-    console.log(events)
     const container = document.getElementById('map')
     const option = {
       center: new kakao.maps.LatLng(37.566826, 126.9786567),
@@ -513,18 +479,15 @@ function Congestion() {
     
     for (let i = 0; i < positions.length; i ++) {
       
-      // 마커 이미지의 이미지 크기 입니다
       let imageSize = new kakao.maps.Size(14, 20); 
-      
-      // 마커 이미지를 생성합니다    
+       
       let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
       
-      // 마커를 생성합니다
       let marker_one = new kakao.maps.Marker({
-          map: map, // 마커를 표시할 지도
-          position: positions[i].latlng, // 마커를 표시할 위치
-          title : positions[i].title, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
-          image : markerImage // 마커 이미지 
+          map: map, 
+          position: positions[i].latlng, 
+          title : positions[i].title, 
+          image : markerImage 
       });
 
       marker.push(marker_one)
@@ -539,20 +502,15 @@ function Congestion() {
 
       infowindow_array.push(infowindow)
 
-          // 각 마커에 대해서 이벤트 등록을 반복적으로 수행합니다
       marker.forEach((one,index) => {
 
         let infowindow = infowindow_array[index];
 
-        // 마커에 마우스 오버 이벤트 등록
         kakao.maps.event.addListener(one, 'mouseover', function() {
-          // 해당 마커에 대한 인포윈도우를 표시합니다
           infowindow.open(map, one);
         });
 
-        // 마커에 마우스 아웃 이벤트 등록
         kakao.maps.event.addListener(one, 'mouseout', function() {
-          // 해당 마커에 대한 인포윈도우를 제거합니다
           infowindow.close();
         });
 
@@ -879,8 +837,6 @@ function Congestion() {
   return (
     <div>
       <Header/>
-      {/* <h5>받은 데이터: {events[0].X} {events[0].Y} </h5> */}
-      {/* <h5>받은 데이터: {data} </h5> */}
       <div className='maps'>
         <div className='map_congestion'>
             <p className='map_red'>

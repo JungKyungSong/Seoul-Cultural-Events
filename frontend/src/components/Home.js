@@ -62,6 +62,7 @@ function Home() {
 
   }, [latitude, longitude]); 
 
+
   const toRecommend = (e) => {
     window.location.href = '/Recommend' // href 대신 replace를 사용하면 뒤로 가기 불가능
   }
