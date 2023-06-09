@@ -4,19 +4,23 @@ import Home from './components/Home';
 import Recommend from './components/Recommend';
 import Congestion from './components/Congestion';
 import Detail from './components/Detail';
+import Area from './components/Area';
+import Course from './components/Course';
 
 function App() {
   return (
     <div className="App">
-       <BrowserRouter>
-          <Routes>
-            <Route path='/' element={<Home/>}/>
-            <Route path='/Recommend' element={<Recommend/>}/>
-            <Route path='/Congestion' element={<Congestion/>}/>
-            <Route path='/Detail' element={<Detail/>}/>
-            <Route path='*' element={"Not found"}/>
-          </Routes>
-        </BrowserRouter>
+        <BrowserRouter>
+            <Routes>
+              <Route path='/' element={<Home/>}/>
+              <Route path='/Recommend' element={<Recommend/>}/>
+              <Route path='/Congestion' element={<Congestion/>}/>
+              <Route path='/Detail/:id' element={<Detail/>}/>
+              <Route path='/Area/:id' element={<Area/>}/>
+              <Route path='*' element={"Not found"}/>
+              <Route path='/Detail/:id/Course' element={<Course/>}/>
+            </Routes>
+          </BrowserRouter>
     </div>
   );
 }

@@ -26,9 +26,13 @@ export const Main = () => {
             <nav className={`nav ${isNavOpen ? "nav-open": "nav-closed"}`}>
                 <div className="logo">Art Venture Seoul</div>
                 <p>
-                    <p><Link className="toggle_link" to="/">Home</Link></p>
-                    <p><Link className="toggle_link" to="/Recommend">Recommend</Link></p>
-                    <p><Link className="toggle_link" to="/Congestion">Conjestion</Link></p>
+                    <hr/>
+                    <p className="toggle_links"><Link className="toggle_link" to="/">Home</Link></p>
+                    <hr/>
+                    <p className="toggle_links"><Link className="toggle_link" to="/Recommend">행사 정보</Link></p>
+                    <hr/>
+                    <p className="toggle_links"><Link className="toggle_link" to="/Congestion">실시간 혼잡도</Link></p>
+                    <hr/>
                 </p>
             </nav>
         </>

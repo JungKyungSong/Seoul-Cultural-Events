@@ -1,10 +1,20 @@
 import '../App.css';
 import { useEffect, useState } from 'react';
 import area from '../congestion.json'
+import Header from './Header';
+import useDidMountEffect from './useDidMountEffect';
+import { useNavigate } from 'react-router-dom';
+import '../css/Congestion.css'
 
 const { kakao } = window;
 
 function Congestion() {
+
+  const navigate = useNavigate();
+    const handleClick = (id) => {
+      navigate(`/Area/${id}`)
+      window.location.reload()
+  }
 
   const [data, setData] = useState('');
 
@@ -28,26 +38,44 @@ function Congestion() {
     strokeColor: '#00FF00',
   }
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
-    console.log(data)
-    fetch('/api/test')
-      .then(response => response.json())
+    console.log('저장해둔 혼잡도 불러오기')
+    fetch('/api/savedData', {credentials: 'include'})
+      .then(response =>response.json())
       .then(response => {
-        // setData(JSON.stringify(response))
-        setData(response)
+          let parsedData = JSON.parse(response.json)
+          setData(parsedData)
       })
       .catch(error => console.log(error));
   }, []);
 
   const [cong, setCong] = useState([]);
 
-  useEffect(() => {
+  // 혼잡도를 지역과 매핑해서 cong에 저장
+  useDidMountEffect(() => {
+    console.log('혼잡도 정보가 도착해서 지역과 매핑')
     let areas = Object.keys(data).map(area => data[area])
     console.log(areas)
     setCong(areas)
     console.log(cong)
-    drawing()
   }, [data]);
+
+  const [events, setEvents] = useState('');
+
+  useDidMountEffect(() => {
+    fetch('/api/events', {credentials: 'include'}) 
+      .then(response => response.json())
+      .then(response => {
+        const events = Object.values(response);
+        setEvents(events)
+        return events
+      })
+      .then((events) => drawing(events))
+      .then(console.log('success'))
+      .catch(error => console.log(error));
+  }, [cong]);
 
     let polygon1
     let polygon2
@@ -100,7 +128,7 @@ function Congestion() {
     let polygon49
     let polygon50
 
-  function drawing() {
+  function drawing(events) {
     const container = document.getElementById('map')
     const option = {
       center: new kakao.maps.LatLng(37.566826, 126.9786567),
@@ -109,10 +137,10 @@ function Congestion() {
     let map = new kakao.maps.Map(container, option);
 
     polygon1 = new kakao.maps.Polygon({
-        path:polygonPath1, // 그려질 다각형의 좌표 배열입니다
-        strokeOpacity: 0.8, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
-        strokeStyle: 'longdash', // 선의 스타일입니다
-        fillOpacity: 0.7 // 채우기 불투명도 입니다
+        path:polygonPath1,
+        strokeOpacity: 0.8, 
+        strokeStyle: 'longdash', 
+        fillOpacity: 0.7 
       });
     polygon2 = new kakao.maps.Polygon({
         path:polygonPath2,
@@ -421,21 +449,75 @@ function Congestion() {
     polygon41,polygon42,polygon43,polygon44,polygon45,
     polygon46,polygon47,polygon48,polygon49,polygon50,]
 
-    for (let i=1; i<51; i++) {
-      let targetPolygon = polygons[i-1];
-      if (cong[i-1] == "붐빔") {
+    for (let i=0; i<50; i++) {
+      let targetPolygon = polygons[i];
+      if (cong[i] == "붐빔") {
         targetPolygon.setOptions(red);
       }
-      else if (cong[i-1] == "약간 붐빔") {
+      else if (cong[i] == "약간 붐빔") {
         targetPolygon.setOptions(orange);
       }
-      else if (cong[i-1] == "보통") {
+      else if (cong[i] == "보통") {
         targetPolygon.setOptions(yellow);
       }
       else {
         targetPolygon.setOptions(green);
       }
       targetPolygon.setMap(map)
+    }
+
+    const positions = events.map((event) => ({
+      title: event.name,
+      latlng: new kakao.maps.LatLng(event.Y, event.X),
+    }));
+  
+    const imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/2018/pc/img/marker_spot.png ";
+  
+    let iwContent_array = []
+    let infowindow_array = []
+    let marker = []
+    
+    for (let i = 0; i < positions.length; i ++) {
+      
+      let imageSize = new kakao.maps.Size(14, 20); 
+       
+      let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
+      
+      let marker_one = new kakao.maps.Marker({
+          map: map, 
+          position: positions[i].latlng, 
+          title : positions[i].title, 
+          image : markerImage 
+      });
+
+      marker.push(marker_one)
+
+      let iwContent = `<div style="width: 150px; height: 100px; font-family: 'Noto Sans', sans-serif; font-style: normal; font-weight: 500; font-size: 12px; display: flex; justify-content: center;">행사명 : ${positions[i].title}</div>`;
+
+      iwContent_array.push(iwContent)
+
+      let infowindow = new kakao.maps.InfoWindow({
+        content : iwContent
+      });
+
+      infowindow_array.push(infowindow)
+
+      marker.forEach((one,index) => {
+
+        let infowindow = infowindow_array[index];
+
+        kakao.maps.event.addListener(one, 'mouseover', function() {
+          infowindow.open(map, one);
+        });
+
+        kakao.maps.event.addListener(one, 'mouseout', function() {
+          infowindow.close();
+        });
+
+        kakao.maps.event.addListener(one, 'click', function() {
+          handleClick(index)
+        });
+      });
     }
   }
 
@@ -752,22 +834,26 @@ function Congestion() {
     polygonPath50.push(obj)
   }
 
-  const [events, setEvents] = useState('');
-
-  useEffect(() => {
-    fetch('/api/events')
-      .then(response => response.json())
-      .then(response => setEvents(JSON.stringify(response)))
-      .then(console.log(events))
-      .then(console.log('success'))
-      .catch(error => console.log(error));
-  }, []);
-
   return (
     <div>
-      <h5>받은 데이터: {events} </h5>
-      {/* <h5>받은 데이터: {data} </h5> */}
-      <div id='map' style={{width:'500px', height:'350px'}}></div>
+      <Header/>
+      <div className='maps'>
+        <div className='map_congestion'>
+            <p className='map_red'>
+              <img className='pin_red' src='/pin_red.png' alt='붐빔' /> 붐빔
+            </p>
+            <p className='map_orange'>
+              <img className='pin_orange' src='/pin_orange.png' alt='약간 붐빔' /> 약간 붐빔
+            </p>
+            <p className='map_yellow'>
+              <img className='pin_yellow' src='/pin_yellow.png' alt='보통' /> 보통
+            </p>
+            <p className='map_green'>
+              <img className='pin_green' src='/pin_green.png' alt='여유' /> 여유
+            </p>
+        </div>
+        <div id='map'></div>
+      </div>
     </div>
   );
   

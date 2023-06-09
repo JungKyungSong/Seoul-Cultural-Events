@@ -30,7 +30,7 @@ const SelectWhat = (props) => {
     };
     
     return (
-        <select onChange={handleChange} value={selectedWhat}>
+        <select onChange={handleChange} value={selectedWhat} className='select_box'>
             {props.options.map((option) => (
                 <option
                     key={option.id}
