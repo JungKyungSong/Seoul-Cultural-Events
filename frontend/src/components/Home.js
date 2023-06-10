@@ -26,14 +26,13 @@ function Home() {
     }
   }, []);
 
-  // 혼잡도 미리 불러오기
+  // 실시간 혼잡도 api 미리 호출
   useEffect(() => {
-    console.log('디폴트 api로 혼잡도 불러오기')
-    fetch('/api/test', {credentials: 'include'})
+    fetch('/api/seoul', {credentials: 'include'})
       .then(response => response.json())
       .then(response => {
         setData(response)
-        console.log("혼잡도 저장 완료")
+        console.log("실시간 혼잡도 정보 저장 완료")
       })
       .catch(error => console.log(error));
   }, []);
@@ -53,13 +52,7 @@ function Home() {
               },
         body: JSON.stringify(location)
       })
-      // .then(response => response.json())
-      // .then(response => {
-      //   setData(response);
-      // })
-      .then(console.log('success'))
       .catch(error => console.log(error));
-
   }, [latitude, longitude]); 
 
 
@@ -75,16 +68,6 @@ function Home() {
           <div>
             <h1 className='title'>ArtVenture Seoul</h1>
             <img className='seoul_map' src='seoul.png' alt='seoul map'></img>
-          </div>
-          <div>
-              <h1>현재 위치</h1>
-              {latitude && longitude ? (
-                <p>
-                  위도: {latitude}, 경도: {longitude}
-                </p>
-              ) : (
-                <p>위치 정보를 가져올 수 없습니다.</p>
-              )}
           </div>
           <div>
             <button className='recommend_button' onClick={toRecommend}>행사 정보</button>

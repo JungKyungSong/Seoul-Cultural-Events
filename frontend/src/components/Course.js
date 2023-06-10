@@ -10,18 +10,15 @@ const { kakao } = window;
 export default function Course(){
     const { id } = useParams();
     const [data, setData] = useState([]);
-    const [location, setLocation] = useState('');
     const [food, setFood] = useState('');
     const [cafe, setCafe] = useState('');
     const [foodInfo, setFoodInfo] = useState('');
     const [cafeInfo, setCafeInfo] = useState('');
     const [order, setOrder] = useState('');
     const [order_array, setOrderArray] = useState([]);
-
-    const navigate = useNavigate();
   
     useEffect(() => {
-      const test = {
+      const data = {
           id: id
       };
       fetch('/api/detail', {
@@ -31,13 +28,12 @@ export default function Course(){
                   'Cache-Control': 'no-cache',
                   'credentials': 'include'
                 },
-          body: JSON.stringify(test)
+          body: JSON.stringify(data)
         })
         .then(response => response.json())
         .then(response => {
           setData(response);
         })
-        .then(console.log('success'))
         .catch(error => console.log(error));
   
     }, [id]);   
@@ -53,17 +49,7 @@ export default function Course(){
     useEffect(()=>{
        searching();
        searching2();
-    },[location])
-
-    useEffect(() => {
-        console.log('저장해둔 사용자 위치 불러오기')
-        fetch('/api/savedGeo', {credentials: 'include'})
-          .then(response =>response.json())
-          .then(response => {
-              setLocation(response)
-          })
-          .catch(error => console.log(error));
-      }, []);
+    },[data])
         
     function placesSearchCB (data, status, pagination) {
             if (status === kakao.maps.services.Status.OK) {
@@ -74,22 +60,28 @@ export default function Course(){
     }
 
     function displayMarker(place) {
+            let imageSrc = "/restaurant.png";
+            let imageSize = new kakao.maps.Size(40, 45); 
+            let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
             let marker = new kakao.maps.Marker({
                 map: map,
-                position: new kakao.maps.LatLng(place.y, place.x) 
-            });
-            kakao.maps.event.addListener(marker, 'mouseover', function() {
-                infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-                infowindow.open(map, marker);
-            });
-            kakao.maps.event.addListener(marker, 'mouseout', function() {
-                infowindow.close();
+                position: new kakao.maps.LatLng(place.y, place.x), 
+                image: markerImage
             });
             kakao.maps.event.addListener(marker, 'click', function() {
                 setFood([place.x, place.y])
                 setFoodInfo([place.place_name, place.road_address_name, place.address_name, place.phone])
-                infowindow.setContent('<div style="padding:5px;font-size:12px;">' + '음식점 선택!' + '</div>');
+                infowindow.setContent('<div style="padding:5px;font-size:12px;"><p style="font-size:15px;font-weight:500">' + place.place_name + '</p><p>' + place.road_address_name + '</p><p>' + place.phone + '</p></div>');
+                infowindow.open(map, marker);
             });
+            // kakao.maps.event.addListener(marker, 'mouseout', function() {
+            //     infowindow.close();
+            // });
+            // kakao.maps.event.addListener(marker, 'dblclick', function() {
+            //     setFood([place.x, place.y])
+            //     setFoodInfo([place.place_name, place.road_address_name, place.address_name, place.phone])
+            //     infowindow.setContent('<div style="padding:5px;font-size:12px;">' + '음식점 선택!' + '</div>');
+            // });
     }
 
     function searching() {
@@ -98,23 +90,24 @@ export default function Course(){
         let mapContainer = document.getElementById('map1');
         let mapOption = {
                     center: new kakao.maps.LatLng(data.Y, data.X),
-                    level: 3 
+                    level: 5
         };  
         map = new kakao.maps.Map(mapContainer, mapOption);
-        // let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-        // let markerImage = new kakao.maps.MarkerImage(imageSrc)
+        let imageSrc = "/event.png";
+        let imageSize = new kakao.maps.Size(45, 50); 
+        let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
         let marker = new kakao.maps.Marker({
             map: map,
             position: new kakao.maps.LatLng(data.Y, data.X),
-            //image: markerImage
+            image: markerImage
         });
-        kakao.maps.event.addListener(marker, 'mouseover', function() {
-            infowindow.setContent('<div style="padding:5px;font-size:12px;">' + data.name + '</div>');
+        kakao.maps.event.addListener(marker, 'click', function() {
+            infowindow.setContent('<div style="padding:5px;font-size:12px;">' + '<p style="font-size:15px;font-weight:500">'+data.name+'</p><p>'+data.place+'<p/><p>'+data.date+'</p>'+'</div>');
             infowindow.open(map, marker);
         });
-        kakao.maps.event.addListener(marker, 'mouseout', function() {
-            infowindow.close();
-        });
+        // kakao.maps.event.addListener(marker, 'mouseout', function() {
+        //     infowindow.close();
+        // });
         ps = new kakao.maps.services.Places(map); 
         ps.categorySearch('FD6', placesSearchCB, {useMapBounds:true}); 
     }
@@ -128,22 +121,28 @@ export default function Course(){
     }
 
 function displayMarker2(place) {
+        let imageSrc = "/coffee.png";
+        let imageSize = new kakao.maps.Size(40, 45); 
+        let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
         let marker = new kakao.maps.Marker({
             map: map2,
-            position: new kakao.maps.LatLng(place.y, place.x) 
-        });
-        kakao.maps.event.addListener(marker, 'mouseover', function() {
-            infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
-            infowindow2.open(map2, marker);
-        });
-        kakao.maps.event.addListener(marker, 'mouseout', function() {
-            infowindow2.close();
+            position: new kakao.maps.LatLng(place.y, place.x), 
+            image: markerImage
         });
         kakao.maps.event.addListener(marker, 'click', function() {
             setCafe([place.x, place.y])
             setCafeInfo([place.place_name, place.road_address_name, place.address_name, place.phone])
-            infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + '카페 선택!' + '</div>');
-         });
+            infowindow2.setContent('<div style="padding:5px;font-size:12px;"><p style="font-size:15px;font-weight:500">' + place.place_name + '</p><p>' + place.road_address_name + '</p><p>' + place.phone + '</p></div>');
+            infowindow2.open(map2, marker);
+        });
+        // kakao.maps.event.addListener(marker, 'mouseout', function() {
+        //     infowindow2.close();
+        // });
+        // kakao.maps.event.addListener(marker, 'dblclick', function() {
+        //     setCafe([place.x, place.y])
+        //     setCafeInfo([place.place_name, place.road_address_name, place.address_name, place.phone])
+        //     infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + '카페 선택!' + '</div>');
+        //  });
     }
 
 function searching2() {
@@ -152,43 +151,35 @@ function searching2() {
     let mapContainer = document.getElementById('map2');
     let mapOption = {
                 center: new kakao.maps.LatLng(data.Y, data.X),
-                level: 3
+                level: 5
     };  
     map2 = new kakao.maps.Map(mapContainer, mapOption);
-    // let imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
-    // let markerImage = new kakao.maps.MarkerImage(imageSrc)
+
+    let imageSrc = "/event.png";
+    let imageSize = new kakao.maps.Size(45, 50); 
+    let markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
     let marker = new kakao.maps.Marker({
         map: map2,
         position: new kakao.maps.LatLng(data.Y, data.X),
-        //image: markerImage
+        image: markerImage
     });
-    kakao.maps.event.addListener(marker, 'mouseover', function() {
-        infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + data.name + '</div>');
+    kakao.maps.event.addListener(marker, 'click', function() {
+        infowindow2.setContent('<div style="padding:5px;font-size:12px;">' + '<p style="font-size:15px;font-weight:500">'+data.name+'</p><p>'+data.place+'<p/><p>'+data.date+'</p>'+'</div>');
         infowindow2.open(map2, marker);
     });
-    kakao.maps.event.addListener(marker, 'mouseout', function() {
-        infowindow2.close();
-    });
+    // kakao.maps.event.addListener(marker, 'mouseout', function() {
+    //     infowindow2.close();
+    // });
     ps2 = new kakao.maps.services.Places(map2); 
     ps2.categorySearch('CE7', placesSearchCB2, {useMapBounds:true}); 
 }
 
     function handleClick(){
-        console.log('Cafe:', cafe);
-        console.log('Food:', food);
-        console.log(data.X);
-        console.log(data.Y);
         getOrder();
     };
 
     useDidMountEffect(()=>{
-        setOrderArray([]); // Initialize order_array to an empty array
-
-        console.log("순서 정렬 시작")
-        console.log(order[2])
-        console.log(cafeInfo)
-        console.log(data)
-        console.log(foodInfo)
+        setOrderArray([]);
 
         if (order[2] == 'event') {
         setOrderArray([
@@ -230,55 +221,43 @@ function searching2() {
           .then(response => response.json())
           .then(response => {
             setOrder(response);
-            console.log(JSON.stringify(response));
           })
-          .then(console.log('success'))
           .catch(error => console.log(error));
     }
 
     return(
         <div>
             <Header/>
-            <div id="map1" style={{width:"600px",height:"350px"}}/>
-            <div id="map2" style={{width:"600px",height:"350px"}}/>
-            <div>
-                <button onClick={handleClick}>클릭</button>
+            <h2>최적 방문 순서 추천</h2>
+            <div className="food_container">
+                <p className="food_text">
+                    <img className="check_img" src="/check.png" alt="check_icon" />
+                    음식점 선택
+                </p>
+                <div className="food_map" id="map1" style={{width:"85%",height:"350px"}}/>
             </div>
-            <h1>경로 추천</h1>
+            <div className="cafe_container">
+                <p className="cafe_text">
+                    <img className="check_img" src="/check.png" alt="check_icon" />
+                    카페 선택
+                </p>
+                <div className="cafe_map" id="map2" style={{width:"85%",height:"350px"}}/>
+            </div>
+            <div>
+                <button className="first_course_button" onClick={handleClick}>경로 추천 받기</button>
+            </div>
             <div>
                 {order_array.length > 0 ? (
                     <div>
-                    {order_array[0]==data ? (<div>{data.name}</div>): (<div><p>{order_array[0][0]}</p><p>{order_array[0][1]}</p><p>{order_array[0][2]}</p><p>{order_array[0][3]}</p></div>)}
-                    {order_array[1]==data ? (<div>{data.name}</div>): (<div><p>{order_array[1][0]}</p><p>{order_array[1][1]}</p><p>{order_array[1][2]}</p><p>{order_array[1][3]}</p></div>)}
-                    {order_array[2]==data ? (<div>{data.name}</div>): (<div><p>{order_array[2][0]}</p><p>{order_array[2][1]}</p><p>{order_array[2][2]}</p><p>{order_array[2][3]}</p></div>)}
+                        <h3>최소 도보 경로</h3>
+                        {order_array[0]==data ? (<div className="course_data"><p className="course_name">{data.name}</p><p>{data.place}</p><p>{data.date}</p></div>): (<div className="course_data"><p className="course_name">{order_array[0][0]}</p><p>{order_array[0][1]}</p><p>{order_array[0][3]}</p></div>)}
+                        <div className="vl" />
+                        {order_array[1]==data ? (<div className="course_data"><p className="course_name">{data.name}</p><p>{data.place}</p><p>{data.date}</p></div>): (<div className="course_data"><p className="course_name">{order_array[1][0]}</p><p>{order_array[1][1]}</p><p>{order_array[1][3]}</p></div>)}
+                        <div className="vl" />
+                        {order_array[2]==data ? (<div className="course_data"><p className="course_name">{data.name}</p><p>{data.place}</p><p>{data.date}</p></div>): (<div className="course_data"><p className="course_name">{order_array[2][0]}</p><p>{order_array[2][1]}</p><p>{order_array[2][3]}</p></div>)}
                     </div>
-                    ):(<div>잠시만 기다려주세요.</div>)}
-            </div>
-            {/* <div className="vl"></div>
-            <div className='course'>
-            <div className='course_event_container'>
-            <div className="vl"></div>
-                <img className='course_img' src = {`/image/${data.id}.jpg`} alt='arbitrary image'/>
-                <div className='course_content_container'>
-                <div>
-                    <p className='course_event_name'>{data.name}</p>
-                </div>
-                <div className='course_content'>
-                    <div className='course_event_content_container'>
-                        <p>행사장소: {data.place}</p>
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div className="vl"></div>
-            <div>
-                <h1>음식점</h1>
-            </div>
-            <div className="vl"></div>
-            <div>
-                <h1>관광명소</h1>
-            </div> */}
-        {/* </div> */}
+                    ):('')}
+            </div>        
         </div>
     )
 }

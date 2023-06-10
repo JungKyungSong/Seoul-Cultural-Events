@@ -57,14 +57,12 @@ function Recommend() {
   const [data, setData] = useState([]);
 
   const [selectedWhat, setSelectedWhat] = useState('교육/체험');
-  const [prevSelectedWhat, setPrevSelectedWhat] = useState('');
 
   const SelectWhat = (props) => {
 
     const handleChange = (event) => {
         const value = event.target.value;
         setSelectedWhat(value);
-        console.log('Selected what:', value);
     };
     
     return (
@@ -82,14 +80,12 @@ function Recommend() {
 }
 
   const [selectedWhere, setSelectedWhere] = useState('강남구');
-  const [prevSelectedWhere, setPrevSelectedWhere] = useState('');
 
   const SelectWhere = (props) => {
 
     const handleChange = (event) => {
         const value = event.target.value;
         setSelectedWhere(value);
-        console.log('Selected where:', value);
     };
 
     return (
@@ -108,26 +104,22 @@ function Recommend() {
 
   useEffect(()=> {
     setData([])
-    console.log("시작")
-    console.log(selectedWhat)
-    console.log(selectedWhere)
-    const send = {
+    const filter = {
       what: selectedWhat,
       where: selectedWhere
     };
-    fetch('/api/data', {
+    fetch('/api/filter', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json; charset=utf-8',
         'Cache-Control': 'no-cache',
         'credentials': 'include'
       },
-      body: JSON.stringify(send)
+      body: JSON.stringify(filter)
       })
       .then(response => response.json())
       .then(response => {
         setData(response);
-        console.log(JSON.stringify(response))
       })
       .catch(error => console.log(error));
   }, [selectedWhat, selectedWhere])

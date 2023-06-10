@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function EventList({ events }) {
@@ -28,6 +27,7 @@ function EventList({ events }) {
                     <p className="event_content_main">{event.name}</p>
                     <p className="event_content_place">{event.place}</p>
                     <p className="event_content_date">{event.date}</p>
+                    <p className="event_content_date">현재 위치로부터의 거리 : {event.distance}km</p>
                   </p>
                   <button className='event_content_button' onClick={() => handleClick(event.id)}>자세히</button>
                 </div>

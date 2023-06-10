@@ -19,7 +19,7 @@ p {
 .select_box{
     width: 130px;
     height: 35px;
-    font-size: 1rem;
+    font-size: 0.7rem;
     font-weight: 400;
     line-height: 1.5;
         
@@ -114,8 +114,10 @@ p {
 /* 자세히 버튼 */
 .event_content_button{
     background-color: #BECDFA;
+    margin-bottom: 50px;
 
     position: relative;
+    top: -40px;
     left: 30%;
 
     width: 100px;
@@ -129,6 +131,7 @@ p {
     .event_content_button{
         position: relative;
         left: 10px;
+        top: -40px;
     }
 }
 
